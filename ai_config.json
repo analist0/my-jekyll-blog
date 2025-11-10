@@ -1,0 +1,25 @@
+{
+  "monitoring": {
+    "enabled": true,
+    "frequency": "daily",
+    "sources": [
+      "https://huggingface.co/api/models",
+      "https://api.semanticscholar.org/graph/v1/paper/search",
+      "https://openai.com/blog",
+      "https://ai.meta.com/blog",
+      "https://deepmind.google/blog"
+    ]
+  },
+  "content": {
+    "min_length": 2000,
+    "max_length": 5000,
+    "tags": ["AI", "technology", "innovation", "machine-learning", "deep-learning", "nlp", "computer-vision"],
+    "tone": "professional",
+    "target_audience": "technical professionals and researchers"
+  },
+  "publishing": {
+    "auto_publish": true,
+    "review_required": false,
+    "schedule": "daily at 9 AM UTC"
+  }
+}
