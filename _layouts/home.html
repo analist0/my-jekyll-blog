@@ -3,18 +3,37 @@ layout: default
 title: בית
 ---
 
-{% for post in site.posts %}
-  <article>
-    <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-    <div class="post-meta">
-      <span>פורסם ב-{{ post.date | date: "%B %d, %Y" }}</span>
-    </div>
-    <div class="post-excerpt">
-      {% if post.excerpt %}
-        {{ post.excerpt | strip_html }}
-      {% else %}
-        {{ post.content | strip_html | truncate: 200 }}
-      {% endif %}
-    </div>
-  </article>
-{% endfor %}
+<div class="hero-section" style="background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-radius: var(--radius); padding: 3rem; margin-bottom: 3rem; text-align: center; box-shadow: var(--shadow);">
+  <h1 style="font-size: 2.5rem; margin-bottom: 1rem; background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; background-clip: text; color: transparent;">ברוכים הבאים לבלוג המקצועי שלי</h1>
+  <p style="font-size: 1.2rem; color: var(--text-light); max-width: 700px; margin: 0 auto 1.5rem;">空間を深く深く読む、思考を共有する、洞察を与える、知識を伝える。このブログでは、現代社会のさまざまな側面について探求し、未来への手がかりを探します。</p>
+  <a href="{{ '/about' | relative_url }}" class="button">למידע נוסף</a>
+</div>
+
+<div class="posts-grid">
+  {% for post in site.posts %}
+    <article style="animation: fadeIn 0.6s ease-out {{ forloop.index | times: 0.1 }}s both;">
+      <h2 style="font-size: 1.6rem;"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+      <div class="post-meta">
+        <span><i class="far fa-calendar"></i> {{ post.date | date: "%B %d, %Y" }}</span>
+        <span><i class="far fa-clock"></i> {{ post.content | number_of_words | divided_by: 180 | round }} min read</span>
+      </div>
+      <div class="post-excerpt">
+        {% if post.excerpt %}
+          <p>{{ post.excerpt | strip_html | truncate: 200 }}</p>
+        {% else %}
+          <p>{{ post.content | strip_html | truncate: 200 }}</p>
+        {% endif %}
+      </div>
+      <a href="{{ post.url | relative_url }}" class="button" style="margin-top: 1rem;">המשך קריאה</a>
+    </article>
+  {% endfor %}
+</div>
+
+<div class="newsletter" style="background: var(--card-bg); border-radius: var(--radius); padding: 2.5rem; margin-top: 3rem; text-align: center; box-shadow: var(--shadow);">
+  <h3 style="margin-bottom: 1rem;">הצטרפו לעדכונים</h3>
+  <p style="color: var(--text-light); margin-bottom: 1.5rem;">קבלו פוסטים חדשים ישירות לאימייל שלכם</p>
+  <form style="display: flex; max-width: 500px; margin: 0 auto;">
+    <input type="email" placeholder="כתובת אימייל" required style="border-top-right-radius: 0; border-bottom-right-radius: 0; flex-grow: 1;">
+    <button type="submit" class="button" style="border-top-left-radius: 0; border-bottom-left-radius: 0; margin: 0;">הרשמה</button>
+  </form>
+</div>

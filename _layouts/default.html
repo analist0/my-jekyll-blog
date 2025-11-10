@@ -7,19 +7,27 @@
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   </head>
   <body>
     <header>
       <h1 class="site-title">{{ site.title }}</h1>
       <p class="site-description">{{ site.description }}</p>
+      
+      <div class="social-icons">
+        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+      </div>
     </header>
 
     <nav class="nav">
-      <a href="{{ '/' | relative_url }}">בית</a>
-      <a href="{{ '/about' | relative_url }}">אודות</a>
-      <a href="{{ '/archive' | relative_url }}">ארכיון</a>
-      <a href="{{ '/contact' | relative_url }}">צור קשר</a>
+      <a href="{{ '/' | relative_url }}" class="{% if page.url == '/' %}active{% endif %}">בית</a>
+      <a href="{{ '/about' | relative_url }}" class="{% if page.url == '/about/' %}active{% endif %}">אודות</a>
+      <a href="{{ '/archive' | relative_url }}" class="{% if page.url == '/archive/' %}active{% endif %}">ארכיון</a>
+      <a href="{{ '/contact' | relative_url }}" class="{% if page.url == '/contact/' %}active{% endif %}">צור קשר</a>
     </nav>
 
     <div class="container">
@@ -48,11 +56,20 @@
         </div>
 
         <div class="widget">
-          <h3>עקוב אחרי</h3>
-          <p>הירשמו לעדכונים:</p>
+          <h3>הרשמה לעדכונים</h3>
+          <p>קבלו עדכונים על פוסטים חדשים:</p>
           <form>
-            <input type="email" placeholder="כתובת אימייל" style="width: 100%; padding: 0.5rem; margin-bottom: 0.5rem;">
-            <button type="submit" style="width: 100%; padding: 0.5rem; background: #0057d9; color: white; border: none; border-radius: 4px;">הרשמה</button>
+            <input type="email" placeholder="כתובת אימייל" required>
+            <button type="submit" class="button">הרשמה</button>
+          </form>
+        </div>
+        
+        <div class="widget">
+          <h3>טיפים מקצועיים</h3>
+          <p>הירשמו לקבלת טיפים שיווקיים ועסקייםgratis:</p>
+          <form>
+            <input type="email" placeholder="כתובת אימייל" required>
+            <button type="submit" class="button">הרשמה עכשיו</button>
           </form>
         </div>
       </aside>
@@ -61,6 +78,12 @@
     <footer>
       <p>&copy; {{ site.time | date: '%Y' }} {{ site.title }}. כל הזכויות שמורות.</p>
       <p>Powered by Jekyll and GitHub Pages</p>
+      <div class="social-icons">
+        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+      </div>
     </footer>
   </body>
 </html>
