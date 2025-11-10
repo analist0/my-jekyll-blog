@@ -1,0 +1,33 @@
+---
+layout: default
+---
+
+<article>
+  <h1 class="post-title">{{ page.title }}</h1>
+  <div class="post-meta">
+    <span>פורסם ב-{{ page.date | date: "%B %d, %Y" }}</span>
+    <span>מאת {{ page.author | default: site.author }}</span>
+  </div>
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+  {% if page.tags %}
+  <div class="tags">
+    {% for tag in page.tags %}
+    <a href="#" class="tag">{{ tag }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <div class="post-navigation">
+    {% if page.previous.url %}
+    <span>prev: <a href="{{ page.previous.url }}">{{ page.previous.title }}</a></span>
+    {% endif %}
+    
+    {% if page.next.url %}
+    <span style="float: left;">next: <a href="{{ page.next.url }}">{{ page.next.title }}</a></span>
+    {% endif %}
+  </div>
+</article>

@@ -1,0 +1,20 @@
+---
+layout: default
+title: בית
+---
+
+{% for post in site.posts %}
+  <article>
+    <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+    <div class="post-meta">
+      <span>פורסם ב-{{ post.date | date: "%B %d, %Y" }}</span>
+    </div>
+    <div class="post-excerpt">
+      {% if post.excerpt %}
+        {{ post.excerpt | strip_html }}
+      {% else %}
+        {{ post.content | strip_html | truncate: 200 }}
+      {% endif %}
+    </div>
+  </article>
+{% endfor %}

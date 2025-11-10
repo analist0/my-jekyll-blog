@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <header>
+      <h1 class="site-title">{{ site.title }}</h1>
+      <p class="site-description">{{ site.description }}</p>
+    </header>
+
+    <nav class="nav">
+      <a href="{{ '/' | relative_url }}">בית</a>
+      <a href="{{ '/about' | relative_url }}">אודות</a>
+      <a href="{{ '/archive' | relative_url }}">ארכיון</a>
+      <a href="{{ '/contact' | relative_url }}">צור קשר</a>
+    </nav>
+
+    <div class="container">
+      <main class="main-content" dir="rtl">
+        {{ content }}
+      </main>
+
+      <aside class="sidebar">
+        <div class="widget">
+          <h3>פוסטים אחרונים</h3>
+          <ul>
+            {% for post in site.posts limit:5 %}
+            <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <div class="widget">
+          <h3>קטגוריות</h3>
+          <ul>
+            <li><a href="#"> טכנולוגיה </a></li>
+            <li><a href="#"> עסקים </a></li>
+            <li><a href="#"> מדע </a></li>
+            <li><a href="#"> תרבות </a></li>
+          </ul>
+        </div>
+
+        <div class="widget">
+          <h3>עקוב אחרי</h3>
+          <p>הירשמו לעדכונים:</p>
+          <form>
+            <input type="email" placeholder="כתובת אימייל" style="width: 100%; padding: 0.5rem; margin-bottom: 0.5rem;">
+            <button type="submit" style="width: 100%; padding: 0.5rem; background: #0057d9; color: white; border: none; border-radius: 4px;">הרשמה</button>
+          </form>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <p>&copy; {{ site.time | date: '%Y' }} {{ site.title }}. כל הזכויות שמורות.</p>
+      <p>Powered by Jekyll and GitHub Pages</p>
+    </footer>
+  </body>
+</html>

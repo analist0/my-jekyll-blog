@@ -1,4 +1,30 @@
 title: הבלוג שלי
-description: בלוג אישי במרקדאון
-theme: minima
+description: בלוג מקצועי באיכות עיתונות מוביל
+author: analist0
 markdown: kramdown
+highlighter: rouge
+permalink: /:year/:month/:day/:title/
+timezone: Asia/Jerusalem
+
+# Build settings
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Exclude from processing.
+exclude:
+  - .asset-cache
+  - .bundle
+  - .jekyll-assets-cache
+  - .sass-cache
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+
+# Social links
+social:
+  name: analist0
+  links:
+    - https://twitter.com/analist0
+    - https://github.com/analist0
