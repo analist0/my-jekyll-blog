@@ -1,6 +1,7 @@
 title: הבלוג שלי
-description: בלוג מקצועי באיכות עיתונות מוביל
+description: בלוג מקצועי ברמה ארגונית
 author: analist0
+lang: he
 markdown: kramdown
 highlighter: rouge
 permalink: /:year/:month/:day/:title/

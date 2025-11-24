@@ -58,8 +58,12 @@
 }
 
 /* ========================================
-   📄 BASE STYLES
+   📄 BASE STYLES + RTL SUPPORT
    ======================================== */
+
+html {
+  direction: rtl;
+}
 
 body {
   font-family: var(--font-sans);
@@ -69,6 +73,8 @@ body {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  direction: rtl;
+  text-align: right;
 }
 
 /* ========================================
@@ -187,6 +193,8 @@ article {
   padding: var(--space-3xl);
   margin-bottom: var(--space-2xl);
   transition: var(--transition);
+  direction: rtl;
+  text-align: right;
 }
 
 article:hover {
@@ -282,6 +290,8 @@ button:hover {
   padding: var(--space-2xl);
   margin-bottom: var(--space-2xl);
   box-shadow: none;
+  direction: rtl;
+  text-align: right;
 }
 
 .widget h3 {
@@ -378,7 +388,9 @@ a::after {
    ======================================== */
 
 ul, ol {
-  margin: var(--space-lg) 0 var(--space-xl) var(--space-xl);
+  margin: var(--space-lg) 0 var(--space-xl) 0;
+  padding-right: var(--space-xl);
+  padding-left: 0;
 }
 
 li {
@@ -434,7 +446,8 @@ li::marker {
   border: 1px solid var(--corp-gray-200);
   border-radius: 12px;
   padding: var(--space-2xl);
-  text-align: left;
+  text-align: right;
+  direction: rtl;
   transition: var(--transition);
 }
 
@@ -524,6 +537,10 @@ li::marker {
   text-align: center;
 }
 
+.text-right {
+  text-align: right;
+}
+
 .text-muted {
   color: var(--corp-gray-500);
 }
@@ -532,6 +549,57 @@ li::marker {
   height: 1px;
   background: var(--corp-gray-200);
   margin: var(--space-3xl) 0;
+}
+
+/* ========================================
+   🇮🇱 RTL SPECIFIC FIXES
+   ======================================== */
+
+/* Fix navigation alignment */
+.nav {
+  justify-content: flex-start;
+}
+
+/* Fix post meta icons */
+.post-meta span {
+  flex-direction: row-reverse;
+}
+
+/* Fix social icons */
+.social-icons {
+  flex-direction: row-reverse;
+}
+
+/* Code blocks stay LTR */
+pre, code {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Fix button icons */
+.button i,
+button i {
+  margin-right: 0;
+  margin-left: var(--space-sm);
+}
+
+/* Fix stats grid alignment */
+.stats-grid {
+  text-align: right;
+}
+
+/* Fix form inputs */
+input, textarea {
+  text-align: right;
+  direction: rtl;
+}
+
+/* Blockquotes RTL */
+blockquote {
+  border-left: none;
+  border-right: 4px solid var(--corp-blue);
+  padding-left: 0;
+  padding-right: var(--space-2xl);
 }
 
 /* ========================================
