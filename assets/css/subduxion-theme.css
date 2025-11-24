@@ -1,0 +1,853 @@
+/*
+ * 🎨 Subduxion-Inspired Theme
+ * Modern minimalist tech aesthetic with dark theme
+ * Inspired by: subduxion.com
+ * RTL Support: Hebrew
+ */
+
+/* ============================================
+   🎨 DESIGN TOKENS
+   ============================================ */
+:root {
+  /* Colors - Subduxion Palette */
+  --sub-black: #131313;
+  --sub-white: #ffffff;
+  --sub-lime: #98fe00;
+  --sub-lime-hover: #7dd800;
+  --sub-gray-100: #f5f5f5;
+  --sub-gray-200: #e5e5e5;
+  --sub-gray-300: #d4d4d4;
+  --sub-gray-400: #a3a3a3;
+  --sub-gray-500: #737373;
+  --sub-gray-600: #525252;
+  --sub-gray-700: #404040;
+  --sub-gray-800: #262626;
+  --sub-gray-900: #171717;
+
+  /* Typography */
+  --font-satoshi: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Arial', sans-serif;
+  --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'Roboto Mono', 'JetBrains Mono', 'Courier New', monospace;
+
+  /* Font Sizes */
+  --text-xs: 0.75rem;      /* 12px */
+  --text-sm: 0.875rem;     /* 14px */
+  --text-base: 1rem;       /* 16px */
+  --text-lg: 1.125rem;     /* 18px */
+  --text-xl: 1.25rem;      /* 20px */
+  --text-2xl: 1.5rem;      /* 24px */
+  --text-3xl: 1.875rem;    /* 30px */
+  --text-4xl: 2.25rem;     /* 36px */
+  --text-5xl: 3rem;        /* 48px */
+  --text-6xl: 3.75rem;     /* 60px */
+  --text-7xl: 4.5rem;      /* 72px */
+
+  /* Spacing */
+  --space-xs: 0.5rem;      /* 8px */
+  --space-sm: 0.75rem;     /* 12px */
+  --space-md: 1rem;        /* 16px */
+  --space-lg: 1.5rem;      /* 24px */
+  --space-xl: 2rem;        /* 32px */
+  --space-2xl: 3rem;       /* 48px */
+  --space-3xl: 4rem;       /* 64px */
+  --space-4xl: 6rem;       /* 96px */
+  --space-5xl: 6.875rem;   /* 110px - Subduxion standard */
+
+  /* Layout */
+  --container-max: 1240px;
+  --container-narrow: 800px;
+  --container-wide: 1400px;
+
+  /* Effects */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --shadow-lime: 0 0 20px rgba(152, 254, 0, 0.3);
+}
+
+/* ============================================
+   🌐 RTL FOUNDATION
+   ============================================ */
+html {
+  direction: rtl;
+  scroll-behavior: smooth;
+}
+
+body {
+  direction: rtl;
+  text-align: right;
+  background: var(--sub-black);
+  color: var(--sub-white);
+  font-family: var(--font-inter);
+  font-size: var(--text-base);
+  line-height: 1.7;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ============================================
+   📐 LAYOUT SYSTEM
+   ============================================ */
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+}
+
+.container-narrow {
+  max-width: var(--container-narrow);
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+}
+
+.container-wide {
+  max-width: var(--container-wide);
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+}
+
+/* Section Spacing - Subduxion Style */
+section {
+  padding: var(--space-5xl) 0;
+}
+
+@media (max-width: 768px) {
+  section {
+    padding: var(--space-3xl) 0;
+  }
+}
+
+/* ============================================
+   ✍️ TYPOGRAPHY
+   ============================================ */
+
+/* Headings - Satoshi Bold */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-satoshi);
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0 0 var(--space-lg) 0;
+  color: var(--sub-white);
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: var(--text-6xl);
+  font-weight: 900;
+  margin-bottom: var(--space-xl);
+}
+
+h2 {
+  font-size: var(--text-5xl);
+  font-weight: 800;
+}
+
+h3 {
+  font-size: var(--text-4xl);
+  font-weight: 800;
+}
+
+h4 {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+}
+
+h5 {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+}
+
+h6 {
+  font-size: var(--text-xl);
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  h1 { font-size: var(--text-4xl); }
+  h2 { font-size: var(--text-3xl); }
+  h3 { font-size: var(--text-2xl); }
+  h4 { font-size: var(--text-xl); }
+}
+
+/* Body Text */
+p {
+  margin: 0 0 var(--space-lg) 0;
+  color: var(--sub-gray-300);
+  font-size: var(--text-lg);
+  line-height: 1.8;
+}
+
+/* Lime Accent Text */
+.text-lime {
+  color: var(--sub-lime);
+}
+
+.text-muted {
+  color: var(--sub-gray-400);
+  font-size: var(--text-base);
+}
+
+/* Lead Text */
+.lead {
+  font-size: var(--text-2xl);
+  line-height: 1.6;
+  color: var(--sub-gray-200);
+  margin-bottom: var(--space-2xl);
+}
+
+/* Links */
+a {
+  color: var(--sub-lime);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--sub-lime-hover);
+}
+
+/* Code - LTR */
+code, pre {
+  direction: ltr;
+  text-align: left;
+  font-family: var(--font-mono);
+}
+
+code {
+  background: var(--sub-gray-800);
+  color: var(--sub-lime);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+pre {
+  background: var(--sub-gray-900);
+  border: 1px solid var(--sub-gray-800);
+  border-radius: 8px;
+  padding: var(--space-lg);
+  overflow-x: auto;
+  margin: var(--space-xl) 0;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  color: var(--sub-gray-200);
+}
+
+/* ============================================
+   🎯 HERO SECTION
+   ============================================ */
+.hero {
+  text-align: center;
+  padding: var(--space-5xl) 0;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero h1 {
+  font-size: var(--text-7xl);
+  font-weight: 900;
+  margin-bottom: var(--space-xl);
+  background: linear-gradient(135deg, var(--sub-white) 0%, var(--sub-gray-300) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  font-size: var(--text-2xl);
+  color: var(--sub-gray-400);
+  max-width: 700px;
+  margin: 0 auto var(--space-2xl) auto;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 50vh;
+    padding: var(--space-3xl) 0;
+  }
+
+  .hero h1 {
+    font-size: var(--text-5xl);
+  }
+
+  .hero p {
+    font-size: var(--text-lg);
+  }
+}
+
+/* ============================================
+   🔘 BUTTONS - Subduxion Style
+   ============================================ */
+.button,
+button.button,
+a.button {
+  display: inline-block;
+  font-family: var(--font-satoshi);
+  font-weight: 700;
+  font-size: var(--text-base);
+  padding: var(--space-md) var(--space-2xl);
+  border-radius: 50px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-align: center;
+  transition: all var(--transition-base);
+  text-decoration: none;
+  background: var(--sub-white);
+  color: var(--sub-black);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Lime Button */
+.button-lime {
+  background: var(--sub-lime);
+  color: var(--sub-black);
+  box-shadow: var(--shadow-lime);
+}
+
+.button-lime:hover {
+  background: var(--sub-lime-hover);
+  box-shadow: 0 0 30px rgba(152, 254, 0, 0.5);
+}
+
+/* Ghost Button */
+.button-ghost {
+  background: transparent;
+  border: 2px solid var(--sub-white);
+  color: var(--sub-white);
+}
+
+.button-ghost:hover {
+  background: var(--sub-white);
+  color: var(--sub-black);
+}
+
+/* Lime Ghost */
+.button-lime-ghost {
+  background: transparent;
+  border: 2px solid var(--sub-lime);
+  color: var(--sub-lime);
+}
+
+.button-lime-ghost:hover {
+  background: var(--sub-lime);
+  color: var(--sub-black);
+}
+
+/* ============================================
+   📦 CARDS & ARTICLES
+   ============================================ */
+article,
+.card {
+  background: var(--sub-gray-900);
+  border: 1px solid var(--sub-gray-800);
+  border-radius: 16px;
+  padding: var(--space-2xl);
+  margin-bottom: var(--space-xl);
+  transition: all var(--transition-base);
+}
+
+article:hover,
+.card:hover {
+  border-color: var(--sub-gray-700);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+/* Card with Lime Accent */
+.card-lime {
+  border-color: var(--sub-lime);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-lime::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--sub-lime);
+}
+
+/* ============================================
+   📊 STATS GRID - Subduxion Style
+   ============================================ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-xl);
+  margin: var(--space-3xl) 0;
+}
+
+.stat-card {
+  background: var(--sub-gray-900);
+  border: 1px solid var(--sub-gray-800);
+  border-radius: 12px;
+  padding: var(--space-2xl);
+  text-align: center;
+  transition: all var(--transition-base);
+}
+
+.stat-card:hover {
+  border-color: var(--sub-lime);
+  transform: translateY(-4px);
+}
+
+.stat-value {
+  font-family: var(--font-satoshi);
+  font-size: var(--text-5xl);
+  font-weight: 900;
+  color: var(--sub-lime);
+  margin-bottom: var(--space-sm);
+  direction: ltr;
+}
+
+.stat-label {
+  font-size: var(--text-base);
+  color: var(--sub-gray-400);
+  font-weight: 500;
+}
+
+/* ============================================
+   🏷️ TAGS
+   ============================================ */
+.tag {
+  display: inline-block;
+  background: var(--sub-gray-800);
+  color: var(--sub-white);
+  font-family: var(--font-satoshi);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: 20px;
+  border: 1px solid var(--sub-gray-700);
+  margin: 0 var(--space-xs) var(--space-xs) 0;
+  transition: all var(--transition-fast);
+}
+
+.tag:hover {
+  background: var(--sub-lime);
+  color: var(--sub-black);
+  border-color: var(--sub-lime);
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   ➗ DIVIDERS
+   ============================================ */
+.divider {
+  height: 1px;
+  background: linear-gradient(to left,
+    transparent,
+    var(--sub-gray-800) 20%,
+    var(--sub-gray-800) 80%,
+    transparent
+  );
+  margin: var(--space-4xl) 0;
+}
+
+.divider-lime {
+  background: linear-gradient(to left,
+    transparent,
+    var(--sub-lime) 20%,
+    var(--sub-lime) 80%,
+    transparent
+  );
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background: var(--sub-gray-800);
+  margin: var(--space-3xl) 0;
+}
+
+/* ============================================
+   📝 LISTS - RTL
+   ============================================ */
+ul, ol {
+  margin: 0 0 var(--space-lg) 0;
+  padding-right: var(--space-xl);
+  padding-left: 0;
+  color: var(--sub-gray-300);
+}
+
+li {
+  margin-bottom: var(--space-sm);
+  line-height: 1.8;
+}
+
+ul li::marker {
+  color: var(--sub-lime);
+}
+
+ol li::marker {
+  color: var(--sub-lime);
+  font-weight: 700;
+}
+
+/* ============================================
+   💬 BLOCKQUOTES - RTL
+   ============================================ */
+blockquote {
+  border-right: 4px solid var(--sub-lime);
+  border-left: none;
+  padding-right: var(--space-xl);
+  padding-left: 0;
+  margin: var(--space-xl) 0;
+  color: var(--sub-gray-300);
+  font-size: var(--text-lg);
+  font-style: italic;
+  background: var(--sub-gray-900);
+  border-radius: 0 8px 8px 0;
+  padding-top: var(--space-lg);
+  padding-bottom: var(--space-lg);
+}
+
+/* ============================================
+   🎨 HEADER
+   ============================================ */
+header {
+  background: var(--sub-black);
+  border-bottom: 1px solid var(--sub-gray-800);
+  padding: var(--space-xl) 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  background: rgba(19, 19, 19, 0.9);
+}
+
+.site-title {
+  font-family: var(--font-satoshi);
+  font-size: var(--text-3xl);
+  font-weight: 900;
+  color: var(--sub-white);
+  margin: 0 0 var(--space-sm) 0;
+  text-align: center;
+}
+
+.site-description {
+  text-align: center;
+  color: var(--sub-gray-400);
+  font-size: var(--text-lg);
+  margin: 0;
+}
+
+/* Social Icons */
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+.social-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--sub-gray-800);
+  color: var(--sub-white);
+  transition: all var(--transition-fast);
+  font-size: var(--text-lg);
+}
+
+.social-icon:hover {
+  background: var(--sub-lime);
+  color: var(--sub-black);
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   🧭 NAVIGATION
+   ============================================ */
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-lg);
+  padding: var(--space-lg) 0;
+  background: var(--sub-gray-900);
+  border-bottom: 1px solid var(--sub-gray-800);
+  position: sticky;
+  top: 76px;
+  z-index: 999;
+  backdrop-filter: blur(10px);
+  background: rgba(23, 23, 23, 0.9);
+}
+
+.nav a {
+  font-family: var(--font-satoshi);
+  font-weight: 600;
+  font-size: var(--text-base);
+  color: var(--sub-gray-400);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: 20px;
+  transition: all var(--transition-fast);
+}
+
+.nav a:hover,
+.nav a.active {
+  color: var(--sub-black);
+  background: var(--sub-lime);
+}
+
+@media (max-width: 768px) {
+  .nav {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+
+  .nav a {
+    font-size: var(--text-sm);
+    padding: var(--space-xs) var(--space-md);
+  }
+}
+
+/* ============================================
+   📄 MAIN CONTENT
+   ============================================ */
+.container {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: var(--space-3xl);
+  padding-top: var(--space-3xl);
+  padding-bottom: var(--space-3xl);
+}
+
+@media (max-width: 1024px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.main-content {
+  min-width: 0;
+}
+
+/* ============================================
+   📌 SIDEBAR
+   ============================================ */
+.sidebar {
+  position: sticky;
+  top: 160px;
+  height: fit-content;
+}
+
+.widget {
+  background: var(--sub-gray-900);
+  border: 1px solid var(--sub-gray-800);
+  border-radius: 12px;
+  padding: var(--space-xl);
+  margin-bottom: var(--space-xl);
+}
+
+.widget h3 {
+  font-family: var(--font-satoshi);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--sub-white);
+  margin: 0 0 var(--space-lg) 0;
+  border-bottom: 2px solid var(--sub-lime);
+  padding-bottom: var(--space-sm);
+}
+
+.widget ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.widget li {
+  margin-bottom: var(--space-sm);
+}
+
+.widget a {
+  color: var(--sub-gray-300);
+  transition: color var(--transition-fast);
+}
+
+.widget a:hover {
+  color: var(--sub-lime);
+}
+
+/* Widget Forms */
+.widget input[type="email"] {
+  width: 100%;
+  padding: var(--space-md);
+  border: 1px solid var(--sub-gray-700);
+  border-radius: 8px;
+  background: var(--sub-gray-800);
+  color: var(--sub-white);
+  font-family: var(--font-inter);
+  font-size: var(--text-base);
+  margin-bottom: var(--space-md);
+  direction: ltr;
+  text-align: left;
+}
+
+.widget input[type="email"]:focus {
+  outline: none;
+  border-color: var(--sub-lime);
+}
+
+.widget button {
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    position: static;
+  }
+}
+
+/* ============================================
+   🦶 FOOTER
+   ============================================ */
+footer {
+  background: var(--sub-gray-900);
+  border-top: 1px solid var(--sub-gray-800);
+  padding: var(--space-3xl) 0;
+  text-align: center;
+  margin-top: var(--space-5xl);
+}
+
+footer p {
+  color: var(--sub-gray-400);
+  font-size: var(--text-sm);
+  margin: var(--space-sm) 0;
+}
+
+/* ============================================
+   ✨ ANIMATIONS
+   ============================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Stagger animations */
+.fade-in:nth-child(1) { animation-delay: 0.1s; }
+.fade-in:nth-child(2) { animation-delay: 0.2s; }
+.fade-in:nth-child(3) { animation-delay: 0.3s; }
+.fade-in:nth-child(4) { animation-delay: 0.4s; }
+
+/* Lime glow effect */
+@keyframes limeGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(152, 254, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(152, 254, 0, 0.6);
+  }
+}
+
+.glow-lime {
+  animation: limeGlow 2s ease-in-out infinite;
+}
+
+/* ============================================
+   📱 RESPONSIVE UTILITIES
+   ============================================ */
+@media (max-width: 1024px) {
+  :root {
+    --space-5xl: 4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --space-5xl: 3rem;
+  }
+
+  .container,
+  .container-narrow,
+  .container-wide {
+    padding: 0 var(--space-lg);
+  }
+}
+
+/* Text alignment utilities */
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-left {
+  text-align: left;
+}
+
+/* ============================================
+   🎯 CUSTOM UTILITIES
+   ============================================ */
+.lime-accent {
+  color: var(--sub-lime);
+  font-weight: 700;
+}
+
+.dark-accent {
+  background: var(--sub-gray-900);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: 4px;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--sub-white) 0%, var(--sub-lime) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   ⚡ PERFORMANCE
+   ============================================ */
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* GPU acceleration */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
