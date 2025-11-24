@@ -1,187 +1,187 @@
 ---
 layout: default
-title: "Enterprise Design System"
+title: "מערכת עיצוב ארגונית"
 permalink: /enterprise-demo/
 ---
 
 <div class="hero">
-  <h1>Professional Enterprise Design</h1>
-  <p>Clean, minimal, and trustworthy design for serious business applications</p>
+  <h1>עיצוב ארגוני מקצועי</h1>
+  <p>עיצוב נקי, מינימליסטי ואמין ליישומים עסקיים רציניים</p>
 </div>
 
-## Design Principles
+## עקרונות העיצוב
 
-Our enterprise design system follows industry-leading standards set by IBM, Microsoft, and Apple.
+מערכת העיצוב הארגונית שלנו עוקבת אחר הסטנדרטים המובילים בתעשייה שנקבעו על ידי IBM, Microsoft ו-Apple.
 
 <div class="stats-grid">
   <div class="stat-card">
     <div class="stat-value">98%</div>
-    <div class="stat-label">User Satisfaction</div>
+    <div class="stat-label">שביעות רצון משתמשים</div>
   </div>
   <div class="stat-card">
     <div class="stat-value">< 100ms</div>
-    <div class="stat-label">Response Time</div>
+    <div class="stat-label">זמן תגובה</div>
   </div>
   <div class="stat-card">
     <div class="stat-value">99.9%</div>
-    <div class="stat-label">Uptime SLA</div>
+    <div class="stat-label">זמינות מערכת</div>
   </div>
   <div class="stat-card">
     <div class="stat-value">24/7</div>
-    <div class="stat-label">Support Available</div>
+    <div class="stat-label">תמיכה זמינה</div>
   </div>
 </div>
 
 <div class="divider"></div>
 
-## Key Features
+## תכונות עיקריות
 
 <article class="fade-in">
 
-### Minimal & Clean Design
+### עיצוב מינימליסטי ונקי
 
-Our design philosophy emphasizes clarity and purpose. Every element serves a function, with generous white space allowing content to breathe.
+פילוסופיית העיצוב שלנו מדגישה בהירות ומטרתיות. כל אלמנט משרת פונקציה, עם רווח לבן נדיב המאפשר לתוכן לנשום.
 
-**Benefits:**
-- Enhanced readability
-- Professional appearance
-- Trustworthy presentation
-- Focus on content
+**יתרונות:**
+- קריאות משופרת
+- מראה מקצועי
+- הצגה אמינה
+- התמקדות בתוכן
 
 </article>
 
 <article class="fade-in">
 
-### Professional Typography
+### טיפוגרפיה מקצועית
 
-We use Inter, the same font as GitHub and Stripe, optimized for digital interfaces with careful attention to hierarchy and spacing.
+אנו משתמשים ב-Inter, אותו פונט כמו GitHub ו-Stripe, אופטימלי לממשקים דיגיטליים עם תשומת לב זהירה להיררכיה ומרווחים.
 
-**Typography Scale:**
-- Display: 3rem (48px)
-- Heading 1: 2.25rem (36px)
-- Heading 2: 1.875rem (30px)
-- Body: 1.0625rem (17px)
+**סולם טיפוגרפי:**
+- תצוגה: 3rem (48px)
+- כותרת 1: 2.25rem (36px)
+- כותרת 2: 1.875rem (30px)
+- גוף: 1.0625rem (17px)
 
 </article>
 
 <article class="fade-in">
 
-### Subtle Interactions
+### אינטראקציות עדינות
 
-Interactions are purposeful and refined. Hover states, transitions, and animations are smooth and professional—never distracting.
+האינטראקציות מכוונות ומעודנות. מצבי ריחוף, מעברים ואנימציות הן חלקות ומקצועיות - אף פעם לא מסיחות דעת.
 
-**Interaction Principles:**
-- Smooth 200ms transitions
-- Subtle elevation changes
-- Clear hover states
-- Accessible focus indicators
+**עקרונות אינטראקציה:**
+- מעברים חלקים של 200ms
+- שינויי elevation עדינים
+- מצבי hover ברורים
+- אינדיקטורי focus נגישים
 
 </article>
 
 <div class="divider"></div>
 
-## Color System
+## מערכת צבעים
 
-Our color palette is carefully selected for professional applications, ensuring excellent contrast and readability.
+לוח הצבעים שלנו נבחר בקפידה ליישומים מקצועיים, מבטיח ניגודיות וקריאות מצוינים.
 
-### Primary Colors
+### צבעים ראשיים
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
 
 <div style="padding: 2rem; background: #0F1419; color: white; border-radius: 12px; text-align: center;">
-  <strong>Navy</strong><br/>
-  <small>#0F1419</small>
+  <strong>כחול כהה</strong><br/>
+  <small dir="ltr">#0F1419</small>
 </div>
 
 <div style="padding: 2rem; background: #2563EB; color: white; border-radius: 12px; text-align: center;">
-  <strong>Blue</strong><br/>
-  <small>#2563EB</small>
+  <strong>כחול</strong><br/>
+  <small dir="ltr">#2563EB</small>
 </div>
 
 <div style="padding: 2rem; background: #F9FAFB; color: #111827; border: 1px solid #E5E7EB; border-radius: 12px; text-align: center;">
-  <strong>Gray 50</strong><br/>
-  <small>#F9FAFB</small>
+  <strong>אפור 50</strong><br/>
+  <small dir="ltr">#F9FAFB</small>
 </div>
 
 <div style="padding: 2rem; background: #FFFFFF; color: #111827; border: 1px solid #E5E7EB; border-radius: 12px; text-align: center;">
-  <strong>White</strong><br/>
-  <small>#FFFFFF</small>
+  <strong>לבן</strong><br/>
+  <small dir="ltr">#FFFFFF</small>
 </div>
 
 </div>
 
-### Neutral Scale
+### סקאלת נייטרלים
 
-We employ a 10-step grayscale for maximum flexibility and accessibility compliance.
+אנו משתמשים בסקאלת גווני אפור בת 10 שלבים למקסימום גמישות ועמידה בדרישות נגישות.
 
 <div class="divider"></div>
 
-## Component Library
+## ספריית רכיבים
 
-### Buttons
+### כפתורים
 
 <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin: 2rem 0;">
-  <button class="button">Default Button</button>
-  <button class="button button-primary">Primary Action</button>
-  <button class="button" disabled style="opacity: 0.5; cursor: not-allowed;">Disabled</button>
+  <button class="button">כפתור רגיל</button>
+  <button class="button button-primary">פעולה ראשית</button>
+  <button class="button" disabled style="opacity: 0.5; cursor: not-allowed;">מושבת</button>
 </div>
 
-### Tags
+### תגיות
 
 <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin: 2rem 0;">
-  <span class="tag">Technology</span>
-  <span class="tag">Business</span>
-  <span class="tag">Enterprise</span>
-  <span class="tag">Professional</span>
+  <span class="tag">טכנולוגיה</span>
+  <span class="tag">עסקים</span>
+  <span class="tag">ארגוני</span>
+  <span class="tag">מקצועי</span>
 </div>
 
-### Cards
+### כרטיסים
 
 <article>
-  <h3>Card Component</h3>
-  <p>Clean card design with subtle shadows and border. Hover to see the elevation change and smooth transition.</p>
+  <h3>רכיב כרטיס</h3>
+  <p>עיצוב כרטיס נקי עם צללים עדינים ומסגרת. עבור עם העכבר כדי לראות את שינוי הגובה והמעבר החלק.</p>
 </article>
 
 <div class="divider"></div>
 
-## Typography Examples
+## דוגמאות טיפוגרפיה
 
-### Heading Hierarchy
+### היררכיית כותרות
 
-# Heading Level 1
-## Heading Level 2
-### Heading Level 3
+# כותרת רמה 1
+## כותרת רמה 2
+### כותרת רמה 3
 
-### Paragraph Styles
+### סגנונות פיסקה
 
-This is a standard paragraph with optimal line height and spacing for readability. Our typography system ensures consistent vertical rhythm throughout the interface.
+זוהי פיסקה סטנדרטית עם גובה שורה ומרווח אופטימליים לקריאות. מערכת הטיפוגרפיה שלנו מבטיחה קצב אנכי עקבי לאורך כל הממשק.
 
-<p class="text-muted">This is muted text, used for supporting information and metadata.</p>
+<p class="text-muted">זהו טקסט עמום, משמש למידע תומך ומטא-דאטה.</p>
 
-### Lists
+### רשימות
 
-**Unordered List:**
-- First item with clear hierarchy
-- Second item maintaining consistency
-- Third item demonstrating spacing
+**רשימה לא ממוספרת:**
+- פריט ראשון עם היררכיה ברורה
+- פריט שני שומר על עקביות
+- פריט שלישי מדגים מרווחים
 
-**Ordered List:**
-1. Sequential information
-2. Clearly numbered
-3. Easy to scan
+**רשימה ממוספרת:**
+1. מידע רציף
+2. ממוספר בבירור
+3. קל לסריקה
 
 <div class="divider"></div>
 
-## Code Blocks
+## בלוקי קוד
 
-### Inline Code
+### קוד בשורה
 
-Use `const value = 42` for inline code snippets that maintain readability within text.
+השתמש ב-`const value = 42` עבור קטעי קוד בשורה שמשמרים קריאות בתוך הטקסט.
 
-### Code Block
+### בלוק קוד
 
 ```javascript
-// Professional code presentation
+// הצגת קוד מקצועית
 function calculateMetrics(data) {
   const result = data
     .filter(item => item.active)
@@ -194,74 +194,74 @@ function calculateMetrics(data) {
 
 <div class="divider"></div>
 
-## Design Philosophy
+## פילוסופיית העיצוב
 
-### Minimalism
+### מינימליזם
 
-We embrace minimalism not as a trend, but as a commitment to clarity. Every pixel serves a purpose, every element earns its place.
+אנו מאמצים מינימליזם לא כטרנד, אלא כהתחייבות לבהירות. כל פיקסל משרת מטרה, כל אלמנט זוכה למקומו.
 
-### Trust & Credibility
+### אמון ואמינות
 
-Professional appearance builds trust. Our design choices—from typography to spacing—communicate competence and reliability.
+מראה מקצועי בונה אמון. בחירות העיצוב שלנו - מטיפוגרפיה ועד מרווחים - מתקשרות יכולת ואמינות.
 
-### Performance
+### ביצועים
 
-Fast loading, smooth interactions, and efficient code. Professional design extends beyond aesthetics to technical excellence.
+טעינה מהירה, אינטראקציות חלקות וקוד יעיל. עיצוב מקצועי משתרע מעבר לאסתטיקה למצוינות טכנית.
 
-### Accessibility
+### נגישות
 
-WCAG AA compliant, keyboard navigable, screen reader friendly. Professional design is inclusive design.
-
-<div class="divider"></div>
-
-## Industry Standards
-
-Our design system aligns with enterprise standards:
-
-- **IBM Design Language** - Clarity, authority, and purposeful interaction
-- **Microsoft Fluent** - Clean, modern, and accessible
-- **Apple Human Interface** - Minimal, refined, and intuitive
-- **Stripe Patterns** - Simple, direct, and trustworthy
+תואם WCAG AA, ניתן לניווט במקלדת, ידידותי לקוראי מסך. עיצוב מקצועי הוא עיצוב כולל.
 
 <div class="divider"></div>
 
-## Technical Specifications
+## סטנדרטים בתעשייה
+
+מערכת העיצוב שלנו מתיישרת עם סטנדרטים ארגוניים:
+
+- **שפת העיצוב של IBM** - בהירות, סמכות ואינטראקציה מכוונת
+- **Microsoft Fluent** - נקי, מודרני ונגיש
+- **Apple Human Interface** - מינימלי, מעודן ואינטואיטיבי
+- **תבניות Stripe** - פשוט, ישיר ואמין
+
+<div class="divider"></div>
+
+## מפרט טכני
 
 <div class="stats-grid">
   <div class="stat-card">
     <div class="stat-value">16px</div>
-    <div class="stat-label">Base Font Size</div>
+    <div class="stat-label">גודל פונט בסיס</div>
   </div>
   <div class="stat-card">
     <div class="stat-value">1.6</div>
-    <div class="stat-label">Line Height</div>
+    <div class="stat-label">גובה שורה</div>
   </div>
   <div class="stat-card">
     <div class="stat-value">8px</div>
-    <div class="stat-label">Grid Unit</div>
+    <div class="stat-label">יחידת רשת</div>
   </div>
   <div class="stat-card">
     <div class="stat-value">AA</div>
-    <div class="stat-label">WCAG Compliance</div>
+    <div class="stat-label">תאימות WCAG</div>
   </div>
 </div>
 
 <div class="divider"></div>
 
 <div class="text-center" style="margin: 4rem 0;">
-  <h2>Ready for Enterprise</h2>
-  <p>A design system built for professional applications, trusted by organizations worldwide.</p>
+  <h2>מוכן לארגון</h2>
+  <p>מערכת עיצוב שנבנתה עבור יישומים מקצועיים, אמינה על ידי ארגונים ברחבי העולם.</p>
   <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
-    <a href="{{ '/' | relative_url }}" class="button">Back to Home</a>
-    <a href="{{ '/cyber-demo/' | relative_url }}" class="button">View Cyber Theme</a>
+    <a href="{{ '/' | relative_url }}" class="button">חזרה לדף הבית</a>
+    <a href="{{ '/cyber-demo/' | relative_url }}" class="button">צפה בנושא סייבר</a>
   </div>
 </div>
 
 ---
 
-## Sources
+## מקורות
 
-Design principles inspired by:
+עקרונות עיצוב בהשראת:
 
 - [10 Best Corporate Website Design Examples in 2025](https://www.webstacks.com/blog/corporate-website-design)
 - [Best Corporate Website Designs of 2025 | DesignRush](https://www.designrush.com/best-designs/websites/corporate)
