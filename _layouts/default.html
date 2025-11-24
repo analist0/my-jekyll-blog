@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+    <!-- Base Theme -->
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-    <link rel="stylesheet" href="{{ '/assets/css/cyber-theme.css' | relative_url }}">
+    <!-- Enterprise Theme (Professional/Corporate) -->
+    <link rel="stylesheet" href="{{ '/assets/css/enterprise-theme.css' | relative_url }}">
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   </head>
   <body>
@@ -88,9 +91,7 @@
       </div>
     </footer>
 
-    <!-- 🎨 Modern Animations Script -->
-    <script src="{{ '/assets/js/animations.js' | relative_url }}"></script>
-    <!-- 🔥 Cyber Effects Script -->
-    <script src="{{ '/assets/js/cyber-effects.js' | relative_url }}"></script>
+    <!-- 🎨 Modern Animations Script (disabled for Enterprise theme) -->
+    <!-- <script src="{{ '/assets/js/animations.js' | relative_url }}"></script> -->
   </body>
 </html>

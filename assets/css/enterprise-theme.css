@@ -1,0 +1,628 @@
+/**
+ * 🏢 ENTERPRISE THEME - Professional Corporate Design
+ * Minimal, Clean, Trustworthy - 2025 Standard
+ * Inspired by: IBM, Microsoft, Stripe, Apple, Vercel
+ */
+
+/* ========================================
+   💼 CORPORATE COLOR PALETTE
+   ======================================== */
+
+:root {
+  /* Primary - Professional Blues */
+  --corp-navy: #0F1419;
+  --corp-blue-dark: #1E3A8A;
+  --corp-blue: #2563EB;
+  --corp-blue-light: #3B82F6;
+  --corp-blue-lighter: #60A5FA;
+
+  /* Neutrals - Clean & Professional */
+  --corp-white: #FFFFFF;
+  --corp-gray-50: #F9FAFB;
+  --corp-gray-100: #F3F4F6;
+  --corp-gray-200: #E5E7EB;
+  --corp-gray-300: #D1D5DB;
+  --corp-gray-400: #9CA3AF;
+  --corp-gray-500: #6B7280;
+  --corp-gray-600: #4B5563;
+  --corp-gray-700: #374151;
+  --corp-gray-800: #1F2937;
+  --corp-gray-900: #111827;
+
+  /* Accents - Minimal & Refined */
+  --corp-accent-green: #10B981;
+  --corp-accent-blue: #0EA5E9;
+  --corp-accent-purple: #8B5CF6;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+  /* Shadows - Subtle & Professional */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+  /* Transitions - Smooth & Subtle */
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========================================
+   📄 BASE STYLES
+   ======================================== */
+
+body {
+  font-family: var(--font-sans);
+  background: var(--corp-white);
+  color: var(--corp-gray-900);
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================
+   🎯 TYPOGRAPHY SYSTEM
+   ======================================== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--corp-gray-900);
+  margin-bottom: var(--space-lg);
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+h2 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-top: var(--space-3xl);
+}
+
+h3 {
+  font-size: 1.875rem;
+  font-weight: 600;
+}
+
+p {
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: var(--corp-gray-700);
+  margin-bottom: var(--space-lg);
+}
+
+/* ========================================
+   🏢 HEADER - Clean & Professional
+   ======================================== */
+
+header {
+  background: var(--corp-white);
+  border-bottom: 1px solid var(--corp-gray-200);
+  padding: var(--space-3xl) 0;
+  margin-bottom: var(--space-3xl);
+}
+
+.site-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--corp-gray-900);
+  letter-spacing: -0.03em;
+  margin-bottom: var(--space-sm);
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+}
+
+.site-description {
+  font-size: 1.125rem;
+  color: var(--corp-gray-600);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* ========================================
+   🧭 NAVIGATION - Minimal & Clear
+   ======================================== */
+
+.nav {
+  display: flex;
+  gap: var(--space-sm);
+  padding: var(--space-lg) 0;
+  border-bottom: 1px solid var(--corp-gray-200);
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
+  border-radius: 0;
+  margin-bottom: var(--space-3xl);
+}
+
+.nav a {
+  padding: var(--space-sm) var(--space-lg);
+  color: var(--corp-gray-700);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: var(--transition);
+  background: transparent;
+  border: none;
+  letter-spacing: -0.01em;
+}
+
+.nav a:hover {
+  background: var(--corp-gray-100);
+  color: var(--corp-gray-900);
+  transform: none;
+  box-shadow: none;
+}
+
+.nav a.active {
+  background: var(--corp-gray-900);
+  color: var(--corp-white);
+}
+
+/* ========================================
+   📦 ARTICLE CARDS - Clean & Spacious
+   ======================================== */
+
+article {
+  background: var(--corp-white);
+  border: 1px solid var(--corp-gray-200);
+  border-radius: 12px;
+  padding: var(--space-3xl);
+  margin-bottom: var(--space-2xl);
+  transition: var(--transition);
+}
+
+article:hover {
+  border-color: var(--corp-gray-300);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+article::before {
+  display: none;
+}
+
+.post-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--corp-gray-900);
+  margin-bottom: var(--space-md);
+}
+
+.post-title a {
+  color: var(--corp-gray-900);
+  text-decoration: none;
+}
+
+.post-title a:hover {
+  color: var(--corp-blue);
+}
+
+.post-meta {
+  font-size: 0.9375rem;
+  color: var(--corp-gray-500);
+  border-bottom: 1px solid var(--corp-gray-200);
+  padding-bottom: var(--space-md);
+  margin-bottom: var(--space-lg);
+  background: transparent;
+  border-radius: 0;
+}
+
+.post-content {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--corp-gray-700);
+}
+
+.post-content p {
+  margin-bottom: var(--space-lg);
+}
+
+/* ========================================
+   💼 BUTTONS - Professional & Clear
+   ======================================== */
+
+.button,
+button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0.75rem 1.5rem;
+  background: var(--corp-gray-900);
+  color: var(--corp-white);
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.button:hover,
+button:hover {
+  background: var(--corp-gray-800);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+.button-primary {
+  background: var(--corp-blue);
+}
+
+.button-primary:hover {
+  background: var(--corp-blue-dark);
+}
+
+/* ========================================
+   📊 WIDGETS - Clean Sidebar
+   ======================================== */
+
+.widget {
+  background: var(--corp-gray-50);
+  border: 1px solid var(--corp-gray-200);
+  border-radius: 12px;
+  padding: var(--space-2xl);
+  margin-bottom: var(--space-2xl);
+  box-shadow: none;
+}
+
+.widget h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--corp-gray-900);
+  margin-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--corp-gray-200);
+  padding-bottom: var(--space-md);
+  text-shadow: none;
+  background: none;
+  -webkit-background-clip: unset;
+  background-clip: unset;
+  text-transform: none;
+  letter-spacing: -0.01em;
+}
+
+.widget a {
+  color: var(--corp-gray-700);
+  font-size: 0.9375rem;
+  text-shadow: none;
+}
+
+.widget a:hover {
+  color: var(--corp-blue);
+  padding-left: 0;
+}
+
+.widget li {
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--corp-gray-200);
+}
+
+.widget li:hover {
+  background: transparent;
+  border-radius: 0;
+  padding-left: 0;
+}
+
+/* ========================================
+   💻 CODE BLOCKS - Professional
+   ======================================== */
+
+pre {
+  background: var(--corp-gray-900);
+  border: 1px solid var(--corp-gray-800);
+  border-radius: 8px;
+  padding: var(--space-2xl);
+  overflow-x: auto;
+  box-shadow: var(--shadow-md);
+}
+
+pre::before {
+  content: '';
+  display: none;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--corp-gray-100);
+  text-shadow: none;
+}
+
+/* Inline code */
+:not(pre) > code {
+  background: var(--corp-gray-100);
+  color: var(--corp-gray-800);
+  padding: 0.2em 0.4em;
+  border-radius: 4px;
+  font-size: 0.875em;
+}
+
+/* ========================================
+   🔗 LINKS - Clean & Subtle
+   ======================================== */
+
+a {
+  color: var(--corp-blue);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--corp-blue-dark);
+}
+
+a::after {
+  display: none;
+}
+
+/* ========================================
+   📋 LISTS - Clean & Organized
+   ======================================== */
+
+ul, ol {
+  margin: var(--space-lg) 0 var(--space-xl) var(--space-xl);
+}
+
+li {
+  margin-bottom: var(--space-sm);
+  color: var(--corp-gray-700);
+  font-size: 1.0625rem;
+}
+
+li::marker {
+  color: var(--corp-gray-400);
+}
+
+/* ========================================
+   🎨 TAGS - Minimal Pills
+   ======================================== */
+
+.tag {
+  display: inline-block;
+  padding: 0.375rem 0.875rem;
+  background: var(--corp-gray-100);
+  color: var(--corp-gray-700);
+  border: 1px solid var(--corp-gray-200);
+  border-radius: 20px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  transition: var(--transition);
+  box-shadow: none;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.tag:hover {
+  background: var(--corp-gray-900);
+  color: var(--corp-white);
+  border-color: var(--corp-gray-900);
+  transform: none;
+  box-shadow: none;
+}
+
+/* ========================================
+   📊 STATS SECTION - Professional Metrics
+   ======================================== */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--space-xl);
+  margin: var(--space-3xl) 0;
+}
+
+.stat-card {
+  background: var(--corp-white);
+  border: 1px solid var(--corp-gray-200);
+  border-radius: 12px;
+  padding: var(--space-2xl);
+  text-align: left;
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  border-color: var(--corp-blue);
+  box-shadow: var(--shadow-lg);
+}
+
+.stat-card::before,
+.stat-card::after {
+  display: none;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--corp-gray-900);
+  letter-spacing: -0.03em;
+  margin-bottom: var(--space-xs);
+}
+
+.stat-label {
+  font-size: 0.9375rem;
+  color: var(--corp-gray-600);
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* ========================================
+   📱 RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+
+  article {
+    padding: var(--space-2xl);
+  }
+
+  .nav {
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .nav a {
+    font-size: 0.875rem;
+    padding: var(--space-sm) var(--space-md);
+  }
+}
+
+/* ========================================
+   ✨ SUBTLE ANIMATIONS
+   ======================================== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* ========================================
+   🎯 UTILITY CLASSES
+   ======================================== */
+
+.container-narrow {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: var(--corp-gray-500);
+}
+
+.divider {
+  height: 1px;
+  background: var(--corp-gray-200);
+  margin: var(--space-3xl) 0;
+}
+
+/* ========================================
+   🏢 HERO SECTION - Enterprise Style
+   ======================================== */
+
+.hero {
+  text-align: center;
+  padding: var(--space-3xl) 0;
+  margin-bottom: var(--space-3xl);
+  border-bottom: 1px solid var(--corp-gray-200);
+}
+
+.hero h1 {
+  margin-bottom: var(--space-md);
+}
+
+.hero p {
+  font-size: 1.25rem;
+  color: var(--corp-gray-600);
+  max-width: 600px;
+  margin: 0 auto var(--space-xl);
+}
+
+/* ========================================
+   🔒 FOOTER - Minimal & Clean
+   ======================================== */
+
+footer {
+  border-top: 1px solid var(--corp-gray-200);
+  padding: var(--space-3xl) 0;
+  margin-top: var(--space-3xl);
+  color: var(--corp-gray-600);
+  font-size: 0.9375rem;
+  background: transparent;
+  backdrop-filter: none;
+  border-radius: 0;
+}
+
+footer p {
+  font-size: 0.9375rem;
+  color: var(--corp-gray-600);
+}
+
+/* ========================================
+   🎨 OVERRIDE FLASHY STYLES
+   ======================================== */
+
+/* Remove all glitchy/neon effects */
+.glitch,
+.neon-pulse,
+.cyber-border,
+#matrix-canvas {
+  display: none !important;
+}
+
+/* Remove custom cursor */
+.custom-cursor,
+.custom-cursor-dot {
+  display: none !important;
+}
+
+body * {
+  cursor: auto !important;
+}
+
+/* Remove reading progress */
+.reading-progress {
+  display: none !important;
+}
+
+/* Reset body effects */
+body::after {
+  display: none !important;
+}
+
+/* Clean social icons */
+.social-icon {
+  width: auto;
+  height: auto;
+  background: var(--corp-gray-100);
+  color: var(--corp-gray-700);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: 8px;
+  box-shadow: none;
+  font-size: 1rem;
+}
+
+.social-icon:hover {
+  background: var(--corp-gray-900);
+  color: var(--corp-white);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
