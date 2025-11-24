@@ -1,0 +1,616 @@
+/**
+ * 🔥 CYBER-TECH THEME 2025
+ * Cutting-edge design for elite developers
+ * Neon colors, glitch effects, terminal vibes
+ */
+
+/* ========================================
+   💎 CYBERPUNK COLOR SCHEME
+   ======================================== */
+
+:root {
+  /* Cyber Colors */
+  --cyber-dark: #0a0e27;
+  --cyber-darker: #05070f;
+  --cyber-navy: #1B1B2A;
+  --cyber-purple: #711c91;
+  --cyber-magenta: #FF007A;
+  --cyber-pink: #ea00d9;
+  --cyber-cyan: #0abdc6;
+  --cyber-blue: #133e7c;
+  --cyber-neon-green: #00FFB3;
+  --cyber-neon-blue: #00d4ff;
+  --cyber-neon-pink: #ff0080;
+  --cyber-neon-purple: #a855f7;
+  --cyber-neon-yellow: #ffd500;
+
+  /* Glow Effects */
+  --glow-cyan: 0 0 10px var(--cyber-cyan), 0 0 20px var(--cyber-cyan), 0 0 30px var(--cyber-cyan);
+  --glow-magenta: 0 0 10px var(--cyber-magenta), 0 0 20px var(--cyber-magenta), 0 0 30px var(--cyber-magenta);
+  --glow-green: 0 0 10px var(--cyber-neon-green), 0 0 20px var(--cyber-neon-green);
+  --glow-blue: 0 0 10px var(--cyber-neon-blue), 0 0 20px var(--cyber-neon-blue);
+
+  /* Gradients */
+  --cyber-gradient-1: linear-gradient(135deg, var(--cyber-magenta), var(--cyber-purple));
+  --cyber-gradient-2: linear-gradient(135deg, var(--cyber-cyan), var(--cyber-blue));
+  --cyber-gradient-3: linear-gradient(135deg, var(--cyber-neon-green), var(--cyber-cyan));
+  --cyber-gradient-hero: linear-gradient(135deg, #0a0e27 0%, #1B1B2A 50%, #2d1b3d 100%);
+
+  /* Shadows */
+  --cyber-shadow: 0 8px 32px rgba(138, 43, 226, 0.3);
+  --cyber-shadow-strong: 0 15px 50px rgba(255, 0, 122, 0.4);
+}
+
+/* ========================================
+   🌑 DARK CYBER BODY
+   ======================================== */
+
+body {
+  background: var(--cyber-dark);
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(113, 28, 145, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(10, 189, 198, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 40% 20%, rgba(255, 0, 122, 0.1) 0%, transparent 40%);
+  background-attachment: fixed;
+  color: #e0e0e0;
+}
+
+/* ========================================
+   🖥️ TERMINAL-STYLE HEADER
+   ======================================== */
+
+header {
+  background: var(--cyber-gradient-hero);
+  border: 2px solid var(--cyber-cyan);
+  border-radius: 12px;
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--cyber-shadow-strong);
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  background: linear-gradient(90deg,
+    var(--cyber-magenta) 0%,
+    var(--cyber-purple) 25%,
+    var(--cyber-cyan) 50%,
+    var(--cyber-neon-green) 75%,
+    var(--cyber-magenta) 100%
+  );
+  background-size: 200% 100%;
+  animation: rainbow-border 3s linear infinite;
+}
+
+@keyframes rainbow-border {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+/* Terminal Window Dots */
+header::after {
+  content: '● ● ●';
+  position: absolute;
+  top: 8px;
+  left: 15px;
+  font-size: 12px;
+  color: var(--cyber-cyan);
+  letter-spacing: 5px;
+}
+
+.site-title {
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 3rem;
+  background: linear-gradient(90deg,
+    var(--cyber-neon-green),
+    var(--cyber-cyan),
+    var(--cyber-neon-pink)
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-text 3s ease infinite;
+  text-shadow: none;
+  position: relative;
+  display: inline-block;
+}
+
+/* Typing cursor effect */
+.site-title::after {
+  content: '▊';
+  animation: cursor-blink 1s step-end infinite;
+  color: var(--cyber-neon-green);
+  margin-left: 5px;
+}
+
+@keyframes cursor-blink {
+  50% { opacity: 0; }
+}
+
+@keyframes gradient-text {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.site-description {
+  font-family: 'Fira Code', monospace;
+  color: var(--cyber-cyan);
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  text-shadow: var(--glow-cyan);
+}
+
+.site-description::before {
+  content: '> ';
+  color: var(--cyber-neon-green);
+  font-weight: bold;
+}
+
+/* ========================================
+   🔲 NEUBRUTALISM NAV
+   ======================================== */
+
+.nav {
+  background: var(--cyber-darker);
+  border: 3px solid var(--cyber-magenta);
+  border-radius: 0;
+  box-shadow: 8px 8px 0 var(--cyber-purple);
+  padding: 1.5rem;
+  transform: none;
+}
+
+.nav a {
+  background: transparent;
+  color: var(--cyber-neon-green);
+  border: 2px solid var(--cyber-cyan);
+  border-radius: 0;
+  padding: 0.8rem 1.5rem;
+  font-family: 'Fira Code', monospace;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.nav a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--cyber-gradient-2);
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.nav a:hover::before {
+  left: 0;
+}
+
+.nav a:hover {
+  border-color: var(--cyber-neon-green);
+  color: white;
+  box-shadow: 0 0 20px var(--cyber-cyan);
+  transform: translateY(-3px);
+}
+
+.nav a.active {
+  background: var(--cyber-gradient-1);
+  border-color: var(--cyber-magenta);
+  color: white;
+  box-shadow: var(--glow-magenta);
+}
+
+/* ========================================
+   💎 GLASSMORPHISM ARTICLES
+   ======================================== */
+
+article {
+  background: rgba(27, 27, 42, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 0, 122, 0.1) inset;
+  position: relative;
+  overflow: hidden;
+}
+
+article::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--cyber-gradient-3);
+}
+
+article:hover {
+  border-color: var(--cyber-magenta);
+  box-shadow:
+    0 12px 40px rgba(255, 0, 122, 0.3),
+    0 0 40px rgba(0, 212, 255, 0.2);
+  transform: translateY(-5px);
+}
+
+/* ========================================
+   ⚡ GLITCH TEXT EFFECT
+   ======================================== */
+
+.glitch {
+  position: relative;
+  color: var(--cyber-neon-green);
+  font-weight: bold;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch::before {
+  left: 2px;
+  text-shadow: -2px 0 var(--cyber-magenta);
+  clip: rect(24px, 550px, 90px, 0);
+  animation: glitch-anim 3s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  left: -2px;
+  text-shadow: -2px 0 var(--cyber-cyan);
+  clip: rect(85px, 550px, 140px, 0);
+  animation: glitch-anim 2s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+  0% { clip: rect(10px, 9999px, 70px, 0); }
+  20% { clip: rect(90px, 9999px, 20px, 0); }
+  40% { clip: rect(50px, 9999px, 100px, 0); }
+  60% { clip: rect(20px, 9999px, 80px, 0); }
+  80% { clip: rect(60px, 9999px, 40px, 0); }
+  100% { clip: rect(30px, 9999px, 90px, 0); }
+}
+
+/* ========================================
+   📊 TECH STATS COUNTERS
+   ======================================== */
+
+.tech-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.stat-card {
+  background: rgba(10, 14, 39, 0.8);
+  border: 2px solid var(--cyber-cyan);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    transparent,
+    var(--cyber-magenta),
+    transparent 30%
+  );
+  animation: rotate 4s linear infinite;
+}
+
+.stat-card::after {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  background: var(--cyber-darker);
+  border-radius: 10px;
+}
+
+@keyframes rotate {
+  100% { transform: rotate(360deg); }
+}
+
+.stat-number {
+  font-size: 3rem;
+  font-weight: bold;
+  background: var(--cyber-gradient-3);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  position: relative;
+  z-index: 1;
+}
+
+.stat-label {
+  color: var(--cyber-cyan);
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  margin-top: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ========================================
+   💻 CODE BLOCK TERMINAL
+   ======================================== */
+
+pre {
+  background: var(--cyber-darker);
+  border: 2px solid var(--cyber-neon-green);
+  border-radius: 8px;
+  padding: 1.5rem;
+  position: relative;
+  box-shadow:
+    0 0 20px rgba(0, 255, 179, 0.2),
+    inset 0 0 50px rgba(0, 255, 179, 0.05);
+}
+
+pre::before {
+  content: '$ ./execute.sh';
+  display: block;
+  color: var(--cyber-neon-green);
+  font-family: 'Fira Code', monospace;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--cyber-cyan);
+}
+
+code {
+  color: var(--cyber-neon-green);
+  text-shadow: 0 0 5px rgba(0, 255, 179, 0.5);
+}
+
+/* ========================================
+   🎮 INTERACTIVE BUTTONS
+   ======================================== */
+
+.cyber-button {
+  position: relative;
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  font-family: 'Fira Code', monospace;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: transparent;
+  border: 3px solid var(--cyber-magenta);
+  color: var(--cyber-neon-green);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.cyber-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--cyber-gradient-1);
+  transition: left 0.4s ease;
+  z-index: -1;
+}
+
+.cyber-button:hover::before {
+  left: 0;
+}
+
+.cyber-button:hover {
+  color: white;
+  box-shadow: var(--glow-magenta);
+  transform: translateY(-3px);
+}
+
+/* ========================================
+   🌐 WIDGET NEON STYLE
+   ======================================== */
+
+.widget {
+  background: rgba(10, 14, 39, 0.9);
+  border: 2px solid var(--cyber-cyan);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow:
+    0 0 20px rgba(10, 189, 198, 0.3),
+    inset 0 0 30px rgba(10, 189, 198, 0.05);
+}
+
+.widget h3 {
+  color: var(--cyber-neon-green);
+  text-shadow: var(--glow-green);
+  font-family: 'Fira Code', monospace;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-bottom: 2px solid var(--cyber-magenta);
+  padding-bottom: 0.5rem;
+}
+
+.widget a {
+  color: var(--cyber-cyan);
+  transition: all 0.3s ease;
+}
+
+.widget a:hover {
+  color: var(--cyber-neon-pink);
+  text-shadow: var(--glow-magenta);
+  padding-left: 10px;
+}
+
+/* ========================================
+   ⚡ MATRIX RAIN CONTAINER
+   ======================================== */
+
+#matrix-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* ========================================
+   🎯 CYBER TAGS
+   ======================================== */
+
+.tag {
+  background: transparent;
+  border: 2px solid var(--cyber-magenta);
+  color: var(--cyber-magenta);
+  padding: 0.4rem 1rem;
+  border-radius: 0;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 3px 3px 0 var(--cyber-purple);
+  transition: all 0.3s ease;
+}
+
+.tag:hover {
+  background: var(--cyber-gradient-1);
+  color: white;
+  box-shadow: 5px 5px 0 var(--cyber-cyan);
+  transform: translate(-2px, -2px);
+}
+
+/* ========================================
+   📱 MOBILE OPTIMIZATIONS
+   ======================================== */
+
+@media (max-width: 768px) {
+  .site-title {
+    font-size: 2rem;
+  }
+
+  .nav {
+    box-shadow: 4px 4px 0 var(--cyber-purple);
+  }
+
+  .stat-card {
+    border-width: 1px;
+  }
+
+  #matrix-canvas {
+    display: none;
+  }
+}
+
+/* ========================================
+   🎨 SCANLINE EFFECT
+   ======================================== */
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.3;
+}
+
+/* ========================================
+   ✨ NEON GLOW ANIMATION
+   ======================================== */
+
+.neon-pulse {
+  animation: neon-pulse 2s ease-in-out infinite;
+}
+
+@keyframes neon-pulse {
+  0%, 100% {
+    text-shadow:
+      0 0 7px var(--cyber-neon-green),
+      0 0 10px var(--cyber-neon-green),
+      0 0 21px var(--cyber-neon-green),
+      0 0 42px var(--cyber-cyan),
+      0 0 82px var(--cyber-cyan);
+  }
+  50% {
+    text-shadow:
+      0 0 4px var(--cyber-neon-green),
+      0 0 7px var(--cyber-neon-green),
+      0 0 15px var(--cyber-neon-green),
+      0 0 30px var(--cyber-cyan),
+      0 0 60px var(--cyber-cyan);
+  }
+}
+
+/* ========================================
+   🔥 CYBER BORDER ANIMATION
+   ======================================== */
+
+.cyber-border {
+  position: relative;
+  overflow: hidden;
+}
+
+.cyber-border::before,
+.cyber-border::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent,
+    var(--cyber-magenta),
+    transparent
+  );
+}
+
+.cyber-border::before {
+  top: 0;
+  left: -100%;
+  animation: border-flow 3s linear infinite;
+}
+
+.cyber-border::after {
+  bottom: 0;
+  right: -100%;
+  animation: border-flow 3s linear infinite 1.5s;
+}
+
+@keyframes border-flow {
+  to { transform: translateX(100%); }
+}
