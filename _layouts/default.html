@@ -32,11 +32,11 @@
     </nav>
 
     <div class="container">
-      <main class="main-content" dir="rtl">
+      <main class="main-content gpu-accelerated" dir="rtl">
         {{ content }}
       </main>
 
-      <aside class="sidebar">
+      <aside class="sidebar gpu-accelerated">
         <div class="widget">
           <h3>פוסטים אחרונים</h3>
           <ul>
@@ -86,5 +86,8 @@
         <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
       </div>
     </footer>
+
+    <!-- 🎨 Modern Animations Script -->
+    <script src="{{ '/assets/js/animations.js' | relative_url }}"></script>
   </body>
 </html>
