@@ -1,100 +1,151 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
-    <!-- Base Theme -->
-    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-    <!-- Subduxion-Inspired Theme (Modern Minimalist Dark) -->
-    <link rel="stylesheet" href="{{ '/assets/css/subduxion-theme.css' | relative_url }}">
-    <!-- Fonts -->
-    <!-- Satoshi Font (Subduxion style) -->
-    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,800,900&display=swap" rel="stylesheet">
-    <!-- Inter & Mono Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  </head>
-  <body>
-    <header>
-      <div class="header-gradient"></div>
-      <h1 class="site-title">{{ site.title }}</h1>
-      <p class="site-description">{{ site.description }}</p>
-      
-      <div class="social-icons">
-        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
-        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-      </div>
-    </header>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <nav class="nav">
-      <a href="{{ '/' | relative_url }}" class="{% if page.url == '/' %}active{% endif %}">בית</a>
-      <a href="{{ '/about' | relative_url }}" class="{% if page.url == '/about/' %}active{% endif %}">אודות</a>
-      <a href="{{ '/archive' | relative_url }}" class="{% if page.url == '/archive/' %}active{% endif %}">ארכיון</a>
-      <a href="{{ '/contact' | relative_url }}" class="{% if page.url == '/contact/' %}active{% endif %}">צור קשר</a>
-    </nav>
+  <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
 
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  <meta property="og:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+  <meta property="og:description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="{{ page.url | absolute_url }}">
+  <meta property="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+  <meta property="twitter:description" content="{{ page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
+
+  <!-- Favicon -->
+  <link rel="icon" href="{{ '/assets/images/favicon.ico' | relative_url }}" type="image/x-icon">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  {% seo %}
+  {% feed_meta %}
+</head>
+<body>
+  <!-- Reading Progress Bar -->
+  <div id="reading-progress" style="position: fixed; top: 0; left: 0; width: 0; height: 3px; background: linear-gradient(90deg, #6366f1, #8b5cf6); z-index: 9999; transition: width 0.1s;"></div>
+
+  <!-- Header -->
+  <header class="site-header">
     <div class="container">
-      <main class="main-content gpu-accelerated" dir="rtl">
-        {{ content }}
-      </main>
+      <div class="nav-container">
+        <a href="{{ '/' | relative_url }}" class="site-logo">
+          <span style="font-size: 2rem;">🎨</span>
+          <span>{{ site.title }}</span>
+        </a>
 
-      <aside class="sidebar gpu-accelerated">
-        <div class="widget">
-          <h3>פוסטים אחרונים</h3>
+        <nav class="main-nav">
           <ul>
-            {% for post in site.posts limit:5 %}
-            <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
-            {% endfor %}
+            <li><a href="{{ '/' | relative_url }}">בית</a></li>
+            <li><a href="{{ '/blog' | relative_url }}">בלוג</a></li>
+            <li><a href="{{ '/portfolio' | relative_url }}">פורטפוליו</a></li>
+            <li><a href="{{ '/tutorials' | relative_url }}">מדריכים</a></li>
+            <li><a href="{{ '/about' | relative_url }}">אודות</a></li>
           </ul>
-        </div>
+        </nav>
 
-        <div class="widget">
-          <h3>קטגוריות</h3>
-          <ul>
-            <li><a href="#"> טכנולוגיה </a></li>
-            <li><a href="#"> עסקים </a></li>
-            <li><a href="#"> מדע </a></li>
-            <li><a href="#"> תרבות </a></li>
-          </ul>
-        </div>
+        <button id="theme-toggle" class="theme-toggle" aria-label="החלף ערכת נושא">
+          <span id="theme-icon">🌙</span>
+          <span>מצב כהה</span>
+        </button>
 
-        <div class="widget">
-          <h3>הרשמה לעדכונים</h3>
-          <p>קבלו עדכונים על פוסטים חדשים:</p>
-          <form>
-            <input type="email" placeholder="כתובת אימייל" required>
-            <button type="submit" class="button">הרשמה</button>
-          </form>
-        </div>
-        
-        <div class="widget">
-          <h3>טיפים מקצועיים</h3>
-          <p>הירשמו לקבלת טיפים שיווקיים ועסקיים:</p>
-          <form>
-            <input type="email" placeholder="כתובת אימייל" required>
-            <button type="submit" class="button">הרשמה עכשיו</button>
-          </form>
-        </div>
-      </aside>
-    </div>
-
-    <footer>
-      <p>&copy; {{ site.time | date: '%Y' }} {{ site.title }}. כל הזכויות שמורות.</p>
-      <p>Powered by Jekyll and GitHub Pages</p>
-      <div class="social-icons">
-        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#" class="social-icon"><i class="fab fa-github"></i></a>
-        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+        <!-- Mobile Menu Toggle -->
+        <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="תפריט">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
-    </footer>
+    </div>
+  </header>
 
-    <!-- 🎨 Modern Animations Script (disabled for Enterprise theme) -->
-    <!-- <script src="{{ '/assets/js/animations.js' | relative_url }}"></script> -->
-  </body>
+  <!-- Main Content -->
+  <main class="site-content">
+    {{ content }}
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <h3>{{ site.title }}</h3>
+          <p>{{ site.description }}</p>
+        </div>
+
+        <div class="social-links">
+          {% if site.social.twitter %}
+          <a href="{{ site.social.twitter }}" target="_blank" rel="noopener" aria-label="Twitter">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+            </svg>
+          </a>
+          {% endif %}
+
+          {% if site.social.github %}
+          <a href="{{ site.social.github }}" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/>
+            </svg>
+          </a>
+          {% endif %}
+
+          {% if site.social.linkedin %}
+          <a href="{{ site.social.linkedin }}" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+          {% endif %}
+
+          <a href="{{ '/feed.xml' | relative_url }}" target="_blank" rel="noopener" aria-label="RSS Feed">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6.18 15.64a2.18 2.18 0 012.18 2.18C8.36 19 7.38 20 6.18 20A2.18 2.18 0 014 17.82a2.18 2.18 0 012.18-2.18M4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27V4.44m0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93V10.1z"/>
+            </svg>
+          </a>
+        </div>
+
+        <div class="footer-copyright">
+          <p>
+            &copy; {{ 'now' | date: "%Y" }} {{ site.title }}. כל הזכויות שמורות.
+          </p>
+          <p style="margin-top: 0.5rem; font-size: 0.875rem; opacity: 0.7;">
+            נבנה בעזרת <a href="https://jekyllrb.com" target="_blank" rel="noopener" style="color: var(--accent);">Jekyll</a>
+            ו-<a href="https://pages.github.com" target="_blank" rel="noopener" style="color: var(--accent);">GitHub Pages</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Particle Canvas (Optional) -->
+  <canvas id="particles" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;"></canvas>
+
+  <!-- Scripts -->
+  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+
+  <!-- Analytics (if configured) -->
+  {% if site.google_analytics %}
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '{{ site.google_analytics }}');
+  </script>
+  {% endif %}
+</body>
 </html>

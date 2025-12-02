@@ -1,48 +1,422 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<article>
-  <header>
-    <h1 class="post-title">{{ page.title }}</h1>
-    <div class="post-meta">
-      <span><i class="far fa-calendar"></i> {{ page.date | date: "%B %d, %Y" }}</span>
-      <span><i class="far fa-user"></i> {{ page.author | default: site.author }}</span>
-      <span><i class="far fa-clock"></i> {{ content | number_of_words | divided_by: 180 | round }} min read</span>
-    </div>
-  </header>
+    <!-- SEO Meta Tags -->
+    <title>{{ page.title }} | {{ site.title }}</title>
+    <meta name="description" content="{{ page.excerpt | default: page.description | strip_html | truncate: 160 }}">
+    <meta name="author" content="{{ page.author | default: site.author }}">
+    <meta name="keywords" content="{{ page.tags | join: ', ' }}">
+    <link rel="canonical" href="{{ page.url | absolute_url }}">
 
-  <div class="post-content">
-    {{ content }}
-  </div>
-
-  {% if page.tags %}
-  <div class="tags">
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ page.url | absolute_url }}">
+    <meta property="og:title" content="{{ page.title }}">
+    <meta property="og:description" content="{{ page.excerpt | default: page.description | strip_html | truncate: 160 }}">
+    <meta property="og:image" content="{{ page.image | default: '/assets/images/default-og.jpg' | absolute_url }}">
+    <meta property="og:site_name" content="{{ site.title }}">
+    <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
+    <meta property="article:author" content="{{ page.author | default: site.author }}">
     {% for tag in page.tags %}
-    <a href="#" class="tag">{{ tag }}</a>
+    <meta property="article:tag" content="{{ tag }}">
     {% endfor %}
-  </div>
-  {% endif %}
 
-  <div class="post-navigation" style="display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
-    {% if page.previous.url %}
-    <a href="{{ page.previous.url }}" class="button" style="width: 48%; text-align: center; padding: 0.8rem 1.2rem;">&larr; הקודם: {{ page.previous.title | truncate: 25 }}</a>
-    {% endif %}
-    
-    {% if page.next.url %}
-    <a href="{{ page.next.url }}" class="button" style="width: 48%; text-align: center; padding: 0.8rem 1.2rem;">הבא: {{ page.next.title | truncate: 25 }} &rarr;</a>
-    {% endif %}
-  </div>
-  
-  <div class="comments" style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
-    <h3>השאירו הערה</h3>
-    <form style="margin-top: 1.5rem;">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
-        <input type="text" placeholder="שם" required>
-        <input type="email" placeholder="אימייל" required>
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ page.url | absolute_url }}">
+    <meta name="twitter:title" content="{{ page.title }}">
+    <meta name="twitter:description" content="{{ page.excerpt | default: page.description | strip_html | truncate: 160 }}">
+    <meta name="twitter:image" content="{{ page.image | default: '/assets/images/default-og.jpg' | absolute_url }}">
+    <meta name="twitter:creator" content="@{{ site.social.twitter | default: 'analist0' }}">
+
+    <!-- Subduxion Theme -->
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/subduxion-theme.css' | relative_url }}">
+
+    <!-- Fonts -->
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,800,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Schema.org Article Markup -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "{{ page.title }}",
+      "description": "{{ page.excerpt | default: page.description | strip_html | truncate: 160 }}",
+      "image": "{{ page.image | default: '/assets/images/default-og.jpg' | absolute_url }}",
+      "author": {
+        "@type": "Person",
+        "name": "{{ page.author | default: site.author }}"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "{{ site.title }}",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "{{ '/assets/images/logo.png' | absolute_url }}"
+        }
+      },
+      "datePublished": "{{ page.date | date_to_xmlschema }}",
+      "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ page.url | absolute_url }}"
+      },
+      "keywords": "{{ page.tags | join: ', ' }}",
+      "articleSection": "{{ page.category | default: 'Technology' }}",
+      "inLanguage": "he-IL"
+    }
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1 class="site-title"><a href="{{ '/' | relative_url }}" style="color: inherit; text-decoration: none;">{{ site.title }}</a></h1>
+      <p class="site-description">{{ site.description }}</p>
+
+      <div class="social-icons">
+        <a href="https://twitter.com/analist0" class="social-icon" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="https://github.com/analist0" class="social-icon" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
       </div>
-      <textarea placeholder="תגובה" rows="5" style="margin-bottom: 1rem; width: 100%;" required></textarea>
-      <button type="submit" class="button">פרסם תגובה</button>
-    </form>
-  </div>
-</article>
+    </header>
+
+    <nav class="nav">
+      <a href="{{ '/' | relative_url }}">בית</a>
+      <a href="{{ '/about' | relative_url }}">אודות</a>
+      <a href="{{ '/archive' | relative_url }}">ארכיון</a>
+      <a href="{{ '/contact' | relative_url }}">צור קשר</a>
+    </nav>
+
+    <!-- Article Container -->
+    <article class="post-container" itemscope itemtype="https://schema.org/BlogPosting">
+
+      <!-- Article Header -->
+      <header class="post-header">
+        <div class="container-narrow">
+
+          <!-- Breadcrumbs for SEO -->
+          <nav class="breadcrumbs" aria-label="breadcrumb">
+            <ol itemscope itemtype="https://schema.org/BreadcrumbList" style="list-style: none; padding: 0; display: flex; gap: 0.5rem; font-size: 0.9rem; color: var(--sub-gray-400); margin-bottom: 2rem;">
+              <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <a href="{{ '/' | relative_url }}" itemprop="item" style="color: var(--sub-gray-400);">
+                  <span itemprop="name">בית</span>
+                </a>
+                <meta itemprop="position" content="1" />
+                <span style="margin: 0 0.5rem;">/</span>
+              </li>
+              <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                <span itemprop="name" style="color: var(--sub-lime);">{{ page.title | truncate: 50 }}</span>
+                <meta itemprop="position" content="2" />
+              </li>
+            </ol>
+          </nav>
+
+          <!-- Category Badge -->
+          {% if page.category %}
+          <div style="margin-bottom: 1rem;">
+            <span class="tag" style="background: var(--sub-lime); color: var(--sub-black); font-size: 0.85rem;">
+              {{ page.category }}
+            </span>
+          </div>
+          {% endif %}
+
+          <!-- Title -->
+          <h1 class="post-title" itemprop="headline">{{ page.title }}</h1>
+
+          <!-- Meta Info -->
+          <div class="post-meta">
+            <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+              <i class="far fa-calendar"></i> {{ page.date | date: "%d.%m.%Y" }}
+            </time>
+            <span class="separator">•</span>
+            <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+              <i class="far fa-user"></i> <span itemprop="name">{{ page.author | default: site.author }}</span>
+            </span>
+            <span class="separator">•</span>
+            <span>
+              <i class="far fa-clock"></i> {{ page.content | number_of_words | divided_by: 180 | at_least: 1 }} דקות קריאה
+            </span>
+          </div>
+
+          <!-- Tags -->
+          {% if page.tags %}
+          <div class="post-tags">
+            {% for tag in page.tags %}
+            <span class="tag" itemprop="keywords">{{ tag }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+        </div>
+      </header>
+
+      <!-- Article Content -->
+      <div class="post-content" itemprop="articleBody">
+        <div class="container-narrow">
+          {{ content }}
+        </div>
+      </div>
+
+      <!-- Article Footer -->
+      <footer class="post-footer">
+        <div class="container-narrow">
+
+          <div class="divider"></div>
+
+          <!-- Share Buttons -->
+          <div class="share-section">
+            <h3>שתף את המאמר</h3>
+            <div class="share-buttons">
+              <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ page.url | absolute_url | url_encode }}"
+                 class="button button-ghost" target="_blank" rel="noopener" aria-label="Share on Twitter">
+                <i class="fab fa-twitter"></i> Twitter
+              </a>
+              <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url | url_encode }}"
+                 class="button button-ghost" target="_blank" rel="noopener" aria-label="Share on Facebook">
+                <i class="fab fa-facebook"></i> Facebook
+              </a>
+              <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ page.url | absolute_url | url_encode }}&title={{ page.title | url_encode }}"
+                 class="button button-ghost" target="_blank" rel="noopener" aria-label="Share on LinkedIn">
+                <i class="fab fa-linkedin"></i> LinkedIn
+              </a>
+              <a href="https://api.whatsapp.com/send?text={{ page.title | url_encode }}%20{{ page.url | absolute_url | url_encode }}"
+                 class="button button-ghost" target="_blank" rel="noopener" aria-label="Share on WhatsApp">
+                <i class="fab fa-whatsapp"></i> WhatsApp
+              </a>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Author Bio -->
+          <div class="author-bio">
+            <h3>על הכותב</h3>
+            <div class="author-card">
+              <div class="author-info">
+                <h4>{{ page.author | default: site.author }}</h4>
+                <p>{{ site.description }}</p>
+                <div class="author-social">
+                  <a href="https://twitter.com/analist0" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
+                  <a href="https://github.com/analist0" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Related Posts -->
+          {% if site.related_posts.size > 0 %}
+          <div class="related-posts">
+            <h3>מאמרים נוספים שעשויים לעניין אותך</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+              {% for post in site.related_posts limit:3 %}
+              <article class="card">
+                <h4><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h4>
+                <p class="text-muted">{{ post.date | date: "%d.%m.%Y" }}</p>
+                <p>{{ post.excerpt | strip_html | truncate: 100 }}</p>
+                <a href="{{ post.url | relative_url }}" class="button button-lime-ghost" style="margin-top: 1rem;">קרא עוד</a>
+              </article>
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+        </div>
+      </footer>
+
+    </article>
+
+    <!-- Site Footer -->
+    <footer style="margin-top: 4rem;">
+      <p>&copy; {{ site.time | date: '%Y' }} {{ site.title }}. כל הזכויות שמורות.</p>
+      <p>Powered by Jekyll and GitHub Pages</p>
+      <div class="social-icons">
+        <a href="https://twitter.com/analist0" class="social-icon"><i class="fab fa-twitter"></i></a>
+        <a href="https://github.com/analist0" class="social-icon"><i class="fab fa-github"></i></a>
+      </div>
+    </footer>
+
+    <style>
+    /* Post-specific styles */
+    .post-container {
+      background: var(--sub-black);
+      min-height: 100vh;
+    }
+
+    .post-header {
+      padding: var(--space-5xl) 0 var(--space-3xl) 0;
+      background: linear-gradient(180deg, var(--sub-gray-900) 0%, var(--sub-black) 100%);
+    }
+
+    .post-title {
+      font-size: var(--text-6xl);
+      font-weight: 900;
+      line-height: 1.1;
+      margin: var(--space-lg) 0;
+      background: linear-gradient(135deg, var(--sub-white) 0%, var(--sub-lime) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .post-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-md);
+      align-items: center;
+      color: var(--sub-gray-400);
+      font-size: var(--text-base);
+      margin: var(--space-xl) 0;
+      font-family: var(--font-inter);
+    }
+
+    .post-meta .separator {
+      color: var(--sub-gray-600);
+    }
+
+    .post-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      margin-top: var(--space-xl);
+    }
+
+    .post-content {
+      padding: var(--space-4xl) 0;
+      font-size: var(--text-lg);
+      line-height: 1.9;
+      color: var(--sub-gray-200);
+    }
+
+    .post-content h2 {
+      margin-top: var(--space-4xl);
+      margin-bottom: var(--space-xl);
+      padding-bottom: var(--space-md);
+      border-bottom: 2px solid var(--sub-lime);
+      color: var(--sub-white) !important;
+    }
+
+    .post-content h3 {
+      margin-top: var(--space-3xl);
+      margin-bottom: var(--space-lg);
+      color: var(--sub-white) !important;
+    }
+
+    .post-content p {
+      margin-bottom: var(--space-xl);
+    }
+
+    .post-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      margin: var(--space-3xl) 0;
+      box-shadow: var(--shadow-xl);
+    }
+
+    .post-content blockquote {
+      background: var(--sub-gray-900);
+      border-right: 4px solid var(--sub-lime);
+      padding: var(--space-xl);
+      margin: var(--space-3xl) 0;
+      font-style: italic;
+      border-radius: 0 12px 12px 0;
+    }
+
+    .post-footer {
+      padding: var(--space-4xl) 0;
+    }
+
+    .share-section {
+      text-align: center;
+      padding: var(--space-3xl) 0;
+    }
+
+    .share-section h3 {
+      margin-bottom: var(--space-xl);
+      color: var(--sub-white);
+    }
+
+    .share-buttons {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+
+    .author-bio {
+      padding: var(--space-3xl) 0;
+    }
+
+    .author-card {
+      background: var(--sub-gray-900);
+      border: 1px solid var(--sub-gray-800);
+      border-radius: 16px;
+      padding: var(--space-2xl);
+      margin-top: var(--space-xl);
+    }
+
+    .author-info h4 {
+      color: var(--sub-lime);
+      margin-bottom: var(--space-md);
+    }
+
+    .author-social {
+      display: flex;
+      gap: var(--space-md);
+      margin-top: var(--space-lg);
+    }
+
+    .author-social a {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--sub-gray-800);
+      color: var(--sub-white);
+      transition: all var(--transition-fast);
+    }
+
+    .author-social a:hover {
+      background: var(--sub-lime);
+      color: var(--sub-black);
+    }
+
+    .related-posts {
+      padding: var(--space-3xl) 0;
+    }
+
+    @media (max-width: 768px) {
+      .post-title {
+        font-size: var(--text-4xl);
+      }
+
+      .post-meta {
+        font-size: var(--text-sm);
+        gap: var(--space-sm);
+      }
+
+      .post-content {
+        font-size: var(--text-base);
+      }
+
+      .share-buttons {
+        flex-direction: column;
+      }
+
+      .share-buttons .button {
+        width: 100%;
+      }
+    }
+    </style>
+  </body>
+</html>

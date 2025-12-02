@@ -1,5 +1,5 @@
-title: הבלוג שלי
-description: בלוג מקצועי ברמה ארגונית
+title: פורטפוליו טכנולוגי מתקדם
+description: בלוג יצירת אומנות עם עיצוב מתקדם | מדריכים נדירים | פרויקטים מרשימים
 author: analist0
 lang: he
 markdown: kramdown
@@ -26,6 +26,9 @@ exclude:
 # Social links
 social:
   name: analist0
+  twitter: https://twitter.com/analist0
+  github: https://github.com/analist0
+  linkedin: https://linkedin.com/in/analist0
   links:
     - https://twitter.com/analist0
     - https://github.com/analist0
