@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: post-visual
 title: "Ethical AI and Responsible Development Trends - 09:55:58"
 date: 2025-11-24 09:55:58 +0200
 author: analist0

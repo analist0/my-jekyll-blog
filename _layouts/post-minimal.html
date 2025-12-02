@@ -1,0 +1,473 @@
+---
+layout: default
+---
+
+<style>
+/* Minimalist Long-form Layout */
+.minimal-layout {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.minimal-header {
+  text-align: center;
+  margin-bottom: 4rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.minimal-category {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+}
+
+.minimal-title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 1.5rem 0;
+  color: var(--text-primary);
+}
+
+.minimal-excerpt {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+
+.minimal-meta {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.minimal-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.minimal-divider {
+  width: 60px;
+  height: 2px;
+  background: var(--accent);
+  margin: 3rem auto;
+  opacity: 0.5;
+}
+
+.minimal-content {
+  font-size: 1.125rem;
+  line-height: 1.9;
+  color: var(--text-primary);
+  font-family: 'Georgia', serif;
+}
+
+.minimal-content p {
+  margin-bottom: 1.8rem;
+}
+
+.minimal-content p:first-letter {
+  font-size: 3.5rem;
+  font-weight: 700;
+  float: right;
+  line-height: 1;
+  margin-left: 0.5rem;
+  margin-top: 0.1rem;
+  color: var(--accent);
+}
+
+.minimal-content h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 4rem 0 1.5rem;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+.minimal-content h2::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 2px;
+  background: var(--accent);
+  margin: 1rem auto 0;
+}
+
+.minimal-content h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 3rem 0 1rem;
+  color: var(--text-primary);
+}
+
+.minimal-content blockquote {
+  margin: 3rem 0;
+  padding: 2rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-style: italic;
+  color: var(--text-secondary);
+  position: relative;
+}
+
+.minimal-content blockquote::before {
+  content: '"';
+  font-size: 5rem;
+  color: var(--accent);
+  opacity: 0.2;
+  position: absolute;
+  top: -1rem;
+  right: 50%;
+  transform: translateX(50%);
+}
+
+.minimal-content ul,
+.minimal-content ol {
+  margin: 2rem 0;
+  padding-right: 2rem;
+}
+
+.minimal-content li {
+  margin-bottom: 0.75rem;
+  line-height: 1.8;
+}
+
+.minimal-content code {
+  background: var(--bg-secondary);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.minimal-content pre {
+  background: var(--bg-secondary);
+  padding: 1.5rem;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin: 2rem 0;
+  border-right: 3px solid var(--accent);
+}
+
+.minimal-content img {
+  width: 100%;
+  border-radius: 10px;
+  margin: 3rem 0;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+
+.minimal-content hr {
+  border: none;
+  text-align: center;
+  margin: 4rem 0;
+}
+
+.minimal-content hr::before {
+  content: '···';
+  font-size: 2rem;
+  letter-spacing: 1rem;
+  color: var(--text-secondary);
+  opacity: 0.5;
+}
+
+.minimal-footer {
+  margin-top: 5rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--border);
+}
+
+.minimal-author {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: var(--bg-secondary);
+  border-radius: 15px;
+}
+
+.minimal-author-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  flex-shrink: 0;
+}
+
+.minimal-author-info h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.minimal-author-info p {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.minimal-share {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.minimal-share h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.minimal-share-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.minimal-share-btn {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 1.25rem;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+}
+
+.minimal-share-btn:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.minimal-nav {
+  display: flex;
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.minimal-nav-item {
+  flex: 1;
+  padding: 2rem;
+  background: var(--bg-secondary);
+  border-radius: 15px;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+}
+
+.minimal-nav-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  border-color: var(--accent);
+}
+
+.minimal-nav-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.minimal-nav-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* Reading Progress Bar */
+.minimal-progress {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent);
+  z-index: 1000;
+  transition: width 0.1s ease;
+}
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+  .minimal-layout {
+    padding: 2rem 1.5rem;
+  }
+
+  .minimal-header {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .minimal-title {
+    font-size: 2rem;
+  }
+
+  .minimal-excerpt {
+    font-size: 1.125rem;
+  }
+
+  .minimal-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .minimal-content {
+    font-size: 1rem;
+  }
+
+  .minimal-content p:first-letter {
+    font-size: 2.5rem;
+  }
+
+  .minimal-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .minimal-content blockquote {
+    font-size: 1.25rem;
+    padding: 1.5rem;
+  }
+
+  .minimal-author {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .minimal-nav {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .minimal-share-buttons {
+    flex-wrap: wrap;
+  }
+}
+</style>
+
+<!-- Reading Progress Bar -->
+<div class="minimal-progress" id="readingProgress"></div>
+
+<article class="minimal-layout">
+  <!-- Article Header -->
+  <header class="minimal-header">
+    {% if page.categories %}
+      <div class="minimal-category">{{ page.categories | first }}</div>
+    {% endif %}
+
+    <h1 class="minimal-title">{{ page.title }}</h1>
+
+    {% if page.excerpt %}
+      <p class="minimal-excerpt">{{ page.excerpt | strip_html }}</p>
+    {% endif %}
+
+    <div class="minimal-meta">
+      <span>📅 {{ page.date | date: "%d %B %Y" }}</span>
+      <span>⏱️ {{ content | number_of_words | divided_by: 200 }} דקות קריאה</span>
+      <span>✍️ {{ site.author }}</span>
+    </div>
+  </header>
+
+  <div class="minimal-divider"></div>
+
+  <!-- Article Content -->
+  <div class="minimal-content">
+    {{ content }}
+  </div>
+
+  <!-- Footer -->
+  <footer class="minimal-footer">
+    <!-- Author Bio -->
+    <div class="minimal-author">
+      <div class="minimal-author-avatar">👨‍💻</div>
+      <div class="minimal-author-info">
+        <h4>{{ site.author }}</h4>
+        <p>מפתח, יוצר תוכן ומומחה לטכנולוגיות מתקדמות. משתף ידע וחוויות בעולם הפיתוח והעיצוב.</p>
+      </div>
+    </div>
+
+    <!-- Share Buttons -->
+    <div class="minimal-share">
+      <h3>שתפו את המאמר</h3>
+      <div class="minimal-share-buttons">
+        <a href="https://twitter.com/intent/tweet?text={{ page.title }}&url={{ page.url | absolute_url }}"
+           class="minimal-share-btn" target="_blank" rel="noopener" aria-label="Twitter">
+          🐦
+        </a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}"
+           class="minimal-share-btn" target="_blank" rel="noopener" aria-label="Facebook">
+          📘
+        </a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ page.url | absolute_url }}"
+           class="minimal-share-btn" target="_blank" rel="noopener" aria-label="LinkedIn">
+          💼
+        </a>
+        <a href="https://wa.me/?text={{ page.title }}%20{{ page.url | absolute_url }}"
+           class="minimal-share-btn" target="_blank" rel="noopener" aria-label="WhatsApp">
+          💬
+        </a>
+      </div>
+    </div>
+
+    <!-- Previous/Next Navigation -->
+    <nav class="minimal-nav">
+      {% if page.previous %}
+        <a href="{{ page.previous.url | relative_url }}" class="minimal-nav-item">
+          <div class="minimal-nav-label">← הקודם</div>
+          <div class="minimal-nav-title">{{ page.previous.title }}</div>
+        </a>
+      {% else %}
+        <div style="flex: 1;"></div>
+      {% endif %}
+
+      {% if page.next %}
+        <a href="{{ page.next.url | relative_url }}" class="minimal-nav-item" style="text-align: left;">
+          <div class="minimal-nav-label">הבא →</div>
+          <div class="minimal-nav-title">{{ page.next.title }}</div>
+        </a>
+      {% endif %}
+    </nav>
+  </footer>
+</article>
+
+<script>
+// Reading Progress Bar
+window.addEventListener('scroll', function() {
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = (winScroll / height) * 100;
+  document.getElementById('readingProgress').style.width = scrolled + '%';
+});
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>

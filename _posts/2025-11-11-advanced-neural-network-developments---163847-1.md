@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: post-magazine
 title: "Advanced Neural Network Developments - 16:38:47"
 date: 2025-11-11 16:38:47 +0200
 author: analist0

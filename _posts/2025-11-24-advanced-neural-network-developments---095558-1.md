@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: post-minimal
 title: "Advanced Neural Network Developments - 09:55:58"
 date: 2025-11-24 09:55:58 +0200
 author: analist0

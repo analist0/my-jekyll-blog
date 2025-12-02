@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: post-asymmetric
 title: "Latest AI Breakthroughs in Machine Learning - 16:38:47"
 date: 2025-11-11 16:38:47 +0200
 author: analist0

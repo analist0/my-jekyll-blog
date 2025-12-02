@@ -1,0 +1,530 @@
+---
+layout: default
+---
+
+<style>
+/* Visual/Grid Layout */
+.visual-layout {
+  max-width: 100%;
+  background: var(--bg-primary);
+}
+
+.visual-hero {
+  position: relative;
+  height: 80vh;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.visual-hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  opacity: 0.9;
+}
+
+.visual-hero-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.05) 35px, rgba(255,255,255,.05) 70px);
+}
+
+.visual-hero-content {
+  position: relative;
+  text-align: center;
+  color: white;
+  max-width: 900px;
+  padding: 2rem;
+  z-index: 1;
+}
+
+.visual-hero-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.visual-hero-title {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin: 0 0 1.5rem 0;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.visual-hero-meta {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  opacity: 0.95;
+}
+
+.visual-hero-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.visual-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.visual-card {
+  background: var(--bg-secondary);
+  border-radius: 25px;
+  padding: 3rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+}
+
+.visual-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+
+.visual-content {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--text-primary);
+}
+
+.visual-content p {
+  margin-bottom: 1.5rem;
+}
+
+.visual-content h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 2rem 0;
+  color: var(--text-primary);
+  background: linear-gradient(135deg, var(--accent), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.visual-content h3 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 2rem 0 1rem;
+  color: var(--text-primary);
+}
+
+.visual-content blockquote {
+  background: linear-gradient(135deg, var(--accent), var(--secondary));
+  color: white;
+  padding: 2rem 2.5rem;
+  border-radius: 20px;
+  margin: 2rem 0;
+  font-size: 1.25rem;
+  font-style: italic;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+}
+
+.visual-content blockquote::before {
+  content: '"';
+  font-size: 6rem;
+  opacity: 0.2;
+  position: absolute;
+  top: -1rem;
+  right: 1rem;
+  font-family: Georgia, serif;
+}
+
+.visual-content ul,
+.visual-content ol {
+  margin: 2rem 0;
+  padding-right: 2rem;
+}
+
+.visual-content li {
+  margin-bottom: 1rem;
+  line-height: 1.8;
+  position: relative;
+  padding-right: 1.5rem;
+}
+
+.visual-content li::before {
+  content: '▹';
+  position: absolute;
+  right: 0;
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.visual-content code {
+  background: var(--bg-primary);
+  padding: 0.25rem 0.75rem;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+  border: 1px solid var(--border);
+}
+
+.visual-content pre {
+  background: var(--bg-primary);
+  padding: 2rem;
+  border-radius: 20px;
+  overflow-x: auto;
+  margin: 2rem 0;
+  border: 1px solid var(--border);
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.visual-content img {
+  width: 100%;
+  border-radius: 20px;
+  margin: 2rem 0;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+}
+
+.visual-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.visual-grid-item {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem;
+  border-radius: 20px;
+  color: white;
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+  transition: all 0.3s ease;
+}
+
+.visual-grid-item:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 50px rgba(99, 102, 241, 0.4);
+}
+
+.visual-grid-item h4 {
+  font-size: 1.5rem;
+  margin: 0 0 1rem 0;
+}
+
+.visual-grid-item p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+.visual-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.visual-stat-card {
+  text-align: center;
+  padding: 2rem;
+  background: var(--bg-primary);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+}
+
+.visual-stat-number {
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.visual-stat-label {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+.visual-cta {
+  background: linear-gradient(135deg, var(--accent), var(--secondary));
+  color: white;
+  padding: 3rem;
+  border-radius: 25px;
+  text-align: center;
+  margin: 3rem 0;
+  box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3);
+}
+
+.visual-cta h3 {
+  font-size: 2rem;
+  margin: 0 0 1rem 0;
+}
+
+.visual-cta p {
+  font-size: 1.125rem;
+  opacity: 0.9;
+  margin-bottom: 2rem;
+}
+
+.visual-cta-button {
+  display: inline-block;
+  background: white;
+  color: var(--accent);
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.visual-cta-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.visual-share {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 3rem 0;
+}
+
+.visual-share-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  border-radius: 15px;
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.visual-share-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+.visual-share-btn.twitter { background: linear-gradient(135deg, #1DA1F2, #0d8bd9); }
+.visual-share-btn.facebook { background: linear-gradient(135deg, #4267B2, #365899); }
+.visual-share-btn.linkedin { background: linear-gradient(135deg, #0077B5, #005f8f); }
+.visual-share-btn.whatsapp { background: linear-gradient(135deg, #25D366, #1eb854); }
+
+.visual-author {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 2.5rem;
+  background: var(--bg-primary);
+  border-radius: 25px;
+  margin: 3rem 0;
+  border: 1px solid var(--border);
+}
+
+.visual-author-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  flex-shrink: 0;
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+}
+
+.visual-author-info h4 {
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.visual-author-info p {
+  margin: 0 0 1rem 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.visual-author-social {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.visual-author-social a {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+  border-radius: 50%;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+}
+
+.visual-author-social a:hover {
+  background: var(--accent);
+  color: white;
+  transform: translateY(-3px);
+  border-color: var(--accent);
+}
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+  .visual-hero {
+    height: 60vh;
+    min-height: 400px;
+  }
+
+  .visual-hero-title {
+    font-size: 2rem;
+  }
+
+  .visual-hero-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .visual-container {
+    padding: 2rem 1rem;
+  }
+
+  .visual-card {
+    padding: 2rem;
+  }
+
+  .visual-content {
+    font-size: 1rem;
+  }
+
+  .visual-content h2 {
+    font-size: 1.75rem;
+  }
+
+  .visual-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .visual-stats {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .visual-share {
+    flex-direction: column;
+  }
+
+  .visual-share-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .visual-author {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .visual-author-social {
+    justify-content: center;
+  }
+}
+</style>
+
+<article class="visual-layout">
+  <!-- Hero Section -->
+  <div class="visual-hero">
+    <div class="visual-hero-bg"></div>
+    <div class="visual-hero-pattern"></div>
+    <div class="visual-hero-content">
+      {% if page.categories %}
+        <div class="visual-hero-badge">{{ page.categories | first }}</div>
+      {% endif %}
+
+      <h1 class="visual-hero-title">{{ page.title }}</h1>
+
+      <div class="visual-hero-meta">
+        <span>📅 {{ page.date | date: "%d.%m.%Y" }}</span>
+        <span>⏱️ {{ content | number_of_words | divided_by: 200 }} דקות</span>
+        <span>✍️ {{ site.author }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="visual-container">
+    <div class="visual-card">
+      <div class="visual-content">
+        {{ content }}
+      </div>
+    </div>
+
+    <!-- Share Section -->
+    <div class="visual-card" style="text-align: center;">
+      <h3 style="margin-bottom: 2rem; font-size: 2rem;">שתפו את המאמר 🚀</h3>
+      <div class="visual-share">
+        <a href="https://twitter.com/intent/tweet?text={{ page.title }}&url={{ page.url | absolute_url }}"
+           class="visual-share-btn twitter" target="_blank" rel="noopener">
+          🐦 Twitter
+        </a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}"
+           class="visual-share-btn facebook" target="_blank" rel="noopener">
+          📘 Facebook
+        </a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ page.url | absolute_url }}"
+           class="visual-share-btn linkedin" target="_blank" rel="noopener">
+          💼 LinkedIn
+        </a>
+        <a href="https://wa.me/?text={{ page.title }}%20{{ page.url | absolute_url }}"
+           class="visual-share-btn whatsapp" target="_blank" rel="noopener">
+          💬 WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <!-- Author Card -->
+    <div class="visual-card">
+      <div class="visual-author">
+        <div class="visual-author-avatar">👨‍💻</div>
+        <div class="visual-author-info">
+          <h4>{{ site.author }}</h4>
+          <p>מפתח, יוצר תוכן ומומחה לטכנולוגיות מתקדמות. משתף ידע וחוויות בעולם הפיתוח, עיצוב ו-AI.</p>
+          <div class="visual-author-social">
+            <a href="https://twitter.com/analist0" target="_blank" aria-label="Twitter">🐦</a>
+            <a href="https://github.com/analist0" target="_blank" aria-label="GitHub">💻</a>
+            <a href="https://linkedin.com/in/analist0" target="_blank" aria-label="LinkedIn">💼</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="visual-cta">
+      <h3>רוצים תוכן נוסף?</h3>
+      <p>הצטרפו לקהילה שלנו וקבלו עדכונים על מדריכים חדשים, כלים ופרויקטים מעניינים</p>
+      <a href="/blog" class="visual-cta-button">לכל הפוסטים →</a>
+    </div>
+  </div>
+</article>

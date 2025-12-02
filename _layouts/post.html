@@ -1,266 +1,351 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- SEO Meta Tags -->
-    <title>{{ page.title }} | {{ site.title }}</title>
-    <meta name="description" content="{{ page.excerpt | default: page.description | strip_html | truncate: 160 }}">
-    <meta name="author" content="{{ page.author | default: site.author }}">
-    <meta name="keywords" content="{{ page.tags | join: ', ' }}">
-    <link rel="canonical" href="{{ page.url | absolute_url }}">
+  <!-- SEO Meta Tags -->
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <meta name="description" content="{{ page.excerpt | default: page.description | strip_html | truncate: 160 }}">
+  <meta name="author" content="{{ page.author | default: site.author }}">
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="{{ page.url | absolute_url }}">
-    <meta property="og:title" content="{{ page.title }}">
-    <meta property="og:description" content="{{ page.excerpt | default: page.description | strip_html | truncate: 160 }}">
-    <meta property="og:image" content="{{ page.image | default: '/assets/images/default-og.jpg' | absolute_url }}">
-    <meta property="og:site_name" content="{{ site.title }}">
-    <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
-    <meta property="article:author" content="{{ page.author | default: site.author }}">
-    {% for tag in page.tags %}
-    <meta property="article:tag" content="{{ tag }}">
-    {% endfor %}
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  <meta property="og:title" content="{{ page.title }}">
+  <meta property="og:description" content="{{ page.excerpt | strip_html | truncate: 160 }}">
+  <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
 
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="{{ page.url | absolute_url }}">
-    <meta name="twitter:title" content="{{ page.title }}">
-    <meta name="twitter:description" content="{{ page.excerpt | default: page.description | strip_html | truncate: 160 }}">
-    <meta name="twitter:image" content="{{ page.image | default: '/assets/images/default-og.jpg' | absolute_url }}">
-    <meta name="twitter:creator" content="@{{ site.social.twitter | default: 'analist0' }}">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page.title }}">
 
-    <!-- Subduxion Theme -->
-    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-    <link rel="stylesheet" href="{{ '/assets/css/subduxion-theme.css' | relative_url }}">
+  <!-- Styles -->
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
 
-    <!-- Fonts -->
-    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,800,900&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 
-    <!-- Schema.org Article Markup -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "headline": "{{ page.title }}",
-      "description": "{{ page.excerpt | default: page.description | strip_html | truncate: 160 }}",
-      "image": "{{ page.image | default: '/assets/images/default-og.jpg' | absolute_url }}",
-      "author": {
-        "@type": "Person",
-        "name": "{{ page.author | default: site.author }}"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "{{ site.title }}",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "{{ '/assets/images/logo.png' | absolute_url }}"
-        }
-      },
-      "datePublished": "{{ page.date | date_to_xmlschema }}",
-      "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "{{ page.url | absolute_url }}"
-      },
-      "keywords": "{{ page.tags | join: ', ' }}",
-      "articleSection": "{{ page.category | default: 'Technology' }}",
-      "inLanguage": "he-IL"
-    }
-    </script>
-  </head>
-  <body>
-    <header>
-      <h1 class="site-title"><a href="{{ '/' | relative_url }}" style="color: inherit; text-decoration: none;">{{ site.title }}</a></h1>
-      <p class="site-description">{{ site.description }}</p>
+  {% seo %}
+</head>
+<body>
+  <!-- Reading Progress Bar -->
+  <div id="reading-progress" style="position: fixed; top: 0; left: 0; width: 0; height: 3px; background: linear-gradient(90deg, #6366f1, #8b5cf6); z-index: 9999; transition: width 0.1s;"></div>
 
-      <div class="social-icons">
-        <a href="https://twitter.com/analist0" class="social-icon" target="_blank" rel="noopener" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-        <a href="https://github.com/analist0" class="social-icon" target="_blank" rel="noopener" aria-label="GitHub"><i class="fab fa-github"></i></a>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <div class="nav-container">
+        <a href="{{ '/' | relative_url }}" class="site-logo">
+          <span style="font-size: 2rem;">🎨</span>
+          <span>{{ site.title }}</span>
+        </a>
+
+        <nav class="main-nav">
+          <ul>
+            <li><a href="{{ '/' | relative_url }}">בית</a></li>
+            <li><a href="{{ '/blog' | relative_url }}">בלוג</a></li>
+            <li><a href="{{ '/portfolio' | relative_url }}">פורטפוליו</a></li>
+            <li><a href="{{ '/tutorials' | relative_url }}">מדריכים</a></li>
+            <li><a href="{{ '/about' | relative_url }}">אודות</a></li>
+          </ul>
+        </nav>
+
+        <button id="theme-toggle" class="theme-toggle" aria-label="החלף ערכת נושא">
+          <span id="theme-icon">🌙</span>
+        </button>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <nav class="nav">
-      <a href="{{ '/' | relative_url }}">בית</a>
-      <a href="{{ '/about' | relative_url }}">אודות</a>
-      <a href="{{ '/archive' | relative_url }}">ארכיון</a>
-      <a href="{{ '/contact' | relative_url }}">צור קשר</a>
-    </nav>
-
-    <!-- Article Container -->
-    <article class="post-container" itemscope itemtype="https://schema.org/BlogPosting">
-
-      <!-- Article Header -->
-      <header class="post-header">
-        <div class="container-narrow">
-
-          <!-- Breadcrumbs for SEO -->
-          <nav class="breadcrumbs" aria-label="breadcrumb">
-            <ol itemscope itemtype="https://schema.org/BreadcrumbList" style="list-style: none; padding: 0; display: flex; gap: 0.5rem; font-size: 0.9rem; color: var(--sub-gray-400); margin-bottom: 2rem;">
-              <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                <a href="{{ '/' | relative_url }}" itemprop="item" style="color: var(--sub-gray-400);">
-                  <span itemprop="name">בית</span>
-                </a>
-                <meta itemprop="position" content="1" />
-                <span style="margin: 0 0.5rem;">/</span>
-              </li>
-              <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-                <span itemprop="name" style="color: var(--sub-lime);">{{ page.title | truncate: 50 }}</span>
-                <meta itemprop="position" content="2" />
-              </li>
-            </ol>
-          </nav>
-
-          <!-- Category Badge -->
-          {% if page.category %}
-          <div style="margin-bottom: 1rem;">
-            <span class="tag" style="background: var(--sub-lime); color: var(--sub-black); font-size: 0.85rem;">
-              {{ page.category }}
-            </span>
-          </div>
-          {% endif %}
-
-          <!-- Title -->
-          <h1 class="post-title" itemprop="headline">{{ page.title }}</h1>
-
-          <!-- Meta Info -->
-          <div class="post-meta">
-            <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
-              <i class="far fa-calendar"></i> {{ page.date | date: "%d.%m.%Y" }}
-            </time>
-            <span class="separator">•</span>
-            <span itemprop="author" itemscope itemtype="https://schema.org/Person">
-              <i class="far fa-user"></i> <span itemprop="name">{{ page.author | default: site.author }}</span>
-            </span>
-            <span class="separator">•</span>
-            <span>
-              <i class="far fa-clock"></i> {{ page.content | number_of_words | divided_by: 180 | at_least: 1 }} דקות קריאה
-            </span>
-          </div>
-
-          <!-- Tags -->
-          {% if page.tags %}
-          <div class="post-tags">
-            {% for tag in page.tags %}
-            <span class="tag" itemprop="keywords">{{ tag }}</span>
-            {% endfor %}
-          </div>
-          {% endif %}
-
+  <!-- Article -->
+  <article class="post-article">
+    <!-- Hero Section -->
+    <section class="post-hero">
+      <div class="container">
+        <div class="post-breadcrumbs">
+          <a href="{{ '/' | relative_url }}">בית</a>
+          <span>/</span>
+          <a href="{{ '/blog' | relative_url }}">בלוג</a>
+          <span>/</span>
+          <span>{{ page.title | truncate: 30 }}</span>
         </div>
-      </header>
 
-      <!-- Article Content -->
-      <div class="post-content" itemprop="articleBody">
-        <div class="container-narrow">
+        {% if page.categories %}
+        <div class="post-category">
+          <span class="category-badge">{{ page.categories | first }}</span>
+        </div>
+        {% endif %}
+
+        <h1 class="post-title">{{ page.title }}</h1>
+
+        <div class="post-meta">
+          <time datetime="{{ page.date | date_to_xmlschema }}">
+            📅 {{ page.date | date: "%d.%m.%Y" }}
+          </time>
+          <span>•</span>
+          <span>👤 {{ page.author | default: site.author }}</span>
+          <span>•</span>
+          <span>⏱️ {{ page.content | number_of_words | divided_by: 180 | at_least: 1 }} דקות קריאה</span>
+        </div>
+
+        {% if page.tags %}
+        <div class="post-tags">
+          {% for tag in page.tags %}
+          <span class="tag">#{{ tag }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- Content with Sidebar -->
+    <div class="post-container">
+      <div class="container" style="display: grid; grid-template-columns: 1fr min(800px, 100%) 250px 1fr; gap: 3rem; padding: 3rem 2rem;">
+
+        <!-- Left Spacer -->
+        <div></div>
+
+        <!-- Main Content -->
+        <div class="post-content reveal">
           {{ content }}
-        </div>
-      </div>
 
-      <!-- Article Footer -->
-      <footer class="post-footer">
-        <div class="container-narrow">
-
-          <div class="divider"></div>
-
-          <!-- Share Buttons -->
-          <div class="share-section">
-            <h3>שתף את המאמר</h3>
+          <!-- Share Section -->
+          <div class="post-share">
+            <h3>שתפו את המאמר:</h3>
             <div class="share-buttons">
               <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ page.url | absolute_url | url_encode }}"
-                 class="button button-ghost" target="_blank" rel="noopener" aria-label="Share on Twitter">
-                <i class="fab fa-twitter"></i> Twitter
+                 target="_blank"
+                 rel="noopener"
+                 class="share-btn twitter"
+                 aria-label="Share on Twitter">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+                </svg>
+                <span>Twitter</span>
               </a>
+
               <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url | url_encode }}"
-                 class="button button-ghost" target="_blank" rel="noopener" aria-label="Share on Facebook">
-                <i class="fab fa-facebook"></i> Facebook
+                 target="_blank"
+                 rel="noopener"
+                 class="share-btn facebook"
+                 aria-label="Share on Facebook">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+                <span>Facebook</span>
               </a>
+
               <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ page.url | absolute_url | url_encode }}&title={{ page.title | url_encode }}"
-                 class="button button-ghost" target="_blank" rel="noopener" aria-label="Share on LinkedIn">
-                <i class="fab fa-linkedin"></i> LinkedIn
+                 target="_blank"
+                 rel="noopener"
+                 class="share-btn linkedin"
+                 aria-label="Share on LinkedIn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+                <span>LinkedIn</span>
               </a>
+
               <a href="https://api.whatsapp.com/send?text={{ page.title | url_encode }}%20{{ page.url | absolute_url | url_encode }}"
-                 class="button button-ghost" target="_blank" rel="noopener" aria-label="Share on WhatsApp">
-                <i class="fab fa-whatsapp"></i> WhatsApp
+                 target="_blank"
+                 rel="noopener"
+                 class="share-btn whatsapp"
+                 aria-label="Share on WhatsApp">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                </svg>
+                <span>WhatsApp</span>
               </a>
             </div>
           </div>
-
-          <div class="divider"></div>
-
-          <!-- Author Bio -->
-          <div class="author-bio">
-            <h3>על הכותב</h3>
-            <div class="author-card">
-              <div class="author-info">
-                <h4>{{ page.author | default: site.author }}</h4>
-                <p>{{ site.description }}</p>
-                <div class="author-social">
-                  <a href="https://twitter.com/analist0" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a>
-                  <a href="https://github.com/analist0" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="divider"></div>
-
-          <!-- Related Posts -->
-          {% if site.related_posts.size > 0 %}
-          <div class="related-posts">
-            <h3>מאמרים נוספים שעשויים לעניין אותך</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
-              {% for post in site.related_posts limit:3 %}
-              <article class="card">
-                <h4><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h4>
-                <p class="text-muted">{{ post.date | date: "%d.%m.%Y" }}</p>
-                <p>{{ post.excerpt | strip_html | truncate: 100 }}</p>
-                <a href="{{ post.url | relative_url }}" class="button button-lime-ghost" style="margin-top: 1rem;">קרא עוד</a>
-              </article>
-              {% endfor %}
-            </div>
-          </div>
-          {% endif %}
-
         </div>
-      </footer>
 
-    </article>
+        <!-- Right Sidebar (Table of Contents) -->
+        <aside class="post-sidebar">
+          <div class="toc-container" style="position: sticky; top: 100px;">
+            <h3 style="margin-bottom: 1rem; color: var(--text-primary);">תוכן עניינים</h3>
+            <div id="toc" class="toc-list"></div>
+          </div>
+        </aside>
 
-    <!-- Site Footer -->
-    <footer style="margin-top: 4rem;">
-      <p>&copy; {{ site.time | date: '%Y' }} {{ site.title }}. כל הזכויות שמורות.</p>
-      <p>Powered by Jekyll and GitHub Pages</p>
-      <div class="social-icons">
-        <a href="https://twitter.com/analist0" class="social-icon"><i class="fab fa-twitter"></i></a>
-        <a href="https://github.com/analist0" class="social-icon"><i class="fab fa-github"></i></a>
+        <!-- Right Spacer -->
+        <div></div>
       </div>
-    </footer>
+    </div>
 
-    <style>
-    /* Post-specific styles */
-    .post-container {
-      background: var(--sub-black);
-      min-height: 100vh;
+    <!-- Author Section -->
+    <section class="post-author reveal" style="background: var(--bg-secondary); padding: 3rem 0;">
+      <div class="container" style="max-width: 800px;">
+        <h3 style="margin-bottom: 1.5rem;">על הכותב</h3>
+        <div style="display: flex; gap: 2rem; align-items: center; background: var(--bg-primary); padding: 2rem; border-radius: 20px; border: 1px solid var(--border);">
+          <div style="font-size: 5rem;">👤</div>
+          <div>
+            <h4 style="margin-bottom: 0.5rem; color: var(--text-primary);">{{ page.author | default: site.author }}</h4>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">{{ site.description }}</p>
+            <div style="display: flex; gap: 1rem;">
+              <a href="https://twitter.com/analist0" target="_blank" style="color: var(--accent);">Twitter</a>
+              <a href="https://github.com/analist0" target="_blank" style="color: var(--accent);">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Posts -->
+    {% if site.related_posts.size > 0 %}
+    <section class="related-posts reveal" style="padding: 4rem 0;">
+      <div class="container" style="max-width: 1200px;">
+        <h2 style="text-align: center; margin-bottom: 3rem;">מאמרים קשורים</h2>
+        <div class="posts-grid">
+          {% for post in site.related_posts limit:3 %}
+          <article class="post-card">
+            <div class="post-image" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); display: flex; align-items: center; justify-content: center; font-size: 4rem; height: 200px; border-radius: 20px 20px 0 0;">
+              📝
+            </div>
+            <div class="post-content">
+              <div class="post-meta">
+                <span>{{ post.date | date: "%d.%m.%Y" }}</span>
+              </div>
+              <h3 class="post-title">
+                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+              </h3>
+              <p class="post-excerpt">
+                {{ post.excerpt | strip_html | truncate: 100 }}
+              </p>
+              <a href="{{ post.url | relative_url }}" class="read-more">קרא עוד →</a>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- Navigation -->
+    <nav class="post-navigation" style="background: var(--bg-secondary); padding: 2rem 0;">
+      <div class="container" style="max-width: 1200px; display: flex; justify-content: space-between; gap: 2rem;">
+        {% if page.previous %}
+        <a href="{{ page.previous.url | relative_url }}" class="nav-link prev" style="flex: 1; padding: 1.5rem; background: var(--bg-primary); border-radius: 20px; border: 1px solid var(--border); transition: all 0.3s ease;">
+          <span style="color: var(--text-secondary); font-size: 0.875rem;">← הקודם</span>
+          <h4 style="margin-top: 0.5rem; color: var(--text-primary);">{{ page.previous.title }}</h4>
+        </a>
+        {% else %}
+        <div style="flex: 1;"></div>
+        {% endif %}
+
+        {% if page.next %}
+        <a href="{{ page.next.url | relative_url }}" class="nav-link next" style="flex: 1; padding: 1.5rem; background: var(--bg-primary); border-radius: 20px; border: 1px solid var(--border); transition: all 0.3s ease; text-align: left;">
+          <span style="color: var(--text-secondary); font-size: 0.875rem;">הבא →</span>
+          <h4 style="margin-top: 0.5rem; color: var(--text-primary);">{{ page.next.title }}</h4>
+        </a>
+        {% else %}
+        <div style="flex: 1;"></div>
+        {% endif %}
+      </div>
+    </nav>
+  </article>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; {{ 'now' | date: "%Y" }} {{ site.title }}. כל הזכויות שמורות.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+
+  <!-- Table of Contents Generator -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const content = document.querySelector('.post-content');
+      const toc = document.getElementById('toc');
+      const headings = content.querySelectorAll('h2, h3');
+
+      if (headings.length > 0 && toc) {
+        const tocList = document.createElement('ul');
+        tocList.style.listStyle = 'none';
+        tocList.style.padding = '0';
+
+        headings.forEach((heading, index) => {
+          const id = 'heading-' + index;
+          heading.id = id;
+
+          const li = document.createElement('li');
+          li.style.marginBottom = '0.75rem';
+
+          if (heading.tagName === 'H3') {
+            li.style.paddingRight = '1rem';
+          }
+
+          const link = document.createElement('a');
+          link.href = '#' + id;
+          link.textContent = heading.textContent;
+          link.style.color = 'var(--text-secondary)';
+          link.style.textDecoration = 'none';
+          link.style.fontSize = '0.875rem';
+          link.style.transition = 'color 0.3s ease';
+
+          link.addEventListener('mouseenter', function() {
+            this.style.color = 'var(--accent)';
+          });
+
+          link.addEventListener('mouseleave', function() {
+            this.style.color = 'var(--text-secondary)';
+          });
+
+          li.appendChild(link);
+          tocList.appendChild(li);
+        });
+
+        toc.appendChild(tocList);
+      } else if (toc) {
+        toc.parentElement.style.display = 'none';
+      }
+    });
+  </script>
+
+  <style>
+    /* Post Styles */
+    .post-article {
+      padding-top: 80px;
     }
 
-    .post-header {
-      padding: var(--space-5xl) 0 var(--space-3xl) 0;
-      background: linear-gradient(180deg, var(--sub-gray-900) 0%, var(--sub-black) 100%);
+    .post-hero {
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+      padding: 4rem 0 3rem;
+    }
+
+    .post-breadcrumbs {
+      display: flex;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .post-breadcrumbs a {
+      color: var(--text-secondary);
+    }
+
+    .post-breadcrumbs a:hover {
+      color: var(--accent);
+    }
+
+    .post-category {
+      margin-bottom: 1.5rem;
     }
 
     .post-title {
-      font-size: var(--text-6xl);
+      font-size: clamp(2rem, 5vw, 3.5rem);
       font-weight: 900;
-      line-height: 1.1;
-      margin: var(--space-lg) 0;
-      background: linear-gradient(135deg, var(--sub-white) 0%, var(--sub-lime) 100%);
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, var(--text-primary), var(--accent));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -269,154 +354,160 @@
     .post-meta {
       display: flex;
       flex-wrap: wrap;
-      gap: var(--space-md);
-      align-items: center;
-      color: var(--sub-gray-400);
-      font-size: var(--text-base);
-      margin: var(--space-xl) 0;
-      font-family: var(--font-inter);
-    }
-
-    .post-meta .separator {
-      color: var(--sub-gray-600);
+      gap: 1rem;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
     }
 
     .post-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: var(--space-sm);
-      margin-top: var(--space-xl);
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .tag {
+      padding: 0.25rem 0.75rem;
+      background: var(--bg-secondary);
+      border-radius: 20px;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
     }
 
     .post-content {
-      padding: var(--space-4xl) 0;
-      font-size: var(--text-lg);
-      line-height: 1.9;
-      color: var(--sub-gray-200);
+      font-size: 1.125rem;
+      line-height: 1.8;
+      color: var(--text-primary);
     }
 
     .post-content h2 {
-      margin-top: var(--space-4xl);
-      margin-bottom: var(--space-xl);
-      padding-bottom: var(--space-md);
-      border-bottom: 2px solid var(--sub-lime);
-      color: var(--sub-white) !important;
+      font-size: 2rem;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border);
     }
 
     .post-content h3 {
-      margin-top: var(--space-3xl);
-      margin-bottom: var(--space-lg);
-      color: var(--sub-white) !important;
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
     }
 
     .post-content p {
-      margin-bottom: var(--space-xl);
+      margin-bottom: 1.5rem;
     }
 
     .post-content img {
       max-width: 100%;
       height: auto;
+      border-radius: 20px;
+      margin: 2rem 0;
+    }
+
+    .post-content code {
+      background: var(--bg-secondary);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+
+    .post-content pre {
+      background: var(--bg-secondary);
+      padding: 1.5rem;
       border-radius: 12px;
-      margin: var(--space-3xl) 0;
-      box-shadow: var(--shadow-xl);
+      overflow-x: auto;
+      margin: 2rem 0;
     }
 
     .post-content blockquote {
-      background: var(--sub-gray-900);
-      border-right: 4px solid var(--sub-lime);
-      padding: var(--space-xl);
-      margin: var(--space-3xl) 0;
+      border-right: 4px solid var(--accent);
+      padding-right: 1.5rem;
+      margin: 2rem 0;
       font-style: italic;
-      border-radius: 0 12px 12px 0;
+      color: var(--text-secondary);
     }
 
-    .post-footer {
-      padding: var(--space-4xl) 0;
-    }
-
-    .share-section {
+    .post-share {
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid var(--border);
       text-align: center;
-      padding: var(--space-3xl) 0;
     }
 
-    .share-section h3 {
-      margin-bottom: var(--space-xl);
-      color: var(--sub-white);
+    .post-share h3 {
+      margin-bottom: 1.5rem;
+      font-size: 1.25rem;
     }
 
     .share-buttons {
       display: flex;
       justify-content: center;
-      gap: var(--space-md);
+      gap: 1rem;
       flex-wrap: wrap;
     }
 
-    .author-bio {
-      padding: var(--space-3xl) 0;
-    }
-
-    .author-card {
-      background: var(--sub-gray-900);
-      border: 1px solid var(--sub-gray-800);
-      border-radius: 16px;
-      padding: var(--space-2xl);
-      margin-top: var(--space-xl);
-    }
-
-    .author-info h4 {
-      color: var(--sub-lime);
-      margin-bottom: var(--space-md);
-    }
-
-    .author-social {
-      display: flex;
-      gap: var(--space-md);
-      margin-top: var(--space-lg);
-    }
-
-    .author-social a {
-      width: 40px;
-      height: 40px;
+    .share-btn {
       display: flex;
       align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      background: var(--sub-gray-800);
-      color: var(--sub-white);
-      transition: all var(--transition-fast);
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 2px solid var(--border);
+      background: transparent;
+      color: var(--text-primary);
     }
 
-    .author-social a:hover {
-      background: var(--sub-lime);
-      color: var(--sub-black);
+    .share-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--shadow);
     }
 
-    .related-posts {
-      padding: var(--space-3xl) 0;
+    .share-btn.twitter:hover { border-color: #1DA1F2; color: #1DA1F2; }
+    .share-btn.facebook:hover { border-color: #4267B2; color: #4267B2; }
+    .share-btn.linkedin:hover { border-color: #0077b5; color: #0077b5; }
+    .share-btn.whatsapp:hover { border-color: #25D366; color: #25D366; }
+
+    .nav-link:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
     }
 
-    @media (max-width: 768px) {
-      .post-title {
-        font-size: var(--text-4xl);
+    /* Mobile Styles */
+    @media (max-width: 968px) {
+      .post-container > .container {
+        grid-template-columns: 1fr !important;
+        gap: 0 !important;
       }
 
-      .post-meta {
-        font-size: var(--text-sm);
-        gap: var(--space-sm);
+      .post-sidebar {
+        display: none;
+      }
+
+      .post-title {
+        font-size: 2rem;
       }
 
       .post-content {
-        font-size: var(--text-base);
+        font-size: 1rem;
       }
 
       .share-buttons {
         flex-direction: column;
       }
 
-      .share-buttons .button {
+      .share-btn {
         width: 100%;
+        justify-content: center;
+      }
+
+      .post-navigation > .container {
+        flex-direction: column;
       }
     }
-    </style>
-  </body>
+  </style>
+</body>
 </html>

@@ -1,0 +1,505 @@
+---
+layout: default
+---
+
+<style>
+/* Magazine Layout Styles */
+.magazine-layout {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.magazine-hero {
+  position: relative;
+  height: 60vh;
+  min-height: 400px;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 3rem;
+}
+
+.magazine-hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7);
+}
+
+.magazine-hero-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 3rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+  color: white;
+}
+
+.magazine-hero-category {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.magazine-hero-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  margin: 0 0 1rem 0;
+  line-height: 1.2;
+}
+
+.magazine-hero-meta {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.magazine-hero-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.magazine-content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 4rem;
+  align-items: start;
+}
+
+.magazine-main-content {
+  min-width: 0;
+}
+
+.magazine-article {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: var(--text-primary);
+}
+
+.magazine-article p {
+  margin-bottom: 1.5rem;
+}
+
+.magazine-article h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 3rem 0 1.5rem;
+  color: var(--text-primary);
+  border-right: 4px solid var(--accent);
+  padding-right: 1rem;
+}
+
+.magazine-article h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 2rem 0 1rem;
+  color: var(--text-primary);
+}
+
+.magazine-article blockquote {
+  border-right: 4px solid var(--accent);
+  padding: 1.5rem 2rem;
+  margin: 2rem 0;
+  background: var(--bg-secondary);
+  border-radius: 10px;
+  font-style: italic;
+  font-size: 1.25rem;
+}
+
+.magazine-article code {
+  background: var(--bg-secondary);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.magazine-article pre {
+  background: var(--bg-secondary);
+  padding: 1.5rem;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin: 2rem 0;
+}
+
+.magazine-article img {
+  width: 100%;
+  border-radius: 15px;
+  margin: 2rem 0;
+}
+
+.magazine-sidebar {
+  position: sticky;
+  top: 100px;
+}
+
+.sidebar-card {
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border);
+}
+
+.sidebar-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.author-card {
+  text-align: center;
+}
+
+.author-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--secondary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  margin: 0 auto 1rem;
+}
+
+.author-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.author-bio {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.author-social {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.author-social a {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  border-radius: 50%;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.author-social a:hover {
+  background: var(--accent);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.category-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.category-list li {
+  margin-bottom: 0.75rem;
+}
+
+.category-list a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--bg-primary);
+  border-radius: 10px;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.category-list a:hover {
+  background: var(--accent);
+  color: white;
+  transform: translateX(-5px);
+}
+
+.recent-post-item {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.recent-post-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.recent-post-thumbnail {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.recent-post-info h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.4;
+}
+
+.recent-post-info h4 a {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.recent-post-info h4 a:hover {
+  color: var(--accent);
+}
+
+.recent-post-date {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.magazine-share {
+  margin: 3rem 0;
+  padding: 2rem;
+  background: var(--bg-secondary);
+  border-radius: 20px;
+  text-align: center;
+}
+
+.magazine-share h3 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.share-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.share-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.share-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.share-btn.twitter { background: #1DA1F2; }
+.share-btn.facebook { background: #4267B2; }
+.share-btn.linkedin { background: #0077B5; }
+.share-btn.whatsapp { background: #25D366; }
+
+/* Mobile Optimization */
+@media (max-width: 1024px) {
+  .magazine-content-wrapper {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .magazine-sidebar {
+    position: static;
+  }
+
+  .magazine-hero {
+    height: 50vh;
+    min-height: 300px;
+  }
+
+  .magazine-hero-overlay {
+    padding: 2rem;
+  }
+
+  .magazine-hero-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .magazine-article {
+    font-size: 1rem;
+  }
+
+  .magazine-article h2 {
+    font-size: 1.5rem;
+  }
+
+  .share-buttons {
+    flex-direction: column;
+  }
+
+  .share-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+</style>
+
+<article class="magazine-layout">
+  <!-- Hero Section with Featured Image -->
+  <div class="magazine-hero">
+    {% if page.image %}
+      <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" class="magazine-hero-image">
+    {% else %}
+      <div class="magazine-hero-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+    {% endif %}
+
+    <div class="magazine-hero-overlay">
+      {% if page.categories %}
+        <span class="magazine-hero-category">{{ page.categories | first }}</span>
+      {% endif %}
+
+      <h1 class="magazine-hero-title">{{ page.title }}</h1>
+
+      <div class="magazine-hero-meta">
+        <span>
+          📅 {{ page.date | date: "%d.%m.%Y" }}
+        </span>
+        <span>
+          ⏱️ זמן קריאה: {{ content | number_of_words | divided_by: 200 }} דקות
+        </span>
+        <span>
+          ✍️ {{ site.author }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Grid: Main + Sidebar -->
+  <div class="magazine-content-wrapper">
+    <!-- Main Article Content -->
+    <div class="magazine-main-content">
+      <div class="magazine-article">
+        {{ content }}
+      </div>
+
+      <!-- Share Section -->
+      <div class="magazine-share">
+        <h3>שתפו את המאמר</h3>
+        <div class="share-buttons">
+          <a href="https://twitter.com/intent/tweet?text={{ page.title }}&url={{ page.url | absolute_url }}"
+             class="share-btn twitter" target="_blank" rel="noopener">
+            🐦 Twitter
+          </a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}"
+             class="share-btn facebook" target="_blank" rel="noopener">
+            📘 Facebook
+          </a>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ page.url | absolute_url }}"
+             class="share-btn linkedin" target="_blank" rel="noopener">
+            💼 LinkedIn
+          </a>
+          <a href="https://wa.me/?text={{ page.title }}%20{{ page.url | absolute_url }}"
+             class="share-btn whatsapp" target="_blank" rel="noopener">
+            💬 WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="magazine-sidebar">
+      <!-- Author Card -->
+      <div class="sidebar-card author-card">
+        <div class="author-avatar">👨‍💻</div>
+        <div class="author-name">{{ site.author }}</div>
+        <p class="author-bio">
+          מפתח, יוצר תוכן ומומחה לטכנולוגיות מתקדמות. משתף ידע וחוויות בעולם הפיתוח.
+        </p>
+        <div class="author-social">
+          <a href="https://twitter.com/analist0" target="_blank" aria-label="Twitter">🐦</a>
+          <a href="https://github.com/analist0" target="_blank" aria-label="GitHub">💻</a>
+          <a href="https://linkedin.com/in/analist0" target="_blank" aria-label="LinkedIn">💼</a>
+        </div>
+      </div>
+
+      <!-- Categories -->
+      <div class="sidebar-card">
+        <h3>קטגוריות</h3>
+        <ul class="category-list">
+          <li><a href="/blog?category=technology">🚀 טכנולוגיה</a></li>
+          <li><a href="/blog?category=design">🎨 עיצוב</a></li>
+          <li><a href="/blog?category=tutorials">📚 מדריכים</a></li>
+          <li><a href="/blog?category=development">💻 פיתוח</a></li>
+        </ul>
+      </div>
+
+      <!-- Recent Posts -->
+      <div class="sidebar-card">
+        <h3>פוסטים אחרונים</h3>
+        {% for post in site.posts limit:3 %}
+          {% if post.url != page.url %}
+            <div class="recent-post-item">
+              <div class="recent-post-thumbnail">
+                {% if post.categories contains 'design' %}
+                  🎨
+                {% elsif post.categories contains 'tutorials' %}
+                  📚
+                {% elsif post.categories contains 'development' %}
+                  💻
+                {% else %}
+                  📝
+                {% endif %}
+              </div>
+              <div class="recent-post-info">
+                <h4><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h4>
+                <div class="recent-post-date">{{ post.date | date: "%d.%m.%Y" }}</div>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <!-- Newsletter Signup -->
+      <div class="sidebar-card" style="background: linear-gradient(135deg, var(--accent), var(--secondary)); color: white;">
+        <h3 style="color: white;">📬 הצטרפו לניוזלטר</h3>
+        <p style="margin-bottom: 1rem; opacity: 0.9;">קבלו עדכונים על תוכן חדש ומדריכים בלעדיים</p>
+        <form style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <input type="email" placeholder="האימייל שלכם"
+                 style="padding: 0.75rem; border: none; border-radius: 10px; font-size: 1rem;">
+          <button type="submit" class="btn btn-primary"
+                  style="background: white; color: var(--accent); width: 100%; border: none; cursor: pointer;">
+            הרשמה
+          </button>
+        </form>
+      </div>
+    </aside>
+  </div>
+</article>
