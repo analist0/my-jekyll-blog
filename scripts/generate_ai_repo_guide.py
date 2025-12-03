@@ -107,11 +107,17 @@ def capture_repo_screenshot(repo_url, output_path):
             browser = p.chromium.launch()
             page = browser.new_page(viewport={"width": 1280, "height": 1024})
 
-            # Navigate to repo
-            page.goto(repo_url, wait_until="networkidle")
+            # Navigate to repo with longer timeout and domcontentloaded instead of networkidle
+            page.goto(repo_url, wait_until="domcontentloaded", timeout=60000)
 
-            # Wait for content to load
-            page.wait_for_selector("article.markdown-body", timeout=10000)
+            # Wait a bit for images and content to load
+            time.sleep(3)
+
+            # Try to wait for the main content (optional - don't fail if not found)
+            try:
+                page.wait_for_selector("article.markdown-body", timeout=5000)
+            except:
+                pass  # Continue anyway
 
             # Take screenshot
             page.screenshot(path=output_path, full_page=False)
@@ -121,6 +127,22 @@ def capture_repo_screenshot(repo_url, output_path):
             return True
     except Exception as e:
         print(f"⚠️  Error capturing screenshot: {e}")
+        # Create a placeholder image if screenshot fails
+        try:
+            from PIL import Image, ImageDraw, ImageFont
+            img = Image.new('RGB', (1280, 1024), color=(13, 17, 23))
+            draw = ImageDraw.Draw(img)
+
+            # Add text: "GitHub Repository Screenshot Failed"
+            text = "📸 Screenshot Failed\nView at GitHub"
+            draw.text((640, 512), text, fill=(139, 148, 158), anchor="mm")
+
+            os.makedirs(os.path.dirname(output_path), exist_ok=True)
+            img.save(output_path)
+            print(f"⚠️  Created placeholder image at {output_path}")
+        except Exception as img_error:
+            print(f"❌ Could not create placeholder: {img_error}")
+
         return False
 
 def generate_guide_with_claude(repo, readme_content):
