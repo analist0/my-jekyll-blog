@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "מדריך מקצועי: ollama - Get up and running with OpenAI gpt-oss, DeepSeek-R1, Gemma 3 and other models."
-date: 2025-12-03 18:58:45 +0200
+date: 2025-12-03 19:13:07 +0200
 categories: [AI, LLM, מדריכים]
 tags: [local-ai, llm, installation, go]
 image: /assets/images/repos/ollama-20251203.png
@@ -20,175 +20,81 @@ dir: rtl
 
 ---
 
-# 🦙 מדריך התקנה מקיף ל-Ollama - הרצת מודלי AI מקומית
-
-## 📋 תוכן עניינים
-1. [סקירה כללית](#סקירה-כללית)
-2. [דרישות מערכת](#דרישות-מערכת)
-3. [התקנה צעד אחר צעד](#התקנה-צעד-אחר-צעד)
-4. [הגדרה ראשונית](#הגדרה-ראשונית)
-5. [שימוש בסיסי](#שימוש-בסיסי)
-6. [טיפים מתקדמים](#טיפים-מתקדמים)
-7. [פתרון בעיות נפוצות](#פתרון-בעיות-נפוצות)
-8. [משאבים נוספים](#משאבים-נוספים)
-
----
+# 📚 מדריך התקנה מקיף ל-Ollama - הרצת מודלי AI מקומית
 
 ## 🎯 סקירה כללית
 
-### מה זה Ollama?
+**Ollama** היא פלטפורמה קלה ויעילה להרצת מודלי שפה גדולים (LLMs) באופן מקומי על המחשב שלך. במקום להסתמך על שירותי ענן יקרים, Ollama מאפשרת לך להריץ מודלים כמו Llama, Gemma, DeepSeek-R1 ועוד ישירות על המכונה שלך.
 
-**Ollama** היא פלטפורמה מקומית להרצת מודלי שפה גדולים (LLM) על המחשב האישי שלך. עם למעלה מ-**156,000 כוכבים** ב-GitHub, זהו הכלי המוביל להרצת AI באופן פרטי ומקומי.
+### 🌟 למה Ollama?
 
-### 🌟 יתרונות מרכזיים
-
-- **🔒 פרטיות מלאה** - כל הנתונים נשארים במחשב שלך
-- **⚡ ביצועים מהירים** - אין תלות בחיבור אינטרנט
-- **💰 חינמי לחלוטין** - ללא עלויות API
-- **🎨 התאמה אישית** - יכולת להתאים מודלים לצרכים שלך
-- **🔌 אינטגרציה פשוטה** - ספריות Python ו-JavaScript
-
-### למי זה מיועד?
-
-✅ מפתחים שרוצים לשלב AI באפליקציות  
-✅ חוקרים שזקוקים לפרטיות מלאה  
-✅ חובבי AI שרוצים להתנסות במודלים שונים  
-✅ ארגונים עם דרישות אבטחת מידע מחמירות
+- **🔒 פרטיות מלאה** - הנתונים שלך נשארים אצלך במחשב
+- **💰 חינם לחלוטין** - ללא עלויות API או מנויים חודשיים
+- **⚡ מהירות** - אין תלות ברשת, תגובות מיידיות
+- **🎨 התאמה אישית** - יכולת לכוונן ולהתאים מודלים לצרכים שלך
+- **🔌 עבודה אופליין** - פועל גם ללא חיבור לאינטרנט
 
 ---
 
 ## 💻 דרישות מערכת
 
-### דרישות חומרה מינימליות
+### דרישות מינימום:
 
-#### מודלים קטנים (1B-7B פרמטרים)
-- **RAM**: 8GB מינימום
-- **אחסון**: 10GB פנויים
-- **מעבד**: Intel i5/AMD Ryzen 5 או טוב יותר
-- **GPU** (אופציונלי): NVIDIA עם 4GB VRAM
+| רכיב | דרישה |
+|------|-------|
+| **RAM** | 8GB (למודלים של 7B פרמטרים) |
+| **אחסון** | 10GB פנויים לפחות |
+| **מעבד** | מעבד מודרני (Intel i5/AMD Ryzen 5 ומעלה) |
+| **מערכת הפעלה** | Windows 10+, macOS 11+, או Linux |
 
-#### מודלים בינוניים (13B-33B פרמטרים)
-- **RAM**: 16GB מינימום
-- **אחסון**: 30GB פנויים
-- **מעבד**: Intel i7/AMD Ryzen 7
-- **GPU** (מומלץ): NVIDIA עם 8GB VRAM
+### דרישות מומלצות:
 
-#### מודלים גדולים (70B+ פרמטרים)
-- **RAM**: 32GB ומעלה
-- **אחסון**: 100GB+ פנויים
-- **מעבד**: Intel i9/AMD Ryzen 9
-- **GPU** (הכרחי): NVIDIA RTX 3090/4090 או A100
+| גודל מודל | RAM מומלץ | דוגמה |
+|-----------|-----------|--------|
+| 1B-7B | 8-16GB | Gemma 3:1b, Llama 3.2 |
+| 13B-27B | 16-32GB | Gemma 3:27b, Phi 4 |
+| 33B-70B | 32-64GB | Llama 3.3, QwQ |
+| 100B+ | 64GB+ | Llama 4, DeepSeek-R1:671b |
 
-### ⚠️ הערות חשובות
+⚠️ **הערה חשובה**: מודלים גדולים יותר דורשים יותר זיכרון. אם אין לך מספיק RAM, המערכת תשתמש ב-swap ותהיה איטית מאוד.
 
-> **שימו לב**: הרצת מודלים על CPU בלבד אפשרית אך תהיה **איטית משמעותית**. מומלץ מאוד GPU של NVIDIA עם תמיכת CUDA.
-
-### מערכות הפעלה נתמכות
-
-- 🍎 **macOS** 11 Big Sur ומעלה (Intel ו-Apple Silicon)
-- 🪟 **Windows** 10/11 (64-bit)
-- 🐧 **Linux** - רוב ההפצות (Ubuntu, Debian, Fedora, Arch וכו')
-- 🐳 **Docker** - כל פלטפורמה עם Docker
+💡 **טיפ**: אם יש לך כרטיס מסך NVIDIA, Ollama תשתמש בו אוטומטית להאצת החישובים.
 
 ---
 
 ## 🚀 התקנה צעד אחר צעד
 
-### 🍎 macOS
-
-#### שיטה 1: התקנה גרפית (מומלץ למתחילים)
-
-1. **הורדת הקובץ**
-   ```bash
-   # גשו לדפדפן והורידו את הקובץ
-   # או השתמשו ב-curl:
-   curl -L https://ollama.com/download/Ollama.dmg -o Ollama.dmg
-   ```
-
-2. **התקנה**
-   - פתחו את הקובץ `Ollama.dmg`
-   - גררו את Ollama לתיקיית Applications
-   - פתחו את Ollama מה-Launchpad
-
-3. **אימות ההתקנה**
-   ```bash
-   # פתחו Terminal ובדקו:
-   ollama --version
-   ```
-
-#### שיטה 2: התקנה דרך Homebrew
-
-```bash
-# אם אין לכם Homebrew, התקינו אותו תחילה:
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# התקנת Ollama
-brew install ollama
-
-# הפעלת השירות
-brew services start ollama
-```
-
-### 🪟 Windows
-
-#### התקנה סטנדרטית
-
-1. **הורדה והתקנה**
-   ```powershell
-   # הורידו את הקובץ או השתמשו ב-PowerShell:
-   Invoke-WebRequest -Uri "https://ollama.com/download/OllamaSetup.exe" -OutFile "OllamaSetup.exe"
-   
-   # הרצת ההתקנה
-   .\OllamaSetup.exe
-   ```
-
-2. **עקבו אחר אשף ההתקנה**
-   - לחצו Next/Install
-   - בחרו את תיקיית ההתקנה (ברירת מחדל: `C:\Program Files\Ollama`)
-   - המתינו לסיום ההתקנה
-
-3. **אימות**
-   ```powershell
-   # פתחו PowerShell או CMD
-   ollama --version
-   ```
-
-#### ⚙️ הגדרת GPU ב-Windows
-
-```powershell
-# בדיקת תמיכת CUDA (לבעלי כרטיסי NVIDIA)
-nvidia-smi
-
-# אם הפקודה עובדת, Ollama יזהה אוטומטית את ה-GPU
-# אחרת, התקינו את NVIDIA CUDA Toolkit:
-# https://developer.nvidia.com/cuda-downloads
-```
-
 ### 🐧 Linux
 
-#### שיטה 1: סקריפט התקנה אוטומטי (מומלץ)
+#### שיטה 1: התקנה אוטומטית (מומלץ)
 
 ```bash
-# התקנה בפקודה אחת
+# הורדה והתקנה בפקודה אחת
 curl -fsSL https://ollama.com/install.sh | sh
-
-# הפעלת השירות
-sudo systemctl start ollama
-sudo systemctl enable ollama  # הפעלה אוטומטית בעת אתחול
 ```
 
-#### שיטה 2: התקנה ידנית (למתקדמים)
+התסריט יבצע את הפעולות הבאות:
+- ✅ הורדת הקבצים הדרושים
+- ✅ התקנת Ollama ב-`/usr/local/bin`
+- ✅ יצירת שירות systemd
+- ✅ הפעלת השירות אוטומטית
+
+#### שיטה 2: התקנה ידנית
 
 ```bash
-# 1. הורדת הקובץ הבינארי
+# Ubuntu/Debian
+sudo apt update
+sudo apt install curl
+
+# הורדת הקובץ
 curl -L https://ollama.com/download/ollama-linux-amd64 -o ollama
 chmod +x ollama
 sudo mv ollama /usr/local/bin/
 
-# 2. יצירת משתמש מערכת
+# יצירת שירות systemd
 sudo useradd -r -s /bin/false -m -d /usr/share/ollama ollama
 
-# 3. יצירת קובץ systemd service
+# יצירת קובץ השירות
 sudo tee /etc/systemd/system/ollama.service > /dev/null <<EOF
 [Unit]
 Description=Ollama Service
@@ -200,97 +106,132 @@ User=ollama
 Group=ollama
 Restart=always
 RestartSec=3
-Environment="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 [Install]
 WantedBy=default.target
 EOF
 
-# 4. הפעלת השירות
+# הפעלת השירות
 sudo systemctl daemon-reload
 sudo systemctl enable ollama
 sudo systemctl start ollama
 ```
 
-#### 🎮 הגדרת GPU ב-Linux (NVIDIA)
+#### בדיקת ההתקנה:
 
 ```bash
-# התקנת NVIDIA Container Toolkit (אם משתמשים ב-Docker)
-distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
-curl -s -L https://nvidia.github.io/libnvidia-container/gpgkey | sudo apt-key add -
-curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | \
-  sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+# בדיקת גרסה
+ollama --version
 
-sudo apt-get update
-sudo apt-get install -y nvidia-container-toolkit
-
-# אימות
-nvidia-smi
+# בדיקת סטטוס השירות
+systemctl status ollama
 ```
 
-#### 🎯 Ubuntu/Debian - התקנה מהירה
+---
+
+### 🍎 macOS
+
+#### התקנה:
+
+1. **הורד את הקובץ**:
+   - גש ל-[https://ollama.com/download/Ollama.dmg](https://ollama.com/download/Ollama.dmg)
+   - או השתמש ב-Terminal:
 
 ```bash
-# עדכון המערכת
-sudo apt update && sudo apt upgrade -y
-
-# התקנת תלויות
-sudo apt install -y curl
-
-# התקנת Ollama
-curl -fsSL https://ollama.com/install.sh | sh
-
-# בדיקת סטטוס
-sudo systemctl status ollama
+# הורדה עם curl
+curl -L https://ollama.com/download/Ollama.dmg -o ~/Downloads/Ollama.dmg
 ```
 
-#### 🔴 Fedora/RHEL - התקנה מהירה
+2. **התקן את האפליקציה**:
+   - פתח את קובץ ה-DMG שהורדת
+   - גרור את Ollama.app לתיקיית Applications
+   - פתח את Ollama מתיקיית Applications
+
+3. **הפעלה ראשונית**:
+   - בהפעלה הראשונה, macOS עשוי לבקש אישור (System Settings → Privacy & Security)
+   - Ollama תרוץ כאפליקציית רקע בשורת התפריטים
+
+#### בדיקת התקנה:
 
 ```bash
-# עדכון המערכת
-sudo dnf update -y
+# פתח Terminal ובדוק
+ollama --version
 
-# התקנת Ollama
-curl -fsSL https://ollama.com/install.sh | sh
-
-# בדיקת סטטוס
-sudo systemctl status ollama
+# אם הפקודה לא נמצאת, הוסף ל-PATH:
+echo 'export PATH="/Applications/Ollama.app/Contents/MacOS:$PATH"' >> ~/.zshrc
+source ~/.zshrc
 ```
+
+---
+
+### 🪟 Windows
+
+#### התקנה:
+
+1. **הורד את המתקין**:
+   - גש ל-[https://ollama.com/download/OllamaSetup.exe](https://ollama.com/download/OllamaSetup.exe)
+
+2. **הפעל את המתקין**:
+   - הפעל את `OllamaSetup.exe`
+   - עקוב אחר ההוראות על המסך
+   - אישור אדמין נדרש
+
+3. **אחרי ההתקנה**:
+   - Ollama תרוץ אוטומטית כשירות רקע
+   - סמל יופיע במגש המערכת (System Tray)
+
+#### בדיקת התקנה:
+
+פתח **PowerShell** או **Command Prompt**:
+
+```powershell
+# בדיקת גרסה
+ollama --version
+
+# בדיקת שהשירות רץ
+ollama list
+```
+
+#### פתרון בעיות Windows:
+
+אם הפקודה `ollama` לא נמצאת:
+
+```powershell
+# הוסף ל-PATH (PowerShell כאדמין)
+$env:Path += ";C:\Users\$env:USERNAME\AppData\Local\Programs\Ollama"
+[Environment]::SetEnvironmentVariable("Path", $env:Path, [System.EnvironmentVariableScope]::User)
+```
+
+---
 
 ### 🐳 Docker
 
-#### שיטה 1: Docker רגיל (CPU בלבד)
+#### הרצה בסיסית:
 
 ```bash
-# הרצת Ollama כקונטיינר
-docker run -d \
-  -v ollama:/root/.ollama \
-  -p 11434:11434 \
-  --name ollama \
-  ollama/ollama
-
-# אימות
-docker ps | grep ollama
+# הרצת Ollama ב-Docker
+docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
 ```
 
-#### שיטה 2: Docker עם GPU (NVIDIA)
+#### עם תמיכת GPU (NVIDIA):
 
 ```bash
-# הרצה עם תמיכת GPU
-docker run -d \
-  --gpus=all \
-  -v ollama:/root/.ollama \
-  -p 11434:11434 \
-  --name ollama \
-  ollama/ollama
+# התקנת NVIDIA Container Toolkit (פעם אחת)
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
 
-# בדיקת גישה ל-GPU
-docker exec ollama nvidia-smi
+sudo apt-get update
+sudo apt-get install -y nvidia-container-toolkit
+sudo systemctl restart docker
+
+# הרצת Ollama עם GPU
+docker run -d --gpus=all -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
 ```
 
-#### 📦 Docker Compose
+#### שימוש עם Docker Compose:
 
-צרו קובץ `docker-compose.yml`:
+צור קובץ `docker-compose.yml`:
 
 ```yaml
 version: '3.8'
@@ -303,7 +244,7 @@ services:
       - "11434:11434"
     volumes:
       - ollama_data:/root/.ollama
-    # הסירו את ההערה למחשבים עם GPU
+    # הסר את ההערה אם יש GPU
     # deploy:
     #   resources:
     #     reservations:
@@ -317,626 +258,621 @@ volumes:
   ollama_data:
 ```
 
-```bash
-# הפעלה
-docker-compose up -d
+הפעלה:
 
-# בדיקת לוגים
-docker-compose logs -f ollama
+```bash
+docker-compose up -d
 ```
+
+---
 
 ### 📱 Termux (Android)
 
-> ⚠️ **שימו לב**: הרצת Ollama על אנדרואיד דורשת מכשיר חזק (8GB+ RAM) והיא **ניסיונית**.
+⚠️ **אזהרה**: הרצת LLMs על Android היא אקספרימנטלית ומתאימה רק למודלים קטנים מאוד.
 
 ```bash
-# 1. התקנת Termux מ-F-Droid (לא מ-Play Store!)
-# https://f-droid.org/en/packages/com.termux/
+# התקנת Termux מ-F-Droid (לא מ-Play Store!)
+# אז פתח את Termux והרץ:
 
-# 2. עדכון חבילות
+# עדכון חבילות
 pkg update && pkg upgrade -y
 
-# 3. התקנת תלויות
-pkg install -y proot-distro
+# התקנת תלויות
+pkg install wget proot-distro -y
 
-# 4. התקנת Ubuntu בתוך Termux
+# התקנת Ubuntu בתוך Termux
 proot-distro install ubuntu
 proot-distro login ubuntu
 
-# 5. כעת בתוך Ubuntu, הריצו:
-apt update && apt install -y curl
+# כעת אתה בסביבת Ubuntu, התקן Ollama:
+apt update
+apt install curl -y
 curl -fsSL https://ollama.com/install.sh | sh
 
-# 6. הפעלת Ollama
+# הרצת Ollama
 ollama serve &
+```
+
+💡 **טיפ**: על Android, השתמש במודלים קטנים בלבד (1B-3B פרמטרים):
+```bash
+ollama run gemma3:1b
+ollama run llama3.2:1b
 ```
 
 ---
 
 ## ⚙️ הגדרה ראשונית
 
-### בדיקת התקנה תקינה
+### 1️⃣ הורדת המודל הראשון
+
+אחרי ההתקנה, הורד מודל כדי להתחיל:
 
 ```bash
-# בדיקת גרסה
-ollama --version
-
-# בדיקת חיבור לשרת
-curl http://localhost:11434/api/version
-```
-
-**פלט צפוי:**
-```json
-{"version":"0.1.XX"}
-```
-
-### הורדת המודל הראשון
-
-```bash
-# הורדת Gemma 3 (מודל קטן וטוב למתחילים - 815MB)
+# מודל קל למתחילים (815MB)
 ollama pull gemma3:1b
 
-# הורדת DeepSeek-R1 (מודל מצוין לחשיבה - 4.7GB)
-ollama pull deepseek-r1
-
-# הורדת Llama 3.2 (מודל מאוזן - 2GB)
-ollama pull llama3.2
+# או מודל יותר מתקדם (4.7GB)
+ollama pull llama3.1
 ```
 
-### 📊 הצגת מודלים מותקנים
+הפקודה `pull` מורידה את המודל מהשרת של Ollama ושומרת אותו מקומית.
+
+### 2️⃣ בדיקת המודלים המותקנים
 
 ```bash
-# רשימת כל המודלים במחשב
+# הצגת כל המודלים שהורדת
 ollama list
 ```
 
-**פלט לדוגמה:**
+פלט לדוגמה:
 ```
-NAME              ID              SIZE    MODIFIED
-gemma3:1b        abc123def456     815 MB  2 hours ago
-deepseek-r1      789ghi012jkl     4.7 GB  5 minutes ago
-llama3.2         mno345pqr678     2.0 GB  1 day ago
+NAME                ID              SIZE      MODIFIED
+gemma3:1b          a1b2c3d4e5f6    815 MB    2 minutes ago
+llama3.1:latest    f6e5d4c3b2a1    4.7 GB    5 minutes ago
 ```
 
-### 🗑️ מחיקת מודלים
+### 3️⃣ הרצת מודל ראשון
 
 ```bash
-# מחיקת מודל ספציפי
-ollama rm gemma3:1b
-
-# מחיקת כל המודלים (זהירות!)
-ollama list | awk 'NR>1 {print $1}' | xargs -I {} ollama rm {}
+# הרצת מודל במצב אינטראקטיבי
+ollama run gemma3:1b
 ```
 
-### 🔧 הגדרות סביבה מתקדמות
+אתה תראה prompt שבו תוכל להקליד שאלות:
 
-#### שינוי תיקיית אחסון המודלים
+```
+>>> מהי בינה מלאכותית?
+בינה מלאכותית (AI) היא תחום במדעי המחשב העוסק ביצירת מערכות
+מחשב המסוגלות לבצע משימות הדורשות בדרך כלל אינטליגנציה אנושית...
 
-**Linux/Mac:**
-```bash
-# הוספה ל-~/.bashrc או ~/.zshrc
-export OLLAMA_MODELS="/path/to/your/models"
-
-# טעינה מחדש
-source ~/.bashrc
+>>> /bye
 ```
 
-**Windows (PowerShell):**
-```powershell
-# הוספה למשתנה סביבה קבוע
-[System.Environment]::SetEnvironmentVariable('OLLAMA_MODELS', 'D:\OllamaModels', 'User')
-```
+### 4️⃣ הגדרות סביבה מתקדמות
 
-#### הגדרת מספר הליכים (threads)
+#### שינוי תיקיית האחסון:
 
 ```bash
-# הגדרת 8 ליבות
-export OLLAMA_NUM_THREADS=8
+# Linux/Mac
+export OLLAMA_MODELS="/path/to/custom/models"
+echo 'export OLLAMA_MODELS="/path/to/custom/models"' >> ~/.bashrc
 
-# הפעלת Ollama עם ההגדרה
-ollama serve
+# Windows (PowerShell)
+$env:OLLAMA_MODELS = "D:\OllamaModels"
+[Environment]::SetEnvironmentVariable("OLLAMA_MODELS", "D:\OllamaModels", "User")
 ```
 
-#### שינוי פורט ברירת המחדל
+#### הגדרת זיכרון GPU:
 
 ```bash
-# שימוש בפורט 8080 במקום 11434
+# הגבלת שימוש ב-VRAM (במקרה של מספר GPUs)
+export OLLAMA_NUM_GPU=1
+export OLLAMA_GPU_LAYERS=35  # כמה שכבות להעביר ל-GPU
+```
+
+#### שינוי פורט:
+
+```bash
+# שינוי מפורט ברירת המחדל 11434
 export OLLAMA_HOST=0.0.0.0:8080
-ollama serve
+
+# הפעלה מחדש של ollama
+# Linux:
+sudo systemctl restart ollama
+
+# Mac/Windows:
+# סגור ופתח מחדש את האפליקציה
 ```
 
 ---
 
-## 🎮 שימוש בסיסי
+## 🎓 שימוש בסיסי
 
-### צ'אט אינטראקטיבי
+### פקודות CLI עיקריות
 
-```bash
-# פתיחת צ'אט עם Gemma 3
-ollama run gemma3
-
-# דוגמת שיחה:
->>> היי, מה המזג האוויר היום?
-אני מודל AI ואין לי גישה למידע בזמן אמת כולל מזג אוויר. 
-אני ממליץ לבדוק באפליקציית מזג אוויר או באתר ייעודי.
-
->>> תודה! /bye
-```
-
-#### פקודות שימושיות בצ'אט
-
-- `/bye` - יציאה מהצ'אט
-- `/clear` - ניקוי ההיסטוריה
-- `/show info` - הצגת מידע על המודל
-- `/show modelfile` - הצגת תצורת המודל
-- `/?` - עזרה
-
-### הרצת פקודה בודדת
+#### 1. `ollama run` - הרצה אינטראקטיבית
 
 ```bash
-# שאלה בודדת ללא צ'אט אינטראקטיבי
-ollama run gemma3 "מהי בינה מלאכותית?"
+# הרצה בסיסית
+ollama run llama3.1
 
-# עם הפניית פלט לקובץ
-ollama run llama3.2 "כתוב שיר על החיים" > poem.txt
+# עם prompt מוכן מראש
+ollama run llama3.1 "כתוב לי סיפור קצר על חתול חלל"
+
+# עם פרמטרים
+ollama run llama3.1 --verbose
 ```
 
-### 🐍 שימוש ב-Python
+#### 2. `ollama pull` - הורדת מודל
 
-#### התקנת הספרייה
+```bash
+# הורדת מודל ספציפי
+ollama pull deepseek-r1
+
+# הורדת גרסה ספציפית
+ollama pull llama3.1:70b
+
+# הצגת התקדמות
+ollama pull gemma3:27b --verbose
+```
+
+#### 3. `ollama list` - רשימת מודלים
+
+```bash
+# הצגת כל המודלים
+ollama list
+
+# עם מידע מפורט
+ollama list --verbose
+```
+
+#### 4. `ollama rm` - מחיקת מודל
+
+```bash
+# מחיקת מודל שאינך משתמש בו
+ollama rm llama2-uncensored
+
+# מחיקת גרסה ספציפית
+ollama rm gemma3:27b
+```
+
+#### 5. `ollama ps` - תהליכים פעילים
+
+```bash
+# הצגת מודלים שרצים כרגע
+ollama ps
+```
+
+#### 6. `ollama cp` - העתקת מודל
+
+```bash
+# יצירת עותק עם שם מותאם
+ollama cp llama3.1 my-custom-llama
+```
+
+### שימוש ב-Multiline Prompts
+
+```bash
+ollama run gemma3 "
+אתה עוזר תכנות מומחה.
+כתוב פונקציה ב-Python שמחשבת את המספר הפיבונאצ'י ה-n.
+הוסף הערות מפורטות.
+"
+```
+
+### שימוש במצב Silent (ללא פלט ביניים)
+
+```bash
+ollama run --verbose=false gemma3 "מה 2+2?"
+```
+
+---
+
+## 🔧 שימוש מתקדם
+
+### יצירת Modelfile מותאם אישית
+
+**Modelfile** הוא קובץ תצורה שמאפשר להתאים מודל לצרכים שלך.
+
+#### דוגמה 1: מודל עם system prompt מותאם
+
+צור קובץ בשם `Modelfile`:
+
+```dockerfile
+# שימוש במודל בסיס
+FROM llama3.1
+
+# הגדרת ההתנהגות
+SYSTEM """
+אתה עוזר תכנות מומחה המתמחה ב-Python ו-JavaScript.
+תמיד תסביר את הקוד שלך בעברית בצורה ברורה וקצרה.
+הוסף דוגמאות שימוש לכל פונקציה שאתה כותב.
+"""
+
+# פרמטרים
+PARAMETER temperature 0.7
+PARAMETER top_p 0.9
+PARAMETER top_k 40
+```
+
+יצירה והרצה:
+
+```bash
+# יצירת המודל המותאם
+ollama create code-assistant -f Modelfile
+
+# הרצת המודל
+ollama run code-assistant
+```
+
+#### דוגמה 2: מודל מתורגם
+
+```dockerfile
+FROM mistral
+
+SYSTEM """
+אתה מתרגם מקצועי.
+תרגם כל טקסט שאתה מקבל מאנגלית לעברית.
+שמור על המשמעות המקורית והטון.
+"""
+
+PARAMETER temperature 0.3
+```
+
+```bash
+ollama create translator -f Modelfile
+ollama run translator "Translate: Hello world"
+```
+
+#### דוגמה 3: ייבוא מודל GGUF
+
+```dockerfile
+# ייבוא מודל מקומי (GGUF)
+FROM ./models/my-model.gguf
+
+# הוספת הוראות
+SYSTEM "אתה צ'טבוט ידידותי"
+
+PARAMETER temperature 0.8
+PARAMETER num_ctx 4096
+```
+
+```bash
+ollama create my-imported-model -f Modelfile
+```
+
+### פרמטרים חשובים ב-Modelfile
+
+| פרמטר | תיאור | ערכים | ברירת מחדל |
+|-------|-------|-------|------------|
+| `temperature` | יצירתיות (נמוך=דטרמיניסטי, גבוה=יצירתי) | 0.0-2.0 | 0.8 |
+| `top_p` | Nucleus sampling | 0.0-1.0 | 0.9 |
+| `top_k` | מספר טוקנים לשקול | 1-100 | 40 |
+| `num_ctx` | אורך ההקשר (context window) | 512-32768 | 2048 |
+| `num_predict` | מקסימום טוקנים בתשובה | -1-2048 | 128 |
+| `repeat_penalty` | עונש על חזרות | 1.0-2.0 | 1.1 |
+
+### שימוש ב-API של Ollama
+
+Ollama חושפת REST API על פורט 11434.
+
+#### Python:
+
+```python
+import requests
+import json
+
+def chat_with_ollama(prompt, model="gemma3"):
+    url = "http://localhost:11434/api/generate"
+    
+    payload = {
+        "model": model,
+        "prompt": prompt,
+        "stream": False
+    }
+    
+    response = requests.post(url, json=payload)
+    
+    if response.status_code == 200:
+        return response.json()["response"]
+    else:
+        return f"שגיאה: {response.status_code}"
+
+# שימוש
+result = chat_with_ollama("מהי בירת ישראל?")
+print(result)
+```
+
+#### עם ספריית ollama-python:
 
 ```bash
 pip install ollama
 ```
 
-#### דוגמה בסיסית
-
 ```python
 import ollama
 
-# שיחה פשוטה
+# שיחה בסיסית
 response = ollama.chat(model='gemma3', messages=[
     {
         'role': 'user',
-        'content': 'למה השמיים כחולים?',
-    },
+        'content': 'למה השמים כחולים?'
+    }
 ])
 
 print(response['message']['content'])
-```
 
-#### דוגמה מתקדמת עם streaming
-
-```python
-import ollama
-
-# הצגת תשובה בזמן אמת
-stream = ollama.chat(
-    model='deepseek-r1',
-    messages=[{'role': 'user', 'content': 'הסבר על חורים שחורים'}],
-    stream=True,
-)
-
-for chunk in stream:
+# שיחה עם streaming
+for chunk in ollama.chat(
+    model='gemma3',
+    messages=[{'role': 'user', 'content': 'ספר לי בדיחה'}],
+    stream=True
+):
     print(chunk['message']['content'], end='', flush=True)
 ```
 
-#### יצירת chatbot עם הקשר
-
-```python
-import ollama
-
-conversation_history = []
-
-def chat(user_message):
-    # הוספת הודעת המשתמש להיסטוריה
-    conversation_history.append({
-        'role': 'user',
-        'content': user_message
-    })
-    
-    # קבלת תשובה
-    response = ollama.chat(
-        model='llama3.2',
-        messages=conversation_history
-    )
-    
-    # הוספת תשובת המודל להיסטוריה
-    conversation_history.append({
-        'role': 'assistant',
-        'content': response['message']['content']
-    })
-    
-    return response['message']['content']
-
-# שימוש
-print(chat("היי, קוראים לי דני"))
-print(chat("איך קוראים לי?"))  # המודל יזכור!
-```
-
-### 💻 שימוש ב-JavaScript/TypeScript
-
-#### התקנת הספרייה
+#### JavaScript/TypeScript:
 
 ```bash
 npm install ollama
-# או
-yarn add ollama
 ```
-
-#### דוגמה בסיסית
 
 ```javascript
 import ollama from 'ollama';
 
-async function main() {
-    const response = await ollama.chat({
-        model: 'gemma3',
-        messages: [{ role: 'user', content: 'מהי תכנות?' }],
-    });
-    
-    console.log(response.message.content);
-}
+// שיחה בסיסית
+const response = await ollama.chat({
+    model: 'gemma3',
+    messages: [{ role: 'user', content: 'שלום, מה שלומך?' }]
+});
 
-main();
+console.log(response.message.content);
+
+// עם streaming
+const stream = await ollama.chat({
+    model: 'gemma3',
+    messages: [{ role: 'user', content: 'כתוב סיפור קצר' }],
+    stream: true
+});
+
+for await (const chunk of stream) {
+    process.stdout.write(chunk.message.content);
+}
 ```
 
-#### דוגמה עם streaming
-
-```javascript
-import ollama from 'ollama';
-
-async function streamChat() {
-    const stream = await ollama.chat({
-        model: 'llama3.2',
-        messages: [{ role: 'user', content: 'ספר לי סיפור קצר' }],
-        stream: true,
-    });
-
-    for await (const chunk of stream) {
-        process.stdout.write(chunk.message.content);
-    }
-}
-
-streamChat();
-```
-
-### 🌐 שימוש ב-REST API
-
-#### בדיקת זמינות
+#### cURL (לבדיקות):
 
 ```bash
-curl http://localhost:11434/api/version
-```
-
-#### שליחת שאלה
-
-```bash
-curl -X POST http://localhost:11434/api/generate -d '{
+# בקשה בסיסית
+curl http://localhost:11434/api/generate -d '{
   "model": "gemma3",
-  "prompt": "מדוע הירח זורח בלילה?",
+  "prompt": "למה השמים כחולים?",
   "stream": false
 }'
-```
 
-#### צ'אט עם הקשר
+# בדיקת מודלים זמינים
+curl http://localhost:11434/api/tags
 
-```bash
-curl -X POST http://localhost:11434/api/chat -d '{
-  "model": "llama3.2",
-  "messages": [
-    {
-      "role": "system",
-      "content": "אתה עוזר מועיל שמדבר בעברית"
-    },
-    {
-      "role": "user",
-      "content": "מהו פיתון?"
-    }
-  ],
-  "stream": false
+# מידע על מודל ספציפי
+curl http://localhost:11434/api/show -d '{
+  "name": "gemma3"
 }'
 ```
 
 ---
 
-## 🚀 טיפים מתקדמים
+## 💡 טיפים ואופטימיזציות
 
-### 1. יצירת Modelfile מותאם אישית
-
-#### דוגמה: בוט תמיכה טכנית
-
-צרו קובץ בשם `Modelfile`:
-
-```dockerfile
-FROM llama3.2
-
-# הגדרת פרמטרי טמפרטורה (יצירתיות)
-PARAMETER temperature 0.7
-PARAMETER top_p 0.9
-
-# הגדרת הקשר מערכת
-SYSTEM """
-אתה מומחה תמיכה טכנית עם ניסיון של 10 שנים.
-אתה מדבר בעברית בצורה ברורה ומקצועית.
-אתה תמיד מציע פתרונות מעשיים ובדוקים.
-"""
-
-# הגדרת תבנית
-TEMPLATE """
-{{ .System }}
-
-שאלה: {{ .Prompt }}
-
-תשובה מפורטת:
-"""
-```
-
-#### יצירה והרצה
+### 1️⃣ בחירת המודל הנכון
 
 ```bash
-# יצירת המודל המותאם
-ollama create tech-support -f ./Modelfile
+# למשימות קלות וחסכון במשאבים:
+ollama run gemma3:1b          # 815MB, מהיר מאוד
+ollama run llama3.2:1b        # 1.3GB, טוב לסיכומים
 
-# הרצה
-ollama run tech-support "המחשב שלי לא נדלק"
+# לאיזון בין איכות למהירות:
+ollama run gemma3:4b          # 3.3GB, האיזון הטוב ביותר
+ollama run llama3.1           # 4.7GB, איכותי ומהיר
+
+# לאיכות מקסימלית (דורש משאבים רבים):
+ollama run llama3.3           # 43GB (70B פרמטרים)
+ollama run deepseek-r1:671b   # 404GB (למכונות חזקות בלבד!)
 ```
 
-### 2. שימוש במודלי ראייה (Vision Models)
+### 2️⃣ אופטימיזציה למהירות
+
+#### הגדלת מספר תהליכים מקבילים:
 
 ```bash
-# הורדת מודל ראייה
-ollama pull llama3.2-vision
+# הגדרת מספר תהליכים שיכולים לרוץ בו-זמנית
+export OLLAMA_MAX_LOADED_MODELS=2
 
-# ניתוח תמונה
-ollama run llama3.2-vision "תאר את התמונה הזו" < /path/to/image.jpg
+# הגדרת thread count
+export OLLAMA_NUM_PARALLEL=4
 ```
 
-#### דוגמה ב-Python
+#### שימוש ב-GPU בצורה יעילה:
+
+```bash
+# בדיקה אם GPU מזוהה
+nvidia-smi  # עבור NVIDIA
+
+# הרצה עם כל השכבות ב-GPU
+export OLLAMA_GPU_LAYERS=999  # טוען מקסימום שכבות אפשרי
+
+# או רק חלק (לחיסכון ב-VRAM):
+export OLLAMA_GPU_LAYERS=20
+```
+
+### 3️⃣ ניהול זיכרון
+
+```bash
+# ניקוי מודלים שלא בשימוש מהזיכרון
+ollama stop <model-name>
+
+# הגבלת גודל context (חוסך זיכרון):
+ollama run gemma3 --num-ctx 2048
+
+# מחיקת מודלים שלא צריך:
+ollama rm <unused-model>
+```
+
+### 4️⃣ שימוש ב-Quantization
+
+מודלים מגיעים בגרסאות quantization שונות:
+
+```bash
+# גרסאות quantization נפוצות:
+ollama pull llama3.1:q4_0     # 4-bit, קטן מאוד (הפחתה באיכות)
+ollama pull llama3.1:q4_k_m   # 4-bit medium (איזון טוב)
+ollama pull llama3.1:q5_k_m   # 5-bit medium (איכות טובה יותר)
+ollama pull llama3.1:q8_0     # 8-bit (איכות גבוהה, יותר כבד)
+ollama pull llama3.1:latest   # גרסת ברירת מחדל (בדרך כלל q4)
+```
+
+💡 **המלצה**: `q4_k_m` נותן את האיזון הטוב ביותר בין גודל לאיכות.
+
+### 5️⃣ Batch Processing
+
+```bash
+# עיבוד מרובה prompts מקובץ
+cat prompts.txt | while read prompt; do
+    echo "=== $prompt ==="
+    ollama run gemma3 "$prompt"
+    echo ""
+done
+```
+
+### 6️⃣ שימוש ב-RAG (Retrieval Augmented Generation)
+
+דוגמה בסיסית ל-RAG עם Ollama:
 
 ```python
 import ollama
 
-# ניתוח תמונה
-with open('photo.jpg', 'rb') as file:
-    response = ollama.chat(
-        model='llama3.2-vision',
-        messages=[{
-            'role': 'user',
-            'content': 'מה אתה רואה בתמונה?',
-            'images': [file.read()]
-        }]
-    )
-    
-print(response['message']['content'])
-```
-
-### 3. אופטימיזציה לביצועים
-
-#### הגדרת quantization (דחיסה)
-
-```bash
-# הורדת גרסה דחוסה יותר (מהירה יותר, פחות מדויקת)
-ollama pull llama3.2:Q4_K_M  # דחיסה בינונית
-ollama pull llama3.2:Q2_K    # דחיסה גבוהה (הכי מהיר)
-```
-
-#### שימוש ב-GPU layers
-
-```bash
-# הגדרת מספר layers ב-GPU (Linux/Mac)
-export OLLAMA_NUM_GPU=32  # כל ה-layers
-ollama run llama3.2
-```
-
-#### הגדרת context window
-
-```bash
-# הגדלת חלון הקשר ל-8K tokens
-ollama run gemma3 --context-length 8192
-```
-
-### 4. שמירת שיחות
-
-```python
-import ollama
-import json
-from datetime import datetime
-
-def save_chat(messages, filename=None):
-    if not filename:
-        filename = f"chat_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-    
-    with open(filename, 'w', encoding='utf-8') as f:
-        json.dump(messages, f, ensure_ascii=False, indent=2)
-    
-    print(f"💾 שיחה נשמרה ב-{filename}")
-
-# דוגמת שימוש
-messages = [
-    {'role': 'user', 'content': 'היי'},
-    {'role': 'assistant', 'content': 'שלום! איך אוכל לעזור?'}
+# מסמכים לחיפוש (בפועל יהיו מ-vector DB)
+documents = [
+    "Ollama היא פלטפורמה להרצת LLMs מקומית",
+    "היא תומכת במודלים כמו Llama, Gemma ו-Mistral",
+    "ניתן להריץ אותה על Mac, Windows ו-Linux"
 ]
 
-save_chat(messages)
-```
-
-### 5. שרת מרוחק עם Ollama
-
-#### הפעלת שרת נגיש מרחוק
-
-```bash
-# הפעלה על כל הממשקים
-OLLAMA_HOST=0.0.0.0:11434 ollama serve
-```
-
-#### התחברות מלקוח מרוחק
-
-```python
-import ollama
-
-# התחברות לשרת מרוחק
-client = ollama.Client(host='http://192.168.1.100:11434')
-
-response = client.chat(
-    model='gemma3',
-    messages=[{'role': 'user', 'content': 'hello'}]
-)
-
-print(response['message']['content'])
-```
-
-### 6. בדיקת ביצועים (Benchmarking)
-
-```bash
-#!/bin/bash
-
-echo "🧪 בדיקת ביצועים..."
-
-# בדיקת זמן תשובה
-time ollama run gemma3 "ספור עד 10" --verbose
-
-# בדיקת tokens per second
-ollama run llama3.2 "כתוב פסקה של 100 מילים" --verbose 2>&1 | grep "tokens"
-```
-
-### 7. אינטגרציה עם LangChain
-
-```bash
-pip install langchain langchain-community
-```
-
-```python
-from langchain_community.llms import Ollama
-from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain
-
-# יצירת מודל
-llm = Ollama(model="llama3.2")
-
-# יצירת template
-prompt = PromptTemplate(
-    input_variables=["topic"],
-    template="כתוב מאמר קצר על {topic} בעברית"
-)
-
-# יצירת chain
-chain = LLMChain(llm=llm, prompt=prompt)
-
-# הרצה
-result = chain.run(topic="בינה מלאכותית")
-print(result)
-```
-
-### 8. Multi-Modal: טקסט + תמונות
-
-```python
-import ollama
-import base64
-
-def analyze_image(image_path, question):
-    with open(image_path, 'rb') as f:
-        image_data = base64.b64encode(f.read()).decode('utf-8')
+def rag_query(question):
+    # שלב 1: מציאת מסמכים רלוונטיים (פשטני - בפועל תשתמש ב-embeddings)
+    context = "\n".join(documents)
     
-    response = ollama.chat(
-        model='llama3.2-vision',
-        messages=[{
-            'role': 'user',
-            'content': question,
-            'images': [image_data]
-        }]
-    )
+    # שלב 2: שאילתה עם הקשר
+    prompt = f"""
+    בהתבסס על המידע הבא:
+    {context}
+    
+    שאלה: {question}
+    
+    תשובה:
+    """
+    
+    response = ollama.chat(model='gemma3', messages=[
+        {'role': 'user', 'content': prompt}
+    ])
     
     return response['message']['content']
 
 # שימוש
-result = analyze_image('document.png', 'תמצת את המסמך הזה')
-print(result)
+answer = rag_query("על אילו מערכות הפעלה Ollama פועלת?")
+print(answer)
 ```
 
 ---
 
-## 🔧 פתרון בעיות נפוצות
+## ⚠️ פתרון בעיות נפוצות
 
-### ❌ בעיה: "connection refused" או "cannot connect"
+### 🔴 בעיה: "ollama: command not found"
 
-**פתרון:**
-
+**פתרון Linux/Mac:**
 ```bash
-# 1. בדיקה אם השירות רץ
-ps aux | grep ollama
+# בדוק אם Ollama מותקן
+which ollama
 
-# 2. הפעלת השירות ידנית
-ollama serve
+# אם לא, הוסף ל-PATH
+# Linux:
+export PATH=$PATH:/usr/local/bin
+echo 'export PATH=$PATH:/usr/local/bin' >> ~/.bashrc
 
-# 3. בדיקת פורט
-netstat -tuln | grep 11434
-
-# 4. Linux - בדיקת systemd
-sudo systemctl status ollama
-sudo systemctl restart ollama
+# Mac:
+export PATH="/Applications/Ollama.app/Contents/MacOS:$PATH"
+echo 'export PATH="/Applications/Ollama.app/Contents/MacOS:$PATH"' >> ~/.zshrc
 ```
 
-### ❌ בעיה: "model not found"
+**פתרון Windows:**
+```powershell
+# בדוק אם בתיקיית התקנה
+cd $env:LOCALAPPDATA\Programs\Ollama
+.\ollama.exe --version
 
-**פתרון:**
+# אם עובד, הוסף ל-PATH
+$env:Path += ";$env:LOCALAPPDATA\Programs\Ollama"
+```
 
+---
+
+### 🔴 בעיה: "Failed to load model"
+
+**סיבות אפשריות:**
+
+1. **אין מספיק RAM:**
 ```bash
-# רשימת מודלים זמינים
-ollama list
+# בדוק שימוש בזיכרון
+free -h  # Linux
+vm_stat  # Mac
 
-# הורדת המודל מחדש
-ollama pull <model-name>
+# השתמש במודל קטן יותר
+ollama run gemma3:1b
+```
 
-# ניקוי cache
+2. **המודל לא הורד במלואו:**
+```bash
+# מחק והורד מחדש
+ollama rm gemma3
+ollama pull gemma3
+```
+
+3. **קבצים פגומים:**
+```bash
+# נקה cache ונסה שוב
 rm -rf ~/.ollama/models/<model-name>
 ollama pull <model-name>
 ```
 
-### ❌ בעיה: ביצועים איטיים מאוד
+---
+
+### 🔴 בעיה: הדור איטי מאוד
 
 **אבחון:**
 
 ```bash
-# בדיקה אם משתמשים ב-GPU
-ollama run llama3.2 --verbose "test" 2>&1 | grep -i gpu
+# בדוק אם GPU מזוהה
+nvidia-smi  # NVIDIA
+rocm-smi    # AMD
 
-# Linux: בדיקת GPU
-nvidia-smi
+# בדוק איזה device בשימוש
+ollama ps
 ```
 
-**פתרונות:**
+**פתרון:**
 
 ```bash
-# 1. הורדת מודל קטן יותר
-ollama pull gemma3:1b
+# אילוץ שימוש ב-CPU (אם GPU גורם לבעיות)
+export OLLAMA_COMPUTE=cpu
+sudo systemctl restart ollama
 
-# 2. שימוש בגרסה דחוסה
-ollama pull llama3.2:Q4_K_M
-
-# 3. הקטנת context window
-ollama run llama3.2 --context-length 2048
-
-# 4. הגדלת מספר threads
-export OLLAMA_NUM_THREADS=8
-```
-
-### ❌ בעיה: שגיאת "out of memory"
-
-**פתרונות:**
-
-```bash
-# 1. סגירת תוכניות אחרות
-
-# 2. שימוש במודל קטן יותר
-ollama pull gemma3:1b
+# או הגבל שכבות ב-
 
 ---
 
 ## 📊 סטטיסטיקות הפרויקט
 
 - **כוכבים**: 156,999 ⭐
-- **Forks**: 13,816 🔱
+- **Forks**: 13,818 🔱
 - **Issues**: 2,315 🐛
 - **שפה**: Go 💻
 - **רישיון**: MIT License 📜
@@ -951,4 +887,4 @@ ollama pull gemma3:1b
 ---
 
 *מדריך זה נוצר אוטומטית על ידי AI Guide Bot עם Claude AI*
-*עדכון אחרון: 03/12/2025 18:58*
+*עדכון אחרון: 03/12/2025 19:13*
