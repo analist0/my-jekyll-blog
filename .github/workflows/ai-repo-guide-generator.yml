@@ -1,0 +1,41 @@
+name: AI Repo Guide Generator
+
+on:
+  schedule:
+    # Run 3 times a day (UTC times - Israel is UTC+2/+3)
+    - cron: '0 6 * * *'   # 08:00 Israel time (morning)
+    - cron: '0 12 * * *'  # 14:00 Israel time (noon)
+    - cron: '0 18 * * *'  # 20:00 Israel time (evening)
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  generate-guide:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install anthropic requests pillow playwright markdown beautifulsoup4
+        playwright install chromium
+
+    - name: Generate AI Repo Guide
+      env:
+        ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        python scripts/generate_ai_repo_guide.py
+
+    - name: Commit and push if changed
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "AI Guide Bot"
+        git add _posts/ assets/images/repos/
+        git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 מדריך חדש: $(date +'%Y-%m-%d %H:%M') - ריפו AI פופולרי" && git push)
