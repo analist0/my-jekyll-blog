@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: unified-post
 title: "הפוסט הראשון שלי"
 date: 2025-11-10
 author: analist0

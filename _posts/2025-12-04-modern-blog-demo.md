@@ -1,5 +1,5 @@
 ---
-layout: post-modern
+layout: unified-post
 title: "בלוג מודרני עם Tailwind CSS ו-X.AI"
 description: "גלה איך ליצור בלוג מקצועי עם עיצוב מודרני, בלוקי קוד רספונסיביים ותמונות שנוצרו באמצעות בינה מלאכותית"
 date: 2025-12-04 16:30:00 +0200
@@ -56,7 +56,7 @@ def generate_blog_post(title, content):
     Generate a Jekyll blog post with frontmatter
     """
     frontmatter = f"""---
-layout: post-modern
+layout: unified-post
 title: "{title}"
 date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}
 ---

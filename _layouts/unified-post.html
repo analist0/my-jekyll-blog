@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{{ page.excerpt | default: page.description | strip_html | normalize_whitespace | truncate: 160 | escape }}">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  <meta property="og:title" content="{{ page.title }}">
+  <meta property="og:description" content="{{ page.excerpt | default: page.description | strip_html | truncate: 160 }}">
+  {% if page.image %}
+  <meta property="og:image" content="{{ page.image }}">
+  {% endif %}
+  <meta property="article:published_time" content="{{ page.date | date_to_xmlschema }}">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="{{ page.url | absolute_url }}">
+  <meta property="twitter:title" content="{{ page.title }}">
+  <meta property="twitter:description" content="{{ page.excerpt | default: page.description | strip_html | truncate: 160 }}">
+  {% if page.image %}
+  <meta property="twitter:image" content="{{ page.image }}">
+  {% endif %}
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  {% seo %}
+  {% feed_meta %}
+</head>
+<body>
+  <!-- Reading Progress Bar -->
+  <div id="reading-progress" style="position: fixed; top: 0; left: 0; width: 0; height: 3px; background: linear-gradient(90deg, #6366f1, #8b5cf6); z-index: 9999; transition: width 0.1s;"></div>
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <div class="nav-container">
+        <a href="{{ '/' | relative_url }}" class="site-logo">
+          <span style="font-size: 2rem;">🎨</span>
+          <span>{{ site.title }}</span>
+        </a>
+
+        <nav class="main-nav">
+          <ul>
+            <li><a href="{{ '/' | relative_url }}">בית</a></li>
+            <li><a href="{{ '/blog' | relative_url }}">בלוג</a></li>
+            <li><a href="{{ '/tutorials' | relative_url }}">מדריכים</a></li>
+            <li><a href="{{ '/about' | relative_url }}">אודות</a></li>
+          </ul>
+        </nav>
+
+        <button id="theme-toggle" class="theme-toggle" aria-label="החלף ערכת נושא">
+          <span id="theme-icon">🌙</span>
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="תפריט">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Article -->
+  <article class="unified-post-article">
+    <!-- Hero Section with Featured Image -->
+    {% if page.image %}
+    <section class="post-hero-image" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('{{ page.image }}');">
+      <div class="container">
+        <div class="hero-content">
+          {% if page.categories %}
+          <div class="post-category">
+            <span class="category-badge">{{ page.categories | first }}</span>
+          </div>
+          {% endif %}
+
+          <h1 class="hero-title">{{ page.title }}</h1>
+
+          <div class="hero-meta">
+            <time datetime="{{ page.date | date_to_xmlschema }}">
+              📅 {{ page.date | date: "%d.%m.%Y" }}
+            </time>
+            <span>•</span>
+            <span>👤 {{ page.author | default: site.author }}</span>
+            <span>•</span>
+            <span>⏱️ {{ page.content | number_of_words | divided_by: 180 | at_least: 1 }} דקות קריאה</span>
+          </div>
+
+          {% if page.tags %}
+          <div class="hero-tags">
+            {% for tag in page.tags limit:4 %}
+            <span class="tag">#{{ tag }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+    {% else %}
+    <!-- Fallback Hero without Image -->
+    <section class="post-hero-gradient">
+      <div class="container">
+        <div class="breadcrumbs">
+          <a href="{{ '/' | relative_url }}">בית</a>
+          <span>/</span>
+          <a href="{{ '/blog' | relative_url }}">בלוג</a>
+          <span>/</span>
+          <span>{{ page.title | truncate: 30 }}</span>
+        </div>
+
+        {% if page.categories %}
+        <div class="post-category">
+          <span class="category-badge">{{ page.categories | first }}</span>
+        </div>
+        {% endif %}
+
+        <h1 class="post-title">{{ page.title }}</h1>
+
+        <div class="post-meta">
+          <time datetime="{{ page.date | date_to_xmlschema }}">
+            📅 {{ page.date | date: "%d.%m.%Y" }}
+          </time>
+          <span>•</span>
+          <span>👤 {{ page.author | default: site.author }}</span>
+          <span>•</span>
+          <span>⏱️ {{ page.content | number_of_words | divided_by: 180 | at_least: 1 }} דקות קריאה</span>
+        </div>
+
+        {% if page.tags %}
+        <div class="post-tags">
+          {% for tag in page.tags %}
+          <span class="tag">#{{ tag }}</span>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </section>
+    {% endif %}
+
+    <!-- Content -->
+    <div class="post-container">
+      <div class="container post-layout">
+        <!-- Main Content -->
+        <div class="post-content-wrapper">
+          <div class="post-content reveal">
+            {{ content }}
+          </div>
+
+          <!-- Share Section -->
+          <div class="post-share">
+            <h3>שתפו את המאמר:</h3>
+            <div class="share-buttons">
+              <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ page.url | absolute_url | url_encode }}"
+                 target="_blank"
+                 rel="noopener"
+                 class="share-btn twitter"
+                 aria-label="Share on Twitter">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+                </svg>
+                <span>Twitter</span>
+              </a>
+
+              <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ page.url | absolute_url | url_encode }}&title={{ page.title | url_encode }}"
+                 target="_blank"
+                 rel="noopener"
+                 class="share-btn linkedin"
+                 aria-label="Share on LinkedIn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+                <span>LinkedIn</span>
+              </a>
+
+              <a href="https://api.whatsapp.com/send?text={{ page.title | url_encode }}%20{{ page.url | absolute_url | url_encode }}"
+                 target="_blank"
+                 rel="noopener"
+                 class="share-btn whatsapp"
+                 aria-label="Share on WhatsApp">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                </svg>
+                <span>WhatsApp</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar (Desktop Only) -->
+        <aside class="post-sidebar">
+          <div class="sidebar-sticky">
+            <!-- Table of Contents -->
+            <div class="toc-widget">
+              <h3>תוכן עניינים</h3>
+              <div id="toc"></div>
+            </div>
+
+            <!-- Popular Tags -->
+            {% if page.tags %}
+            <div class="tags-widget">
+              <h3>תגיות</h3>
+              <div class="widget-tags">
+                {% for tag in page.tags %}
+                <span class="widget-tag">#{{ tag }}</span>
+                {% endfor %}
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- Author Section -->
+    <section class="post-author-section">
+      <div class="container">
+        <div class="author-card">
+          <div class="author-avatar">👤</div>
+          <div class="author-info">
+            <h3>{{ page.author | default: site.author }}</h3>
+            <p>{{ site.description }}</p>
+            <div class="author-socials">
+              {% if site.social.twitter %}
+              <a href="{{ site.social.twitter }}" target="_blank">Twitter</a>
+              {% endif %}
+              {% if site.social.github %}
+              <a href="{{ site.social.github }}" target="_blank">GitHub</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Posts -->
+    {% if site.related_posts.size > 0 %}
+    <section class="related-posts-section">
+      <div class="container">
+        <h2>מאמרים קשורים</h2>
+        <div class="related-grid">
+          {% for post in site.related_posts limit:3 %}
+          <article class="related-card">
+            {% if post.image %}
+            <div class="related-image" style="background-image: url('{{ post.image }}');"></div>
+            {% else %}
+            <div class="related-image related-image-placeholder">
+              📝
+            </div>
+            {% endif %}
+            <div class="related-content">
+              <span class="related-date">{{ post.date | date: "%d.%m.%Y" }}</span>
+              <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+              <p>{{ post.excerpt | strip_html | truncate: 100 }}</p>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    {% endif %}
+  </article>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <h3>{{ site.title }}</h3>
+          <p>{{ site.description }}</p>
+        </div>
+
+        <div class="social-links">
+          {% if site.social.twitter %}
+          <a href="{{ site.social.twitter }}" target="_blank" rel="noopener" aria-label="Twitter">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+            </svg>
+          </a>
+          {% endif %}
+
+          {% if site.social.github %}
+          <a href="{{ site.social.github }}" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0012 2z"/>
+            </svg>
+          </a>
+          {% endif %}
+        </div>
+
+        <div class="footer-copyright">
+          <p>&copy; {{ 'now' | date: "%Y" }} {{ site.title }}. כל הזכויות שמורות.</p>
+          <p style="margin-top: 0.5rem; font-size: 0.875rem; opacity: 0.7;">
+            נבנה בעזרת <a href="https://jekyllrb.com" target="_blank" rel="noopener" style="color: var(--accent);">Jekyll</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+
+  <!-- TOC Generator -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const content = document.querySelector('.post-content');
+      const toc = document.getElementById('toc');
+
+      if (!content || !toc) return;
+
+      const headings = content.querySelectorAll('h2, h3');
+
+      if (headings.length === 0) {
+        const widget = toc.closest('.toc-widget');
+        if (widget) widget.style.display = 'none';
+        return;
+      }
+
+      const tocList = document.createElement('ul');
+      tocList.className = 'toc-list';
+
+      headings.forEach((heading, index) => {
+        const id = 'heading-' + index;
+        heading.id = id;
+
+        const li = document.createElement('li');
+        li.className = heading.tagName.toLowerCase();
+
+        const link = document.createElement('a');
+        link.href = '#' + id;
+        link.textContent = heading.textContent;
+
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        li.appendChild(link);
+        tocList.appendChild(li);
+      });
+
+      toc.appendChild(tocList);
+    });
+
+    // Reading Progress
+    window.addEventListener('scroll', function() {
+      const progress = document.getElementById('reading-progress');
+      const article = document.querySelector('.post-content');
+
+      if (!progress || !article) return;
+
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const articleTop = article.offsetTop;
+      const articleHeight = article.offsetHeight;
+      const windowHeight = window.innerHeight;
+
+      const scrolled = ((scrollTop - articleTop + windowHeight) / articleHeight) * 100;
+      const percentage = Math.min(Math.max(scrolled, 0), 100);
+
+      progress.style.width = percentage + '%';
+    });
+  </script>
+
+  <style>
+    /* Unified Post Layout Styles */
+    .unified-post-article {
+      padding-top: 80px;
+    }
+
+    /* Hero with Image */
+    .post-hero-image {
+      min-height: 500px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 4rem 2rem;
+    }
+
+    .hero-content {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 900;
+      margin: 1.5rem 0;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+      color: white !important;
+    }
+
+    .hero-meta, .hero-tags {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      color: rgba(255,255,255,0.95);
+      margin-top: 1.5rem;
+    }
+
+    .hero-tags .tag {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    /* Hero without Image */
+    .post-hero-gradient {
+      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+      padding: 4rem 2rem 3rem;
+    }
+
+    /* Post Layout */
+    .post-layout {
+      display: grid;
+      grid-template-columns: 1fr min(800px, 100%) 280px;
+      gap: 3rem;
+      padding: 3rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .post-content-wrapper {
+      min-width: 0; /* Important for grid overflow */
+    }
+
+    .post-content {
+      font-size: 1.125rem;
+      line-height: 1.8;
+      color: var(--text-primary);
+    }
+
+    .post-content h2 {
+      font-size: 2rem;
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .post-content h3 {
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .post-content p {
+      margin-bottom: 1.5rem;
+    }
+
+    .post-content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      margin: 2rem 0;
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    .post-content code {
+      background: var(--bg-secondary);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.9em;
+      font-family: var(--font-mono);
+    }
+
+    .post-content pre {
+      background: var(--bg-secondary);
+      padding: 1.5rem;
+      border-radius: 12px;
+      overflow-x: auto;
+      margin: 2rem 0;
+      border: 1px solid var(--border);
+    }
+
+    .post-content pre code {
+      background: none;
+      padding: 0;
+    }
+
+    .post-content blockquote {
+      border-right: 4px solid var(--accent);
+      padding-right: 1.5rem;
+      margin: 2rem 0;
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+
+    .post-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      overflow-x: auto;
+      display: block;
+    }
+
+    .post-content table th,
+    .post-content table td {
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      text-align: right;
+    }
+
+    .post-content table th {
+      background: var(--bg-secondary);
+      font-weight: 600;
+    }
+
+    /* Sidebar */
+    .post-sidebar {
+      position: relative;
+    }
+
+    .sidebar-sticky {
+      position: sticky;
+      top: 100px;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+    }
+
+    .toc-widget, .tags-widget {
+      background: var(--bg-secondary);
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--border);
+    }
+
+    .toc-widget h3, .tags-widget h3 {
+      font-size: 1.125rem;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .toc-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .toc-list li {
+      margin-bottom: 0.75rem;
+    }
+
+    .toc-list li.h3 {
+      padding-right: 1rem;
+      font-size: 0.9em;
+    }
+
+    .toc-list a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
+
+    .toc-list a:hover {
+      color: var(--accent);
+    }
+
+    .widget-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .widget-tag {
+      background: var(--bg-primary);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    /* Share Section */
+    .post-share {
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 2px solid var(--border);
+      text-align: center;
+    }
+
+    .post-share h3 {
+      margin-bottom: 1.5rem;
+      font-size: 1.25rem;
+    }
+
+    .share-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .share-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: 2px solid var(--border);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+
+    .share-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    .share-btn.twitter:hover { border-color: #1DA1F2; color: #1DA1F2; }
+    .share-btn.linkedin:hover { border-color: #0077b5; color: #0077b5; }
+    .share-btn.whatsapp:hover { border-color: #25D366; color: #25D366; }
+
+    /* Author Section */
+    .post-author-section {
+      background: var(--bg-secondary);
+      padding: 3rem 0;
+      margin-top: 3rem;
+    }
+
+    .author-card {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      background: var(--bg-primary);
+      padding: 2rem;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .author-avatar {
+      font-size: 5rem;
+      flex-shrink: 0;
+    }
+
+    .author-info h3 {
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .author-info p {
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .author-socials {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .author-socials a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .author-socials a:hover {
+      text-decoration: underline;
+    }
+
+    /* Related Posts */
+    .related-posts-section {
+      padding: 4rem 0;
+    }
+
+    .related-posts-section h2 {
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 2rem;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .related-card {
+      background: var(--bg-secondary);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .related-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px var(--shadow);
+    }
+
+    .related-image {
+      height: 200px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .related-image-placeholder {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+    }
+
+    .related-content {
+      padding: 1.5rem;
+    }
+
+    .related-date {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .related-content h3 {
+      margin: 0.75rem 0;
+      font-size: 1.25rem;
+    }
+
+    .related-content h3 a {
+      color: var(--text-primary);
+      text-decoration: none;
+    }
+
+    .related-content h3 a:hover {
+      color: var(--accent);
+    }
+
+    .related-content p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Category Badge */
+    .category-badge {
+      display: inline-block;
+      padding: 0.5rem 1.25rem;
+      background: var(--accent);
+      color: white;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .post-category {
+      margin-bottom: 1.5rem;
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs {
+      display: flex;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .breadcrumbs a {
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+
+    .breadcrumbs a:hover {
+      color: var(--accent);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+      .post-layout {
+        grid-template-columns: 1fr min(800px, 100%);
+      }
+
+      .post-sidebar {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .post-layout {
+        grid-template-columns: 1fr;
+        padding: 2rem 1rem;
+        gap: 0;
+      }
+
+      .post-hero-image {
+        min-height: 400px;
+        padding: 3rem 1.5rem;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .post-content {
+        font-size: 1rem;
+      }
+
+      .post-content h2 {
+        font-size: 1.5rem;
+      }
+
+      .post-content h3 {
+        font-size: 1.25rem;
+      }
+
+      .share-buttons {
+        flex-direction: column;
+      }
+
+      .share-btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .author-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+      }
+
+      .author-socials {
+        justify-content: center;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .post-content table {
+        font-size: 0.875rem;
+      }
+    }
+
+    /* Reveal Animation */
+    .reveal {
+      animation: revealUp 0.6s ease-out;
+    }
+
+    @keyframes revealUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</body>
+</html>

@@ -1,5 +1,5 @@
 ---
-layout: post-asymmetric
+layout: unified-post
 title: "Advanced Neural Network Developments - 19:54:33"
 date: 2025-11-10 19:54:33 +0200
 author: analist0

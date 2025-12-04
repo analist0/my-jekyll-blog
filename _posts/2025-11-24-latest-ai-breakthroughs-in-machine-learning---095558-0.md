@@ -1,5 +1,5 @@
 ---
-layout: post-magazine
+layout: unified-post
 title: "Latest AI Breakthroughs in Machine Learning - 09:55:58"
 date: 2025-11-24 09:55:58 +0200
 author: analist0

@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: unified-post
 title: "The Future of Artificial Intelligence in 2025: Complete Guide"
 description: "Discover how AI is revolutionizing technology in 2025. Complete guide covering machine learning, neural networks, and the latest breakthroughs in artificial intelligence."
 date: 2025-12-04 17:00:00 +0200

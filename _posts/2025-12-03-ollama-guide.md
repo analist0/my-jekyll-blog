@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: unified-post
 title: "מדריך מקצועי: ollama - Get up and running with OpenAI gpt-oss, DeepSeek-R1, Gemma 3 and other models."
 date: 2025-12-03 19:13:07 +0200
 categories: [AI, LLM, מדריכים]

@@ -1,0 +1,105 @@
+name: 🤖 Daily Tutorial Generator
+
+on:
+  # Run every day at 9:00 AM UTC (11:00 AM Israel Time)
+  schedule:
+    - cron: '0 9 * * *'
+
+  # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      num_tutorials:
+        description: 'Number of tutorials to generate'
+        required: false
+        default: '3'
+
+jobs:
+  generate-tutorials:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: 🔥 Discover trending topics
+        env:
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+        run: |
+          cd $GITHUB_WORKSPACE
+          echo "🔍 Discovering trending topics from Hacker News, GitHub, Reddit..."
+          python scripts/discover_trending_topics.py
+
+      - name: 🤖 Generate tutorials
+        env:
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          NUM_TUTORIALS: ${{ github.event.inputs.num_tutorials || '3' }}
+        run: |
+          cd $GITHUB_WORKSPACE
+          echo "📝 Generating tutorials on trending topics..."
+          python scripts/generate_tutorial.py
+
+      - name: 📊 Check if new files created
+        id: check_files
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "✅ New tutorials created!"
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "ℹ️ No new files created"
+          fi
+
+      - name: 📝 Commit and push changes
+        if: steps.check_files.outputs.has_changes == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+          # Add new posts
+          git add _posts/*.md
+
+          # Create commit message with date
+          COMMIT_MSG="🤖 Auto-generated tutorials - $(date '+%Y-%m-%d %H:%M:%S')
+
+          Generated $NUM_TUTORIALS new comprehensive tutorials on trending tech topics.
+
+          🎨 Featured images created with XAI Image API
+          📝 Content generated with Grok-2
+          🚀 Automated with GitHub Actions"
+
+          git commit -m "$COMMIT_MSG"
+
+          # Push changes
+          git push
+
+      - name: 📢 Summary
+        if: always()
+        run: |
+          echo "## 🤖 Daily Tutorial Generator Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Date**: $(date '+%Y-%m-%d %H:%M:%S')" >> $GITHUB_STEP_SUMMARY
+          echo "- **Tutorials Generated**: $NUM_TUTORIALS" >> $GITHUB_STEP_SUMMARY
+          echo "- **Status**: ✅ Success" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [[ -f _posts/*.md ]]; then
+            echo "### 📝 New Posts:" >> $GITHUB_STEP_SUMMARY
+            for file in _posts/*-$(date '+%Y-%m-%d')*.md; do
+              if [[ -f "$file" ]]; then
+                title=$(grep "^title:" "$file" | head -1 | sed 's/title: "\(.*\)"/\1/')
+                echo "- $title" >> $GITHUB_STEP_SUMMARY
+              fi
+            done
+          fi
