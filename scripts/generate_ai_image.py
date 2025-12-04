@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Enhanced Image Generation for Jekyll Blog Posts
-Uses Unsplash API for high-quality, free stock photos
+Uses X.AI Grok for image generation + Unsplash/Picsum fallback
 """
 
 import os
@@ -13,26 +13,30 @@ from datetime import datetime
 from pathlib import Path
 
 # Configuration
+XAI_API_KEY = os.environ.get('XAI_API_KEY', '')
+XAI_API_URL = "https://api.x.ai/v1/chat/completions"
+XAI_IMAGE_MODEL = "grok-2-image-1212"  # Grok image generation model
+
 UNSPLASH_ACCESS_KEY = os.environ.get('UNSPLASH_ACCESS_KEY', 'YOUR_ACCESS_KEY_HERE')
 UNSPLASH_API_URL = "https://api.unsplash.com/search/photos"
 
 # Fallback: Use Picsum for placeholder images (no API key needed)
 PICSUM_URL = "https://picsum.photos/1200/630"
 
+
 def extract_keywords(title: str, description: str = "") -> str:
-    """Extract relevant keywords for image search"""
-    # Common tech keywords
+    """Extract relevant keywords for image search/generation"""
     tech_keywords = {
-        'ai': 'artificial intelligence technology',
-        'ml': 'machine learning',
-        'data': 'data science analytics',
-        'code': 'programming coding',
-        'web': 'web development',
-        'mobile': 'mobile app smartphone',
-        'cloud': 'cloud computing',
-        'security': 'cybersecurity hacking',
-        'blockchain': 'blockchain cryptocurrency',
-        'iot': 'internet of things devices'
+        'ai': 'artificial intelligence technology futuristic neural networks',
+        'ml': 'machine learning data science algorithms',
+        'data': 'data science analytics visualization graphs charts',
+        'code': 'programming coding software development',
+        'web': 'web development internet technology',
+        'mobile': 'mobile app smartphone technology',
+        'cloud': 'cloud computing servers infrastructure',
+        'security': 'cybersecurity hacking encryption',
+        'blockchain': 'blockchain cryptocurrency distributed ledger',
+        'iot': 'internet of things smart devices connected'
     }
 
     text = (title + " " + description).lower()
@@ -41,8 +45,102 @@ def extract_keywords(title: str, description: str = "") -> str:
         if key in text:
             return keywords
 
-    # Default keywords
-    return "technology innovation digital"
+    return "modern technology innovation digital abstract"
+
+
+def generate_image_with_grok(title: str, description: str = "") -> dict:
+    """
+    Generate image using X.AI Grok Vision API
+
+    Args:
+        title: Blog post title
+        description: Blog post description
+
+    Returns:
+        dict: Image information or error
+    """
+
+    if not XAI_API_KEY:
+        print("⚠️  XAI_API_KEY not set, falling back to Unsplash/Picsum")
+        return None
+
+    try:
+        keywords = extract_keywords(title, description)
+
+        # Create detailed image prompt
+        prompt = f"""Create a professional, high-quality hero image for a technology blog post.
+
+Title: {title}
+Description: {description}
+
+Image requirements:
+- Modern and sleek design
+- Technology-focused theme with {keywords}
+- Professional and clean aesthetic
+- Suitable for blog header (16:9 ratio, 1200x630)
+- High resolution and eye-catching
+- Colors: Tech blues, purples, or modern gradients
+- Style: Abstract, futuristic, professional
+
+The image should be visually stunning and immediately grab attention while being relevant to the topic."""
+
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {XAI_API_KEY}"
+        }
+
+        payload = {
+            "model": XAI_IMAGE_MODEL,
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "You are an expert AI that creates stunning, professional images for technology blog posts."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            "temperature": 0.8,
+            "stream": False
+        }
+
+        print(f"🎨 Generating image with Grok Vision...")
+        response = requests.post(XAI_API_URL, headers=headers, json=payload, timeout=60)
+        response.raise_for_status()
+
+        data = response.json()
+
+        # Check if image was generated
+        if 'choices' in data and len(data['choices']) > 0:
+            content = data['choices'][0]['message'].get('content', '')
+
+            # Grok might return image URL or base64
+            # Look for image URL in response
+            if 'http' in content:
+                # Extract URL from response
+                import re
+                urls = re.findall(r'https?://[^\s<>"]+', content)
+                if urls:
+                    image_url = urls[0]
+                    return {
+                        'success': True,
+                        'image_url': image_url,
+                        'source': 'grok-vision',
+                        'model': XAI_IMAGE_MODEL,
+                        'photographer': 'AI Generated by Grok',
+                        'photographer_url': 'https://x.ai'
+                    }
+
+            # If no URL found, return content for debugging
+            print(f"📝 Grok response: {content[:200]}...")
+
+        print("⚠️  Grok didn't return image URL, trying Unsplash...")
+        return None
+
+    except Exception as e:
+        print(f"⚠️  Grok API error: {e}")
+        return None
 
 
 def get_image_from_unsplash(title: str, description: str = "") -> dict:
@@ -124,6 +222,25 @@ def get_image_from_unsplash(title: str, description: str = "") -> dict:
         }
 
 
+def get_best_image(title: str, description: str = "") -> dict:
+    """
+    Try multiple image sources in order:
+    1. Grok Vision (AI generated)
+    2. Unsplash (professional photos)
+    3. Picsum (placeholder)
+    """
+
+    # Try Grok first
+    grok_result = generate_image_with_grok(title, description)
+    if grok_result and grok_result.get('success'):
+        print("✅ Using AI-generated image from Grok")
+        return grok_result
+
+    # Try Unsplash/Picsum
+    print("📸 Falling back to photo search...")
+    return get_image_from_unsplash(title, description)
+
+
 def update_post_frontmatter(post_path: str, image_data: dict) -> bool:
     """
     Update Jekyll post frontmatter with image and SEO data
@@ -201,11 +318,17 @@ Usage:
   python3 generate_ai_image.py --test "Title" "Description"
 
 Features:
-  ✅ High-quality images from Unsplash
+  ✅ AI-generated images with Grok Vision (grok-2-image-1212)
+  ✅ High-quality photos from Unsplash
   ✅ Automatic fallback to Picsum (no API key needed)
   ✅ Smart keyword extraction
   ✅ SEO-friendly image credits
   ✅ Automatic frontmatter update
+
+Image Sources (in priority order):
+  1. Grok Vision - AI-generated custom images
+  2. Unsplash - Professional stock photos
+  3. Picsum - Placeholder images (always works)
 
 Examples:
   # Generate image for existing post
@@ -214,11 +337,13 @@ Examples:
   # Test mode
   python3 generate_ai_image.py --test "AI Revolution" "How AI changes everything"
 
-Environment (Optional):
-  UNSPLASH_ACCESS_KEY - Get free at: https://unsplash.com/developers
+Environment Variables:
+  XAI_API_KEY - X.AI API key (for Grok image generation)
+  UNSPLASH_ACCESS_KEY - Unsplash API key (optional, for better photos)
 
 Current Status:
-  API Key: {'✅ Set' if UNSPLASH_ACCESS_KEY != 'YOUR_ACCESS_KEY_HERE' else '⚠️  Not set (will use Picsum fallback)'}
+  XAI_API_KEY: {'✅ Set' if XAI_API_KEY else '❌ Not set'}
+  UNSPLASH_ACCESS_KEY: {'✅ Set' if UNSPLASH_ACCESS_KEY != 'YOUR_ACCESS_KEY_HERE' else '⚠️  Not set'}
         """)
         sys.exit(1)
 
@@ -232,7 +357,7 @@ Current Status:
         print(f"📄 Description: {description}")
         print(f"🔍 Keywords: {extract_keywords(title, description)}\n")
 
-        result = get_image_from_unsplash(title, description)
+        result = get_best_image(title, description)
         print(json.dumps(result, indent=2, ensure_ascii=False))
         sys.exit(0)
 
@@ -270,7 +395,7 @@ Current Status:
         print(f"📄 Description: {description}")
         print(f"🔍 Keywords: {extract_keywords(title, description)}\n")
 
-        result = get_image_from_unsplash(title, description)
+        result = get_best_image(title, description)
 
         if result['success']:
             print(f"✅ Image selected successfully!")
