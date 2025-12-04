@@ -188,32 +188,16 @@ def create_post_file(topic, content, image_url=None):
     tags = topic.lower().replace(':', '').replace('-', ' ').split()
     tags = [tag for tag in tags if len(tag) > 3][:6]
 
-    # Create frontmatter
-    if featured_image:
-        frontmatter = f"""---
+    # Create frontmatter (single, clean frontmatter)
+    frontmatter = f"""---
 layout: unified-post
 title: "{topic}"
-description: "Complete comprehensive guide about {topic}. Step-by-step tutorial with code examples, best practices, and real-world use cases."
+description: "מדריך מקיף ומפורט על {topic}. כולל הסברים צעד-אחר-צעד, דוגמאות קוד, שיטות עבודה מומלצות ומקרי שימוש מהעולם האמיתי."
 date: {date.strftime('%Y-%m-%d %H:%M:%S')} +0200
 categories: {categories}
 tags: {tags}
 author: "Tech Insights"
-image: "{featured_image}"
-image_credit: "Generated with XAI"
-image_credit_url: "https://x.ai"
----
-
-"""
-    else:
-        # No image - will use gradient fallback
-        frontmatter = f"""---
-layout: unified-post
-title: "{topic}"
-description: "Complete comprehensive guide about {topic}. Step-by-step tutorial with code examples, best practices, and real-world use cases."
-date: {date.strftime('%Y-%m-%d %H:%M:%S')} +0200
-categories: {categories}
-tags: {tags}
-author: "Tech Insights"
+lang: he
 ---
 
 """

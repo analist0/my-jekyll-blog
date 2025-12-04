@@ -8,13 +8,6 @@ tags: ['mastering', 'javascript', 'liberation', 'building', 'open', 'source']
 author: "Tech Insights"
 ---
 
----
-layout: post
-title: "Mastering JavaScript Liberation: Building Open Source Alternatives with Deno and Bun"
-description: "מדריך מקיף ומפורט על בניית חלופות קוד פתוח עם Deno ו-Bun ב-JavaScript"
-tags: [JavaScript, Deno, Bun, Open Source, Development]
-keywords: JavaScript, Deno, Bun, Open Source, Development, Web Development, Node.js Alternatives
----
 
 # מדריך מקיף ומפורט על בניית חלופות קוד פתוח עם Deno ו-Bun ב-JavaScript 🎯
 
@@ -585,7 +578,6 @@ bun run cli.js --name Bob
 
 בהצלחה בפיתוח והשתמשו בידע שרכשתם כדי ליצור אפליקציות מדהימות וחדשניות! 🌟
 
----
 
 ### מטא-דאטה
 

@@ -8,12 +8,6 @@ tags: ['mastering', 'javascript', 'liberation', '2024', 'comprehensive', 'guide'
 author: "Tech Insights"
 ---
 
----
-title: "Mastering JavaScript Liberation in 2024: A Comprehensive Guide to Modern JavaScript Development with Node.js and Deno"
-description: "מדריך מקיף ומפורט לפיתוח JavaScript מודרני עם Node.js ו-Deno בשנת 2024, כולל שיטות עבודה מומלצות, דוגמאות קוד, ומקרי שימוש מהעולם האמיתי."
-date: 2024-01-01
-tags: ["JavaScript", "Node.js", "Deno", "פיתוח מודרני", "שיטות עבודה מומלצות"]
----
 
 # Mastering JavaScript Liberation in 2024: A Comprehensive Guide to Modern JavaScript Development with Node.js and Deno 🎉
 
@@ -943,7 +937,6 @@ for await (const req of server) {
 
 באמצעות הידע והכלים שסיפקנו במדריך זה, אתם מצוידים היטב לפתח יישומים מודרניים ב-JavaScript. המשיכו ללמוד, לתרגל ולפתח, והצלחה בדרך לשליטה ב-JavaScript!
 
----
 
 **מטא-דאטה:**
 
