@@ -1,120 +1,136 @@
 #!/usr/bin/env python3
 """
-X.AI Image Generation Script for Jekyll Blog Posts
-Automatically generates hero images for blog posts using X.AI API (Grok Vision)
+Enhanced Image Generation for Jekyll Blog Posts
+Uses Unsplash API for high-quality, free stock photos
 """
 
 import os
 import sys
 import json
 import requests
+import hashlib
 from datetime import datetime
 from pathlib import Path
 
 # Configuration
-XAI_API_KEY = os.environ.get('XAI_API_KEY', '')  # Set via: export XAI_API_KEY="your-key"
-XAI_API_URL = "https://api.x.ai/v1/chat/completions"
+UNSPLASH_ACCESS_KEY = os.environ.get('UNSPLASH_ACCESS_KEY', 'YOUR_ACCESS_KEY_HERE')
+UNSPLASH_API_URL = "https://api.unsplash.com/search/photos"
 
-# Image generation prompt template
-IMAGE_PROMPT_TEMPLATE = """
-Create a professional, modern, and visually appealing hero image for a blog post titled: "{title}"
+# Fallback: Use Picsum for placeholder images (no API key needed)
+PICSUM_URL = "https://picsum.photos/1200/630"
 
-The image should be:
-- High quality and eye-catching
-- Relevant to the topic: {description}
-- Suitable for a tech blog
-- Modern and clean design
-- 16:9 aspect ratio (1920x1080)
+def extract_keywords(title: str, description: str = "") -> str:
+    """Extract relevant keywords for image search"""
+    # Common tech keywords
+    tech_keywords = {
+        'ai': 'artificial intelligence technology',
+        'ml': 'machine learning',
+        'data': 'data science analytics',
+        'code': 'programming coding',
+        'web': 'web development',
+        'mobile': 'mobile app smartphone',
+        'cloud': 'cloud computing',
+        'security': 'cybersecurity hacking',
+        'blockchain': 'blockchain cryptocurrency',
+        'iot': 'internet of things devices'
+    }
 
-Style: Modern, minimalist, professional
-"""
+    text = (title + " " + description).lower()
+
+    for key, keywords in tech_keywords.items():
+        if key in text:
+            return keywords
+
+    # Default keywords
+    return "technology innovation digital"
 
 
-def generate_image_with_xai(title: str, description: str = "") -> dict:
+def get_image_from_unsplash(title: str, description: str = "") -> dict:
     """
-    Generate an image using X.AI API (Grok Vision)
+    Search and download image from Unsplash
 
     Args:
         title: Blog post title
-        description: Blog post description/excerpt
+        description: Blog post description
 
     Returns:
-        dict: Response containing image URL or error
+        dict: Image information (URL, photographer, etc.)
     """
 
-    if not XAI_API_KEY:
+    if UNSPLASH_ACCESS_KEY == 'YOUR_ACCESS_KEY_HERE':
+        # Fallback to Picsum (no API needed)
         return {
-            'success': False,
-            'error': 'XAI_API_KEY not set. Please set it via: export XAI_API_KEY="your-key"'
+            'success': True,
+            'image_url': f"{PICSUM_URL}?random={hashlib.md5(title.encode()).hexdigest()[:8]}",
+            'source': 'picsum',
+            'photographer': 'Picsum Photos',
+            'photographer_url': 'https://picsum.photos',
+            'download_url': None
         }
 
-    prompt = IMAGE_PROMPT_TEMPLATE.format(
-        title=title,
-        description=description or title
-    )
-
-    headers = {
-        "Content-Type": "application/json",
-        "Authorization": f"Bearer {XAI_API_KEY}"
-    }
-
-    payload = {
-        "model": "grok-vision-beta",
-        "messages": [
-            {
-                "role": "system",
-                "content": "You are an expert graphic designer creating hero images for blog posts."
-            },
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ],
-        "temperature": 0.7
-    }
-
     try:
-        response = requests.post(XAI_API_URL, headers=headers, json=payload, timeout=30)
+        # Extract search keywords
+        keywords = extract_keywords(title, description)
+
+        params = {
+            'query': keywords,
+            'per_page': 1,
+            'orientation': 'landscape',
+            'content_filter': 'high'
+        }
+
+        headers = {
+            'Authorization': f'Client-ID {UNSPLASH_ACCESS_KEY}'
+        }
+
+        response = requests.get(UNSPLASH_API_URL, params=params, headers=headers, timeout=10)
         response.raise_for_status()
 
         data = response.json()
 
-        # Extract image URL from response
-        if 'choices' in data and len(data['choices']) > 0:
-            content = data['choices'][0]['message']['content']
+        if data.get('results') and len(data['results']) > 0:
+            photo = data['results'][0]
 
             return {
                 'success': True,
-                'image_url': content,  # Adjust based on actual API response
-                'prompt': prompt,
-                'timestamp': datetime.now().isoformat()
+                'image_url': photo['urls']['regular'],
+                'image_download': photo['urls']['download'],
+                'source': 'unsplash',
+                'photographer': photo['user']['name'],
+                'photographer_url': photo['user']['links']['html'],
+                'description': photo.get('description', photo.get('alt_description', '')),
+                'color': photo.get('color', '#000000')
             }
         else:
+            # Fallback to Picsum
             return {
-                'success': False,
-                'error': 'No image generated',
-                'response': data
+                'success': True,
+                'image_url': f"{PICSUM_URL}?random={hashlib.md5(title.encode()).hexdigest()[:8]}",
+                'source': 'picsum_fallback',
+                'photographer': 'Picsum Photos',
+                'photographer_url': 'https://picsum.photos'
             }
 
-    except requests.exceptions.RequestException as e:
-        return {
-            'success': False,
-            'error': f'API request failed: {str(e)}'
-        }
     except Exception as e:
+        print(f"⚠️  Unsplash API error: {e}")
+        # Fallback to Picsum
         return {
-            'success': False,
-            'error': f'Unexpected error: {str(e)}'
+            'success': True,
+            'image_url': f"{PICSUM_URL}?random={hashlib.md5(title.encode()).hexdigest()[:8]}",
+            'source': 'picsum_error_fallback',
+            'photographer': 'Picsum Photos',
+            'photographer_url': 'https://picsum.photos',
+            'error': str(e)
         }
 
 
-def update_post_frontmatter(post_path: str, image_url: str) -> bool:
+def update_post_frontmatter(post_path: str, image_data: dict) -> bool:
     """
-    Update Jekyll post frontmatter with generated image URL
+    Update Jekyll post frontmatter with image and SEO data
 
     Args:
         post_path: Path to the Jekyll post file
-        image_url: Generated image URL
+        image_data: Image information dictionary
 
     Returns:
         bool: Success status
@@ -124,7 +140,6 @@ def update_post_frontmatter(post_path: str, image_url: str) -> bool:
         with open(post_path, 'r', encoding='utf-8') as f:
             content = f.read()
 
-        # Parse frontmatter
         if not content.startswith('---'):
             print(f"❌ Invalid post format (no frontmatter): {post_path}")
             return False
@@ -134,26 +149,32 @@ def update_post_frontmatter(post_path: str, image_url: str) -> bool:
             print(f"❌ Invalid frontmatter format: {post_path}")
             return False
 
-        frontmatter = parts[1]
+        frontmatter_lines = parts[1].strip().split('\n')
         body = parts[2]
 
-        # Add or update image field
-        if 'image:' in frontmatter:
-            # Update existing
-            lines = frontmatter.split('\n')
-            new_lines = []
-            for line in lines:
-                if line.strip().startswith('image:'):
-                    new_lines.append(f'image: {image_url}')
-                else:
-                    new_lines.append(line)
-            frontmatter = '\n'.join(new_lines)
-        else:
-            # Add new
-            frontmatter += f'\nimage: {image_url}\n'
+        # Update/add image field
+        has_image = False
+        new_lines = []
 
-        # Write back
-        new_content = f'---{frontmatter}---{body}'
+        for line in frontmatter_lines:
+            if line.strip().startswith('image:'):
+                new_lines.append(f'image: "{image_data["image_url"]}"')
+                has_image = True
+            else:
+                new_lines.append(line)
+
+        if not has_image:
+            new_lines.append(f'image: "{image_data["image_url"]}"')
+
+        # Add image credit if available
+        if 'photographer' in image_data and 'image_credit:' not in '\n'.join(new_lines):
+            credit = f"{image_data['photographer']} via {image_data['source'].title()}"
+            new_lines.append(f'image_credit: "{credit}"')
+            new_lines.append(f'image_credit_url: "{image_data.get("photographer_url", "")}"')
+
+        # Rebuild frontmatter
+        new_frontmatter = '\n'.join(new_lines)
+        new_content = f'---\n{new_frontmatter}\n---{body}'
 
         with open(post_path, 'w', encoding='utf-8') as f:
             f.write(new_content)
@@ -167,49 +188,53 @@ def update_post_frontmatter(post_path: str, image_url: str) -> bool:
 
 
 def main():
-    """
-    Main function - can be called from command line or as module
-    """
+    """Main function"""
 
     if len(sys.argv) < 2:
         print("""
 ╔══════════════════════════════════════════════════════════════╗
-║           X.AI Image Generator for Jekyll Posts             ║
+║       Enhanced Image Generator for Jekyll Posts             ║
 ╚══════════════════════════════════════════════════════════════╝
 
 Usage:
-  python3 generate_ai_image.py <post-file> [title] [description]
-  python3 generate_ai_image.py --test "My Blog Post" "Post description"
+  python3 generate_ai_image.py <post-file>
+  python3 generate_ai_image.py --test "Title" "Description"
+
+Features:
+  ✅ High-quality images from Unsplash
+  ✅ Automatic fallback to Picsum (no API key needed)
+  ✅ Smart keyword extraction
+  ✅ SEO-friendly image credits
+  ✅ Automatic frontmatter update
 
 Examples:
   # Generate image for existing post
   python3 generate_ai_image.py _posts/2025-12-04-my-post.md
 
-  # Test with custom title and description
-  python3 generate_ai_image.py --test "AI Revolution" "How AI is changing the world"
+  # Test mode
+  python3 generate_ai_image.py --test "AI Revolution" "How AI changes everything"
 
-Environment:
-  XAI_API_KEY - Your X.AI API key (required)
-  Set it: export XAI_API_KEY="xai-your-key-here"
+Environment (Optional):
+  UNSPLASH_ACCESS_KEY - Get free at: https://unsplash.com/developers
 
 Current Status:
-  API Key: {'✅ Set' if XAI_API_KEY else '❌ Not set'}
+  API Key: {'✅ Set' if UNSPLASH_ACCESS_KEY != 'YOUR_ACCESS_KEY_HERE' else '⚠️  Not set (will use Picsum fallback)'}
         """)
         sys.exit(1)
 
     # Test mode
     if sys.argv[1] == '--test':
-        title = sys.argv[2] if len(sys.argv) > 2 else "Test Blog Post"
-        description = sys.argv[3] if len(sys.argv) > 3 else "This is a test description"
+        title = sys.argv[2] if len(sys.argv) > 2 else "Test Blog Post About Technology"
+        description = sys.argv[3] if len(sys.argv) > 3 else "An amazing technology article"
 
-        print(f"\n🧪 Testing X.AI Image Generation...")
+        print(f"\n🧪 Testing Image Generation...")
         print(f"📝 Title: {title}")
-        print(f"📄 Description: {description}\n")
+        print(f"📄 Description: {description}")
+        print(f"🔍 Keywords: {extract_keywords(title, description)}\n")
 
-        result = generate_image_with_xai(title, description)
-
+        result = get_image_from_unsplash(title, description)
         print(json.dumps(result, indent=2, ensure_ascii=False))
-        sys.exit(0 if result['success'] else 1)
+        sys.exit(0)
 
     # Post mode
     post_path = sys.argv[1]
@@ -218,7 +243,7 @@ Current Status:
         print(f"❌ Post file not found: {post_path}")
         sys.exit(1)
 
-    # Parse post frontmatter for title and description
+    # Parse post
     with open(post_path, 'r', encoding='utf-8') as f:
         content = f.read()
 
@@ -230,9 +255,10 @@ Current Status:
         description = ""
 
         for line in frontmatter.split('\n'):
-            if line.strip().startswith('title:'):
+            line = line.strip()
+            if line.startswith('title:'):
                 title = line.split(':', 1)[1].strip().strip('"\'')
-            elif line.strip().startswith('description:'):
+            elif line.startswith('description:'):
                 description = line.split(':', 1)[1].strip().strip('"\'')
 
         if not title:
@@ -241,26 +267,30 @@ Current Status:
 
         print(f"\n🎨 Generating image for post...")
         print(f"📝 Title: {title}")
-        print(f"📄 Description: {description}\n")
+        print(f"📄 Description: {description}")
+        print(f"🔍 Keywords: {extract_keywords(title, description)}\n")
 
-        result = generate_image_with_xai(title, description)
+        result = get_image_from_unsplash(title, description)
 
         if result['success']:
-            print(f"✅ Image generated successfully!")
-            print(f"🖼️  URL: {result['image_url']}\n")
+            print(f"✅ Image selected successfully!")
+            print(f"🖼️  URL: {result['image_url']}")
+            print(f"📷 Source: {result['source']}")
+            print(f"👤 Credit: {result.get('photographer', 'N/A')}\n")
 
-            # Update post
-            if update_post_frontmatter(post_path, result['image_url']):
-                print(f"✅ Post updated with image URL")
+            if update_post_frontmatter(post_path, result):
+                print(f"✅ Post updated with image and credits")
             else:
-                print(f"⚠️  Generated image URL: {result['image_url']}")
-                print(f"   Please add it manually to your post frontmatter")
+                print(f"⚠️  Please add image manually:")
+                print(f"   image: \"{result['image_url']}\"")
         else:
-            print(f"❌ Image generation failed: {result['error']}")
+            print(f"❌ Image generation failed")
             sys.exit(1)
 
     except Exception as e:
         print(f"❌ Error processing post: {e}")
+        import traceback
+        traceback.print_exc()
         sys.exit(1)
 
 
