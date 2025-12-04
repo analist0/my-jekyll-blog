@@ -98,52 +98,77 @@ def get_repo_readme(repo):
         print(f"⚠️  Error fetching README: {e}")
         return ""
 
-def capture_repo_screenshot(repo_url, output_path):
-    """Capture a screenshot of the GitHub repository page"""
-    print(f"📸 Capturing screenshot of {repo_url}...")
+def generate_socialify_card(repo_full_name, output_path):
+    """Generate beautiful repo card using Socialify API"""
+    print(f"🎨 Generating Socialify card for {repo_full_name}...")
 
     try:
-        with sync_playwright() as p:
-            browser = p.chromium.launch()
-            page = browser.new_page(viewport={"width": 1280, "height": 1024})
+        # Socialify API URL with customization
+        # Options: owner, name, description, language, stargazers, forks, issues, pulls, theme
+        socialify_url = (
+            f"https://socialify.git.ci/{repo_full_name}/image?"
+            f"description=1&"
+            f"descriptionEditable=&"
+            f"font=Raleway&"
+            f"language=1&"
+            f"name=1&"
+            f"owner=1&"
+            f"pattern=Circuit%20Board&"
+            f"stargazers=1&"
+            f"theme=Dark"
+        )
 
-            # Navigate to repo with longer timeout and domcontentloaded instead of networkidle
-            page.goto(repo_url, wait_until="domcontentloaded", timeout=60000)
+        print(f"📥 Downloading from: {socialify_url}")
 
-            # Wait a bit for images and content to load
-            time.sleep(3)
+        # Download the image
+        response = requests.get(socialify_url, timeout=30)
+        response.raise_for_status()
 
-            # Try to wait for the main content (optional - don't fail if not found)
-            try:
-                page.wait_for_selector("article.markdown-body", timeout=5000)
-            except:
-                pass  # Continue anyway
+        # Save the image
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
+        with open(output_path, 'wb') as f:
+            f.write(response.content)
 
-            # Take screenshot
-            page.screenshot(path=output_path, full_page=False)
+        print(f"✅ Socialify card saved to {output_path}")
+        return True
 
-            browser.close()
-            print(f"✅ Screenshot saved to {output_path}")
-            return True
     except Exception as e:
-        print(f"⚠️  Error capturing screenshot: {e}")
-        # Create a placeholder image if screenshot fails
-        try:
-            from PIL import Image, ImageDraw, ImageFont
-            img = Image.new('RGB', (1280, 1024), color=(13, 17, 23))
-            draw = ImageDraw.Draw(img)
+        print(f"⚠️  Error generating Socialify card: {e}")
 
-            # Add text: "GitHub Repository Screenshot Failed"
-            text = "📸 Screenshot Failed\nView at GitHub"
-            draw.text((640, 512), text, fill=(139, 148, 158), anchor="mm")
+        # Fallback: Try GitHub OG image
+        try:
+            og_url = f"https://opengraph.githubassets.com/1/{repo_full_name}"
+            print(f"📥 Trying GitHub OG image: {og_url}")
+
+            response = requests.get(og_url, timeout=30)
+            response.raise_for_status()
 
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
-            img.save(output_path)
-            print(f"⚠️  Created placeholder image at {output_path}")
-        except Exception as img_error:
-            print(f"❌ Could not create placeholder: {img_error}")
+            with open(output_path, 'wb') as f:
+                f.write(response.content)
 
-        return False
+            print(f"✅ GitHub OG image saved to {output_path}")
+            return True
+
+        except Exception as fallback_error:
+            print(f"⚠️  Fallback also failed: {fallback_error}")
+
+            # Last resort: Create a placeholder
+            try:
+                from PIL import Image, ImageDraw, ImageFont
+                img = Image.new('RGB', (1280, 640), color=(13, 17, 23))
+                draw = ImageDraw.Draw(img)
+
+                text = f"🚀 {repo_full_name}\n\nView at GitHub"
+                draw.text((640, 320), text, fill=(139, 148, 158), anchor="mm")
+
+                os.makedirs(os.path.dirname(output_path), exist_ok=True)
+                img.save(output_path)
+                print(f"⚠️  Created placeholder image at {output_path}")
+            except Exception as img_error:
+                print(f"❌ Could not create placeholder: {img_error}")
+
+            return False
 
 def generate_guide_with_claude(repo, readme_content):
     """Generate comprehensive installation guide using Claude"""
@@ -156,7 +181,7 @@ def generate_guide_with_claude(repo, readme_content):
     client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
     prompt = f"""
-אתה כותב טכני מקצועי שמתמחה במדריכי התקנה של כלי AI וLLM מקומיים.
+אתה כותב טכני מקצועי מוביל שמתמחה במדריכי התקנה מתקדמים של כלי AI, LLM, וטכנולוגיות חדשניות.
 
 הריפו: {repo['full_name']}
 תיאור: {repo['description']}
@@ -167,28 +192,167 @@ URL: {repo['html_url']}
 README (קטע):
 {readme_content[:4000]}
 
-צור מדריך התקנה מקצועי ומקיף **בעברית** שכולל:
+צור מדריך התקנה **מקצועי, מתקדם וחדשני** בעברית שכולל:
 
-1. **סקירה כללית** - מה זה הפרויקט ולמה הוא חשוב
-2. **דרישות מערכת** - מה צריך לפני ההתקנה
-3. **התקנה צעד אחר צעד**:
-   - Linux/Mac
-   - Windows
-   - Termux/Android (אם רלוונטי)
-4. **הגדרה ראשונית** - איך להגדיר אחרי ההתקנה
-5. **שימוש בסיסי** - דוגמאות קוד ופקודות
-6. **טיפים מתקדמים** - אופטימיזציות וטריקים
-7. **פתרון בעיות נפוצות** - troubleshooting
-8. **משאבים נוספים** - לינקים למדריכים, דוקומנטציה, קהילה
+## 📚 מדריך התקנה מקיף ל-{repo['name']}
 
-**חשוב**:
-- כתוב בעברית ברורה ומקצועית
-- הוסף קטעי קוד עם הסברים
-- התמקד במערכות מקומיות (local setup)
-- הסבר טכני אך נגיש למתחילים
-- השתמש באימוג'ים להמחשה (📦 🚀 ⚡ ✅ ⚠️ 💡)
+## 🎯 סקירה כללית
+- מה זה הפרויקט ולמה הוא חשוב
+- למה {repo['name']} זה game-changer
+- תרחישי שימוש מעשיים (3-5 דוגמאות קונקרטיות)
+- השוואה לפתרונות אחרים (יתרונות וחסרונות)
 
-פורמט: Markdown מובנה עם כותרות והדגשות.
+## 💻 דרישות מערכת
+טבלת דרישות מפורטת:
+| רכיב | מינימום | מומלץ |
+|------|---------|-------|
+| RAM | ... | ... |
+| אחסון | ... | ... |
+| מעבד | ... | ... |
+| מערכת הפעלה | ... | ... |
+
+## 📦 התקנה - שלושת המסלולים
+
+### 🚀 מסלול מהיר (Quick Start)
+```bash
+# הדרך הכי מהירה להתחיל
+[פקודות התקנה מהירות]
+```
+
+### 🔧 מסלול מלא (Full Installation)
+#### על Linux/macOS:
+```bash
+# שלב 1: הכנת הסביבה
+[פקודות מפורטות עם הסברים]
+
+# שלב 2: התקנת dependencies
+[...]
+
+# שלב 3: התקנת {repo['name']}
+[...]
+```
+
+#### על Windows:
+```powershell
+# שימוש ב-PowerShell
+[פקודות Windows]
+```
+
+#### על Termux/Android:
+```bash
+# התקנה ב-Termux (אם רלוונטי)
+[פקודות Termux]
+```
+
+### 🐳 מסלול Docker (מומלץ לפרודקשן)
+```bash
+# שימוש ב-Docker
+[Dockerfile או docker-compose]
+```
+
+## ⚙️ הגדרה ראשונית
+### קובץ הגדרות מומלץ:
+```yaml
+# config.yaml לדוגמה
+[הגדרות מומלצות]
+```
+
+### טיוונינג לביצועים:
+- אופטימיזציית זיכרון
+- שימוש ב-GPU (אם רלוונטי)
+- קונפיגורציה למערכות חלשות
+
+## 🎨 שימוש בסיסי - דוגמאות מעשיות
+
+### דוגמה 1: Hello World
+```python
+# או bash/javascript - תלוי בפרויקט
+[קוד לדוגמה פשוט עם הסברים]
+```
+
+### דוגמה 2: שימוש מתקדם
+```python
+# תרחיש מעשי יותר
+[קוד מתקדם יותר]
+```
+
+### דוגמה 3: אינטגרציה עם כלים אחרים
+```python
+# איך להשתמש עם API/SDK/כלים נוספים
+[קוד אינטגרציה]
+```
+
+## 🚀 טיפים מתקדמים וחדשניים
+
+### 💡 טריק 1: [שם הטריק]
+[הסבר והדגמה]
+
+### 💡 טריק 2: [שם הטריק]
+[הסבר והדגמה]
+
+### 💡 טריק 3: [שם הטריק]
+[הסבר והדגמה]
+
+## 🎯 Use Cases מעשיים
+1. **[שם Use Case 1]**: [תיאור קצר + דוגמת קוד]
+2. **[שם Use Case 2]**: [תיאור קצר + דוגמת קוד]
+3. **[שם Use Case 3]**: [תיאור קצר + דוגמת קוד]
+
+## ⚡ ביצועים ואופטימיזציה
+- Benchmarks (אם יש)
+- טיפים להאצה
+- שימוש ביעיל במשאבים
+
+## 🐛 פתרון בעיות נפוצות
+
+### בעיה 1: [שם הבעיה]
+**סימפטומים**: [...]
+**פתרון**:
+```bash
+[פקודות לפתרון]
+```
+
+### בעיה 2: [שם הבעיה]
+**סימפטומים**: [...]
+**פתרון**:
+```bash
+[פקודות לפתרון]
+```
+
+## 🔐 אבטחה ו-Best Practices
+- [טיפ אבטחה 1]
+- [טיפ אבטחה 2]
+- [Best practice 1]
+- [Best practice 2]
+
+## 🌐 קהילה ומשאבים
+- [📖 דוקומנטציה רשמית](link)
+- [💬 Discord/Slack/Forum](link)
+- [🎓 טיוטוריאלים מומלצים](link)
+- [📺 סרטוני הדרכה](link)
+- [📝 מאמרים מומלצים](link)
+
+## 🔄 עדכונים וגרסאות
+- איך לעדכן לגרסה חדשה
+- Changelog חשוב
+- Breaking changes (אם יש)
+
+## 💭 מילים לסיום
+[סיכום קצר של למה כדאי להשתמש בזה ואיך זה יכול לעזור]
+
+---
+
+**חשוב מאוד**:
+1. כתוב בעברית מקצועית וברורה
+2. כל בלוק קוד צריך להיות מלווה בהסבר קצר
+3. השתמש בטבלאות, רשימות, וקופסאות הערה (> Note:)
+4. הוסף אימוג'ים רלוונטיים לכל כותרת (📦 🚀 ⚡ ✅ ⚠️ 💡 🔐 🎯 💻 🌐)
+5. בלוקי קוד צריכים syntax highlighting עם שם השפה (```bash, ```python, וכו')
+6. תהיה ספציפי ומעשי - תמיד תן דוגמאות קוד אמיתיות
+7. הדגש טיפים חדשניים ופחות מוכרים שלא כל אחד יודע
+8. התמקד בפרקטיקליות - מה שבאמת עובד בשטח
+
+פורמט: Markdown עשיר עם כותרות ברורות, קופסאות קוד, טבלאות, ורשימות.
 """
 
     try:
@@ -227,7 +391,7 @@ date: {datetime.now().strftime("%Y-%m-%d %H:%M:%S +0200")}
 categories: [AI, LLM, מדריכים]
 tags: [local-ai, llm, installation, {repo['language'].lower() if repo['language'] else 'general'}]
 image: /assets/images/repos/{screenshot_filename}
-author: AI Guide Bot
+author: יוסי
 lang: he
 dir: rtl
 ---
@@ -263,8 +427,9 @@ dir: rtl
 
 ---
 
-*מדריך זה נוצר אוטומטית על ידי AI Guide Bot עם Claude AI*
-*עדכון אחרון: {datetime.now().strftime("%d/%m/%Y %H:%M")}*
+**📝 נכתב על ידי**: יוסי | מומחה אבטחת מידע, בדיקות חדירה ופיתוח
+**📞 ליצירת קשר**: 058-4423342
+**⏰ עדכון אחרון**: {datetime.now().strftime("%d/%m/%Y %H:%M")}
 """
 
     # Save post
@@ -297,14 +462,14 @@ def main():
     # 2. Get README content
     readme = get_repo_readme(repo)
 
-    # 3. Capture screenshot
+    # 3. Generate beautiful Socialify card
     screenshot_dir = Path(__file__).parent.parent / "assets" / "images" / "repos"
     screenshot_dir.mkdir(parents=True, exist_ok=True)
 
     screenshot_filename = f"{repo['name'].lower()}-{datetime.now().strftime('%Y%m%d')}.png"
     screenshot_path = screenshot_dir / screenshot_filename
 
-    capture_repo_screenshot(repo['html_url'], str(screenshot_path))
+    generate_socialify_card(repo['full_name'], str(screenshot_path))
 
     # 4. Generate guide with Claude
     guide = generate_guide_with_claude(repo, readme)
