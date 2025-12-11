@@ -60,30 +60,38 @@ description: "מדריך מקיף ומפורט להטמעת Rust בליבת לי
 
 כדי להתקין את Rust ו-Cargo, ניתן להשתמש בפקודה הבאה:
 
+{% raw %}
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
+{% endraw %}
 
 לאחר ההתקנה, ניתן לבדוק את הגרסה של Rust ו-Cargo:
 
+{% raw %}
 ```bash
 rustc --version
 cargo --version
 ```
+{% endraw %}
 
 ### התקנת ליבת לינוקס
 
 כדי להתקין את קוד המקור של ליבת לינוקס, ניתן להשתמש בפקודה הבאה:
 
+{% raw %}
 ```bash
 git clone https://github.com/torvalds/linux.git
 ```
+{% endraw %}
 
 לאחר מכן, ניתן לעבור לתיקיית הקוד:
 
+{% raw %}
 ```bash
 cd linux
 ```
+{% endraw %}
 
 # הטמעה צעד-אחר-צעד עם דוגמאות קוד 📚
 
@@ -97,28 +105,34 @@ cd linux
 
 במערכות לינוקס מבוססות Debian, ניתן להשתמש בפקודה הבאה:
 
+{% raw %}
 ```bash
 sudo apt-get update
 sudo apt-get install build-essential gcc make git
 ```
+{% endraw %}
 
 במערכות לינוקס מבוססות Red Hat, ניתן להשתמש בפקודה הבאה:
 
+{% raw %}
 ```bash
 sudo yum update
 sudo yum groupinstall 'Development Tools'
 sudo yum install gcc make git
 ```
+{% endraw %}
 
 ### בדיקת התקינות
 
 לאחר ההתקנה, ניתן לבדוק את התקינות של כלי הבנייה:
 
+{% raw %}
 ```bash
 gcc --version
 make --version
 git --version
 ```
+{% endraw %}
 
 ## צעד 2: הגדרת ליבת לינוקס עם Rust
 
@@ -128,21 +142,25 @@ git --version
 
 כדי להוסיף תמיכה ב-Rust לליבת לינוקס, ניתן להשתמש בפקודה הבאה:
 
+{% raw %}
 ```bash
 make menuconfig
-```
+```{% raw %}
+{% endraw %}
 
-בתפריט ההגדרות, ניתן לנווט לחלק `General setup` ולבחור ב-`Enable Rust support`.
+בתפריט ההגדרות, ניתן לנווט לחלק {% endraw %}`General setup` ולבחור ב-`Enable Rust support`.
 
 ### בניית ליבת לינוקס עם Rust
 
 לאחר הגדרת התמיכה ב-Rust, ניתן לבנות את ליבת לינוקס:
 
+{% raw %}
 ```bash
 make -j $(nproc)
-```
+```{% raw %}
+{% endraw %}
 
-הפקודה `make -j $(nproc)` תבנה את הליבה באופן מקביל, מה שמאיץ את תהליך הבנייה.
+הפקודה {% endraw %}`make -j $(nproc)` תבנה את הליבה באופן מקביל, מה שמאיץ את תהליך הבנייה.
 
 ## צעד 3: כתיבת קוד Rust בליבת לינוקס
 
@@ -152,6 +170,7 @@ make -j $(nproc)
 
 הנה דוגמה לקוד Rust פשוט שמדפיס הודעה:
 
+{% raw %}
 ```rust
 // A simple Rust function to print a message
 fn print_hello() {
@@ -163,14 +182,16 @@ fn print_hello() {
 pub extern "C" fn rust_print_hello() {
     print_hello();
 }
-```
+```{% raw %}
+{% endraw %}
 
-הקוד הזה מגדיר פונקציה בשם `print_hello` שמדפיסה הודעה, ופונקציה נוספת בשם `rust_print_hello` שמיועדת להיות מקושרת לקוד C.
+הקוד הזה מגדיר פונקציה בשם {% endraw %}`print_hello` שמדפיסה הודעה, ופונקציה נוספת בשם `rust_print_hello` שמיועדת להיות מקושרת לקוד C.
 
 ### קישור קוד Rust לקוד C
 
 כדי לקשר את קוד ה-Rust לקוד C, ניתן להשתמש בקובץ הדרישות הבא:
 
+{% raw %}
 ```c
 // Include the Rust-generated header
 #include "rust_print_hello.h"
@@ -179,9 +200,10 @@ pub extern "C" fn rust_print_hello() {
 void call_rust_print_hello(void) {
     rust_print_hello();
 }
-```
+```{% raw %}
+{% endraw %}
 
-הקובץ `rust_print_hello.h` נוצר אוטומטית על ידי הכלים של Rust ומכיל את ההצהרות הדרושות לקישור.
+הקובץ {% endraw %}`rust_print_hello.h` נוצר אוטומטית על ידי הכלים של Rust ומכיל את ההצהרות הדרושות לקישור.
 
 ## צעד 4: בדיקת ובניית הקוד
 
@@ -191,23 +213,29 @@ void call_rust_print_hello(void) {
 
 ניתן להשתמש בכלי `cargo` לבדיקת הקוד Rust:
 
+{% raw %}
 ```bash
 cargo check
 ```
+{% endraw %}
 
 ### בניית הקוד
 
 לאחר בדיקת הקוד, ניתן לבנות את הקוד:
 
+{% raw %}
 ```bash
 cargo build
 ```
+{% endraw %}
 
 לאחר מכן, ניתן לבנות את ליבת לינוקס מחדש כדי לכלול את הקוד החדש:
 
+{% raw %}
 ```bash
 make -j $(nproc)
-```
+```{% raw %}
+{% endraw %}
 
 # שיטות עבודה מומלצות וטיפים 💡
 
@@ -222,7 +250,7 @@ make -j $(nproc)
 
 ## טיפים
 
-- **שימוש ב-`rustfmt`**: השתמש בכלי `rustfmt` לפורמטינג קוד Rust.
+- **שימוש ב-{% endraw %}`rustfmt`**: השתמש בכלי `rustfmt` לפורמטינג קוד Rust.
 - **שימוש ב-`clippy`**: השתמש בכלי `clippy` לבדיקת קוד Rust ולמציאת בעיות פוטנציאליות.
 - **שימוש ב-`bindgen`**: השתמש בכלי `bindgen` ליצירת קישורים אוטומטיים בין קוד Rust לקוד C.
 - **שימוש ב-`cross`**: השתמש בכלי `cross` לבניית קוד Rust לפלטפורמות שונות.
@@ -257,6 +285,7 @@ make -j $(nproc)
 
 הנה דוגמה לנהג התקן פשוט ב-Rust:
 
+{% raw %}
 ```rust
 // A simple Rust device driver
 use kernel::prelude::*;
@@ -284,6 +313,7 @@ impl Drop for MyDeviceDriver {
     }
 }
 ```
+{% endraw %}
 
 הקוד הזה מגדיר נהג התקן פשוט ב-Rust, שמדפיס הודעות בזמן ההתחלה והסרת הנהג.
 
@@ -295,6 +325,7 @@ impl Drop for MyDeviceDriver {
 
 הנה דוגמה למערכת קריטית פשוטה ב-Rust:
 
+{% raw %}
 ```rust
 // A simple critical system in Rust
 use kernel::prelude::*;
@@ -322,6 +353,7 @@ impl Drop for MyCriticalSystem {
     }
 }
 ```
+{% endraw %}
 
 הקוד הזה מגדיר מערכת קריטית פשוטה ב-Rust, שמדפיסה הודעות בזמן ההתחלה והסרת המערכת.
 
@@ -333,6 +365,7 @@ impl Drop for MyCriticalSystem {
 
 הנה דוגמה לאופטימיזציה פשוטה ב-Rust:
 
+{% raw %}
 ```rust
 // A simple optimization in Rust
 fn optimized_function() -> u32 {
@@ -349,6 +382,7 @@ pub extern "C" fn rust_optimized_function() -> u32 {
     optimized_function()
 }
 ```
+{% endraw %}
 
 הקוד הזה מגדיר פונקציה ממותנת ב-Rust, שמחשבת סכום של מספרים בצורה יעילה.
 
@@ -364,6 +398,7 @@ pub extern "C" fn rust_optimized_function() -> u32 {
 
 הנה דוגמה לנהג התקן ב-Rust שכבר משמש בליבת לינוקס:
 
+{% raw %}
 ```rust
 // A real-world device driver in Rust
 use kernel::prelude::*;
@@ -391,6 +426,7 @@ impl Drop for RealWorldDeviceDriver {
     }
 }
 ```
+{% endraw %}
 
 הקוד הזה מגדיר נהג התקן ב-Rust שכבר משמש בליבת לינוקס, ומדפיס הודעות בזמן ההתחלה והסרת הנהג.
 
@@ -402,6 +438,7 @@ impl Drop for RealWorldDeviceDriver {
 
 הנה דוגמה למערכת קריטית ב-Rust שכבר משמשת בליבת לינוקס:
 
+{% raw %}
 ```rust
 // A real-world critical system in Rust
 use kernel::prelude::*;
@@ -429,6 +466,7 @@ impl Drop for RealWorldCriticalSystem {
     }
 }
 ```
+{% endraw %}
 
 הקוד הזה מגדיר מערכת קריטית ב-Rust שכבר משמשת בליבת לינוקס, ומדפיסה הודעות בזמן ההתחלה והסרת המערכת.
 
@@ -440,6 +478,7 @@ impl Drop for RealWorldCriticalSystem {
 
 הנה דוגמה לאופטימיזציה ב-Rust שכבר משמשת בליבת לינוקס:
 
+{% raw %}
 ```rust
 // A real-world optimization in Rust
 fn real_world_optimized_function() -> u32 {
@@ -456,6 +495,7 @@ pub extern "C" fn rust_real_world_optimized_function() -> u32 {
     real_world_optimized_function()
 }
 ```
+{% endraw %}
 
 הקוד הזה מגדיר פונקציה ממותנת ב-Rust שכבר משמשת בליבת לינוקס, ומחשבת סכום של מספרים בצורה יעילה.
 

@@ -48,7 +48,8 @@ description: "מדריך מקיף ומפורט על ניהול חבילות ב-G
 
 השלב הראשון בהטמעת GitHub Actions הוא יצירת קובץ תצורה. קובץ זה יוגדר בתיקיית `.github/workflows` בפרויקט שלך. להלן דוגמה לקובץ תצורה בסיסי לבניית חבילת npm:
 
-```yaml
+{% raw %}
+```{% raw %}yaml
 name: Build and Publish npm Package
 
 on:
@@ -80,46 +81,55 @@ jobs:
           npm publish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-```
+{% endraw %}```{% raw %}
+{% endraw %}
 
-בדוגמה זו, הקובץ מוגדר כך שיבנה ויפרסם את החבילה בכל פעם שמתבצעת דחיפה (push) לבראנץ' `main`.
+בדוגמה זו, הקובץ מוגדר כך שיבנה ויפרסם את החבילה בכל פעם שמתבצעת דחיפה (push) לבראנץ' {% endraw %}`main`.
 
 ### שלב 2: התקנת תלויות
 
 לאחר יצירת הקובץ, יש לוודא שהתלויות הנדרשות מותקנות. לדוגמה, אם אתם משתמשים ב-Node.js, תוכלו להשתמש בפקודה `npm ci` כדי להתקין את התלויות בצורה יעילה:
 
+{% raw %}
 ```bash
 # Install dependencies
 npm ci
-```
+```{% raw %}
+{% endraw %}
 
 ### שלב 3: בניית החבילה
 
-שלב זה כולל את בניית החבילה. בדוגמה שלנו, אנו משתמשים בפקודה `npm run build` כדי לבנות את החבילה:
+שלב זה כולל את בניית החבילה. בדוגמה שלנו, אנו משתמשים בפקודה {% endraw %}`npm run build` כדי לבנות את החבילה:
 
+{% raw %}
 ```bash
 # Build the package
 npm run build
 ```
+{% endraw %}
 
 ### שלב 4: פרסום החבילה
 
 לאחר בניית החבילה, יש לפרסם אותה לרג'יסטר הרלוונטי. בדוגמה שלנו, אנו מפרסמים ל-npm:
 
-```bash
+{% raw %}
+```{% raw %}bash
 # Publish to npm
 npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
 npm publish
-```
+{% endraw %}```
+{% endraw %}
 
 ### שלב 5: שימוש בסודות (Secrets)
 
 כדי לפרסם לרג'יסטרים כמו npm, יש צורך להשתמש בסודות (secrets) של GitHub. סודות אלה מאפשרים לכם לשמור מידע רגיש כמו טוקנים של npm בצורה מאובטחת. לדוגמה, תוכלו להגדיר את הטוקן של npm כסוד ב-GitHub ולהשתמש בו בקובץ התצורה:
 
-```yaml
+{% raw %}
+```{% raw %}yaml
 env:
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-```
+{% endraw %}```
+{% endraw %}
 
 ## שיטות עבודה מומלצות וטיפים
 
@@ -129,7 +139,8 @@ env:
 
 שימוש בקונטיינרים יכול לשפר את האמינות והעקביות של התהליך. לדוגמה, תוכלו להשתמש בקונטיינרים כדי להבטיח שהתלויות והסביבה שלכם יישארו קבועים:
 
-```yaml
+{% raw %}
+```{% raw %}yaml
 jobs:
   build-and-publish:
     container:
@@ -150,13 +161,15 @@ jobs:
           npm publish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-```
+{% endraw %}```
+{% endraw %}
 
 ### 2. שימוש בתבניות (Templates)
 
 שימוש בתבניות יכול לחסוך זמן ולשמור על קונסיסטנטיות. GitHub מציע תבניות מוכנות לשימוש לניהול חבילות:
 
-```yaml
+{% raw %}
+```{% raw %}yaml
 name: Node.js Package
 
 on:
@@ -187,13 +200,15 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-```
+{% endraw %}```{% raw %}
+{% endraw %}
 
 ### 3. אופטימיזציה של זמני ביצוע
 
-כדי לשפר את זמני הביצוע, תוכלו להשתמש בתכונות כמו `matrix` כדי לבצע בדיקות במקביל:
+כדי לשפר את זמני הביצוע, תוכלו להשתמש בתכונות כמו {% endraw %}`matrix` כדי לבצע בדיקות במקביל:
 
-```yaml
+{% raw %}
+```{% raw %}yaml
 name: Build and Test
 
 on: [push]
@@ -213,13 +228,15 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
-```
+{% endraw %}```
+{% endraw %}
 
 ### 4. שימוש ב-Caching
 
 שימוש ב-Caching יכול לשפר את זמני הביצוע על ידי שמירת התלויות בין הרצות:
 
-```yaml
+{% raw %}
+```{% raw %}yaml
 name: Build and Publish
 
 on: [push]
@@ -246,7 +263,8 @@ jobs:
         npm publish
       env:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-```
+{% endraw %}```
+{% endraw %}
 
 ## מלכודות נפוצות ואיך להימנע מהן
 
@@ -256,40 +274,48 @@ jobs:
 
 אחת המלכודות הנפוצות היא חוסר תאימות בין הסביבה המקומית לסביבת ה-CI. כדי להימנע מכך, ודאו שהתלויות והגרסאות שלהן זהות בשתי הסביבות. לדוגמה, אם אתם משתמשים ב-Node.js, ודאו שהגרסה זהה:
 
+{% raw %}
 ```yaml
 - name: Setup Node.js
   uses: actions/setup-node@v2
   with:
     node-version: '14'
 ```
+{% endraw %}
 
 ### 2. בעיות עם סודות (Secrets)
 
 שימוש בסודות יכול להיות מאתגר, במיוחד אם אינכם מגדירים אותם נכון. ודאו שהסודות מוגדרים בצורה נכונה ב-GitHub ושהם נגישים בקובץ התצורה שלכם:
 
-```yaml
+{% raw %}
+```{% raw %}yaml
 env:
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-```
+{% endraw %}```{% raw %}
+{% endraw %}
 
 ### 3. בעיות עם תלויות
 
-בעיות עם תלויות יכולות לגרום לכשלונות בבנייה. ודאו שאתם משתמשים בפקודות הנכונות להתקנת התלויות, כמו `npm ci` במקום `npm install`:
+בעיות עם תלויות יכולות לגרום לכשלונות בבנייה. ודאו שאתם משתמשים בפקודות הנכונות להתקנת התלויות, כמו {% endraw %}`npm ci` במקום `npm install`:
 
+{% raw %}
 ```bash
 # Use npm ci instead of npm install
 npm ci
-```
+```{% raw %}
+{% endraw %}
 
 ### 4. בעיות עם זמני ביצוע
 
-זמני ביצוע ארוכים יכולים להיות בעיה, במיוחד אם אתם משתמשים בתהליכים כבדים. השתמשו בטכניקות כמו `matrix` ו-Caching כדי לשפר את זמני הביצוע:
+זמני ביצוע ארוכים יכולים להיות בעיה, במיוחד אם אתם משתמשים בתהליכים כבדים. השתמשו בטכניקות כמו {% endraw %}`matrix` ו-Caching כדי לשפר את זמני הביצוע:
 
+{% raw %}
 ```yaml
 strategy:
   matrix:
     node-version: [12.x, 14.x, 16.x]
 ```
+{% endraw %}
 
 ## טכניקות מתקדמות
 
@@ -299,7 +325,8 @@ strategy:
 
 שימוש ב-Scripts מותאמים אישית יכול לתת לכם יותר שליטה על התהליך. לדוגמה, תוכלו לכתוב Script ב-Bash כדי לבצע משימות מורכבות:
 
-```bash
+{% raw %}
+```{% raw %}bash
 #!/bin/bash
 
 # Custom script to build and publish package
@@ -307,12 +334,14 @@ npm ci
 npm run build
 npm config set //registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}
 npm publish
-```
+{% endraw %}```
+{% endraw %}
 
 ### 2. שימוש ב-Actions מותאמים אישית
 
 שימוש ב-Actions מותאמים אישית יכול לשפר את האוטומציה והיעילות. לדוגמה, תוכלו ליצור Action משלכם לבניית חבילות:
 
+{% raw %}
 ```yaml
 name: Custom Build Action
 
@@ -326,12 +355,14 @@ jobs:
     - name: Use Custom Build Action
       uses: ./path/to/your/custom-action
 ```
+{% endraw %}
 
 ### 3. שימוש ב-Workflows מרובים
 
 שימוש ב-Workflows מרובים יכול לשפר את הארגון והניהול של התהליכים. לדוגמה, תוכלו ליצור Workflow לבנייה ו-Workflow נפרד לפרסום:
 
-```yaml
+{% raw %}
+```{% raw %}yaml
 name: Build
 
 on: [push]
@@ -367,13 +398,15 @@ jobs:
         npm publish
       env:
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-```
+{% endraw %}```
+{% endraw %}
 
 ### 4. שימוש ב-Conditions
 
 שימוש ב-Conditions יכול לשפר את הגמישות של התהליך. לדוגמה, תוכלו להשתמש ב-Conditions כדי לבצע פעולות מסוימות רק בבראנץ'ים מסוימים:
 
-```yaml
+{% raw %}
+```{% raw %}yaml
 on:
   push:
     branches:
@@ -400,7 +433,8 @@ jobs:
           npm publish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-```
+{% endraw %}```
+{% endraw %}
 
 ## דוגמאות מהעולם האמיתי
 
@@ -410,7 +444,8 @@ jobs:
 
 בפרויקט Node.js, תוכלו להשתמש ב-GitHub Actions כדי לבנות ולפרסם חבילות ל-npm. להלן דוגמה לקובץ תצורה:
 
-```yaml
+{% raw %}
+```{% raw %}yaml
 name: Node.js Package
 
 on:
@@ -441,13 +476,15 @@ jobs:
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-```
+{% endraw %}```
+{% endraw %}
 
 ### דוגמה 2: פרויקט Python
 
 בפרויקט Python, תוכלו להשתמש ב-GitHub Actions כדי לבנות ולפרסם חבילות ל-PyPI. להלן דוגמה לקובץ תצורה:
 
-```yaml
+{% raw %}
+```{% raw %}yaml
 name: Python Package
 
 on:
@@ -474,13 +511,15 @@ jobs:
       run: |
         python setup.py sdist bdist_wheel
         twine upload dist/*
-```
+{% endraw %}```
+{% endraw %}
 
 ### דוגמה 3: פרויקט Java
 
 בפרויקט Java, תוכלו להשתמש ב-GitHub Actions כדי לבנות ולפרסם חבילות ל-Maven Central. להלן דוגמה לקובץ תצורה:
 
-```yaml
+{% raw %}
+```{% raw %}yaml
 name: Java Package
 
 on:
@@ -501,7 +540,8 @@ jobs:
       run: mvn --batch-mode deploy
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-```
+{% endraw %}```
+{% endraw %}
 
 ## סיכום וצעדים הבאים
 

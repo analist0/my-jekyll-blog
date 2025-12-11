@@ -44,6 +44,7 @@ author: [שמך כאן]
 
 להלן דוגמה לקוד Bash להתקנת הסביבה:
 
+{% raw %}
 ```bash
 # התקנת Python 3.7 ומעלה
 sudo apt-get update
@@ -63,6 +64,7 @@ pip install gemini_pro_sdk
 # התקנת ספריות Python נוספות
 pip install tensorflow pytorch pandas
 ```
+{% endraw %}
 
 לאחר שהתקנתם את כל הדרישות המוקדמות והכלים הנדרשים, אתם מוכנים להתחיל להשתמש ב-Gemini Pro 3.
 
@@ -74,17 +76,20 @@ pip install tensorflow pytorch pandas
 
 כפי שהזכרנו קודם, הצעד הראשון הוא התקנת Gemini Pro 3 SDK. להלן קוד Python להתקנה:
 
+{% raw %}
 ```python
 # התקנת Gemini Pro 3 SDK
 import subprocess
 
 subprocess.check_call(["pip", "install", "gemini_pro_sdk"])
 ```
+{% endraw %}
 
 ## צעד 2: יצירת מודל חדש
 
 לאחר התקנת ה-SDK, ניתן ליצור מודל חדש של Gemini Pro 3. להלן דוגמה לקוד Python ליצירת מודל חדש:
 
+{% raw %}
 ```python
 # יצירת מודל חדש של Gemini Pro 3
 from gemini_pro_sdk import GeminiModel
@@ -98,11 +103,13 @@ model.set_parameters(learning_rate=0.001, batch_size=32, epochs=100)
 # הדפסת פרמטרים
 print(model.get_parameters())
 ```
+{% endraw %}
 
 ## צעד 3: אימון המודל
 
 לאחר יצירת המודל, ניתן לאמן אותו באמצעות נתונים. להלן דוגמה לקוד Python לאימון המודל:
 
+{% raw %}
 ```python
 # אימון המודל
 import numpy as np
@@ -121,11 +128,13 @@ model.train(dataset)
 # הדפסת תוצאות האימון
 print(model.get_training_results())
 ```
+{% endraw %}
 
 ## צעד 4: שימוש במודל לתחזיות
 
 לאחר אימון המודל, ניתן להשתמש בו לתחזיות. להלן דוגמה לקוד Python לשימוש במודל לתחזיות:
 
+{% raw %}
 ```python
 # שימוש במודל לתחזיות
 X_test = np.random.rand(100, 10)
@@ -136,11 +145,13 @@ predictions = model.predict(X_test)
 # הדפסת התחזיות
 print(predictions)
 ```
+{% endraw %}
 
 ## צעד 5: ניתוח תחזיות
 
 לאחר ביצוע תחזיות, ניתן לנתח אותן באמצעות כלים סטטיסטיים. להלן דוגמה לקוד Python לניתוח תחזיות:
 
+{% raw %}
 ```python
 # ניתוח תחזיות
 import pandas as pd
@@ -154,6 +165,7 @@ statistics = df.describe()
 # הדפסת הסטטיסטיקות
 print(statistics)
 ```
+{% endraw %}
 
 # שיטות עבודה מומלצות וטיפים
 
@@ -167,6 +179,7 @@ print(statistics)
 
 להלן דוגמה לקוד Python להפעלת מודל באופן איטרטיבי:
 
+{% raw %}
 ```python
 # אימון מודל באופן איטרטיבי
 from gemini_pro_sdk import GeminiModel, GeminiDataset
@@ -191,6 +204,7 @@ for epoch in range(10):
     results = model.get_training_results()
     print(f"Epoch {epoch + 1}: {results}")
 ```
+{% endraw %}
 
 # מלכודות נפוצות ואיך להימנע מהן
 
@@ -203,6 +217,7 @@ for epoch in range(10):
 
 להלן דוגמה לקוד Python לבדיקת Overfitting:
 
+{% raw %}
 ```python
 # בדיקת Overfitting
 from gemini_pro_sdk import GeminiModel, GeminiDataset
@@ -239,6 +254,7 @@ print("Testing Results:", test_results)
 if train_results['accuracy'] - test_results['accuracy'] > 0.1:
     print("Warning: Possible Overfitting Detected!")
 ```
+{% endraw %}
 
 # טכניקות מתקדמות
 
@@ -251,6 +267,7 @@ if train_results['accuracy'] - test_results['accuracy'] > 0.1:
 
 להלן דוגמה לקוד Python לשימוש ב-Transfer Learning:
 
+{% raw %}
 ```python
 # שימוש ב-Transfer Learning
 from gemini_pro_sdk import GeminiModel, GeminiDataset
@@ -279,6 +296,7 @@ model.train(dataset)
 # הדפסת תוצאות האימון
 print(model.get_training_results())
 ```
+{% endraw %}
 
 # דוגמאות מהעולם האמיתי
 
@@ -288,6 +306,7 @@ print(model.get_training_results())
 
 חברות פיננסיות רבות משתמשות ב-Gemini Pro 3 כדי לחזות מחירי מניות בעתיד. להלן דוגמה לקוד Python לחיזוי מחירי מניות:
 
+{% raw %}
 ```python
 # חיזוי מחירי מניות
 from gemini_pro_sdk import GeminiModel, GeminiDataset
@@ -321,11 +340,13 @@ predictions = model.predict(X_test)
 # הדפסת התחזיות
 print("Predicted Stock Price:", predictions[0])
 ```
+{% endraw %}
 
 ## דוגמה 2: ניתוח מגמות בריאותיות
 
 בתחום הבריאות, ניתן להשתמש ב-Gemini Pro 3 כדי לנתח מגמות בריאותיות ולחזות התפשטות של מחלות. להלן דוגמה לקוד Python לניתוח מגמות בריאותיות:
 
+{% raw %}
 ```python
 # ניתוח מגמות בריאותיות
 from gemini_pro_sdk import GeminiModel, GeminiDataset
@@ -359,11 +380,13 @@ predictions = model.predict(X_test)
 # הדפסת התחזיות
 print("Predicted Disease:", predictions[0])
 ```
+{% endraw %}
 
 ## דוגמה 3: תכנון אסטרטגי בתחום הלוגיסטיקה
 
 בתחום הלוגיסטיקה, ניתן להשתמש ב-Gemini Pro 3 כדי לתכנן אסטרטגיות לוגיסטיות ולחזות זמני אספקה. להלן דוגמה לקוד Python לתכנון אסטרטגי בתחום הלוגיסטיקה:
 
+{% raw %}
 ```python
 # תכנון אסטרטגי בתחום הלוגיסטיקה
 from gemini_pro_sdk import GeminiModel, GeminiDataset
@@ -397,6 +420,7 @@ predictions = model.predict(X_test)
 # הדפסת התחזיות
 print("Predicted Delivery Time:", predictions[0])
 ```
+{% endraw %}
 
 # סיכום וצעדים הבאים
 

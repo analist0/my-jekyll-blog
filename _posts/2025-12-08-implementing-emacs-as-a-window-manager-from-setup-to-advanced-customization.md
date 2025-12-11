@@ -41,23 +41,28 @@ Emacs הוא אחד מהעורכים הטקסטיים הוותיקים והמו�
 
 הצעד הראשון הוא להתקין את Emacs. ב-Linux, ניתן להתקין אותו באמצעות מנהל החבילות שלכם. לדוגמה, ב-Ubuntu:
 
+{% raw %}
 ```bash
 # התקנת Emacs ב-Ubuntu
 sudo apt-get update
 sudo apt-get install emacs
 ```
+{% endraw %}
 
 ב-macOS, ניתן להשתמש ב-Homebrew:
 
+{% raw %}
 ```bash
 # התקנת Emacs ב-macOS
 brew install emacs
 ```
+{% endraw %}
 
 ### התקנת EXWM
 
 לאחר התקנת Emacs, נתקין את EXWM, מנהל החלונות המבוסס על Emacs. ניתן לעשות זאת באמצעות MELPA, מאגר החבילות של Emacs:
 
+{% raw %}
 ```elisp
 ;; הוספת MELPA לרשימת מאגרי החבילות
 (require 'package)
@@ -67,31 +72,38 @@ brew install emacs
 ;; התקנת EXWM
 (package-refresh-contents)
 (package-install 'exwm)
-```
+```{% raw %}
+{% endraw %}
 
-לאחר ההתקנה, נצטרך להוסיף את ההגדרות הבסיסיות של EXWM לקובץ ההתחלה של Emacs (`~/.emacs` או `~/.emacs.d/init.el`):
+לאחר ההתקנה, נצטרך להוסיף את ההגדרות הבסיסיות של EXWM לקובץ ההתחלה של Emacs ({% endraw %}`~/.emacs` או `~/.emacs.d/init.el`):
 
+{% raw %}
 ```elisp
 ;; הגדרות בסיסיות ל-EXWM
 (require 'exwm)
 (require 'exwm-config)
 (exwm-config-default)
-```
+```{% raw %}
+{% endraw %}
 
 ### התאמת קובץ ההתחלה
 
-כדי להפעיל את EXWM כמנהל חלונות, נצטרך להתאים את קובץ ההתחלה של X (`~/.xinitrc` או `~/.xsession`) כך שיפעיל את Emacs עם EXWM:
+כדי להפעיל את EXWM כמנהל חלונות, נצטרך להתאים את קובץ ההתחלה של X ({% endraw %}`~/.xinitrc` או `~/.xsession`) כך שיפעיל את Emacs עם EXWM:
 
+{% raw %}
 ```bash
 #!/bin/sh
 exec dbus-launch --exit-with-session emacs
 ```
+{% endraw %}
 
 לאחר שמירת השינויים, ניתן להפעיל את X עם הפקודה:
 
+{% raw %}
 ```bash
 startx
 ```
+{% endraw %}
 
 ### התאמה אישית בסיסית
 
@@ -101,22 +113,26 @@ startx
 
 מקשי קיצור הם חלק חשוב מהשימוש ב-EXWM. ניתן להגדיר אותם בקובץ ההתחלה של Emacs:
 
+{% raw %}
 ```elisp
 ;; הגדרת מקשי קיצור
 (exwm-input-set-key (kbd "s-r") 'exwm-reset)
 (exwm-input-set-key (kbd "s-k") 'exwm-workspace-delete)
 (exwm-input-set-key (kbd "s-w") 'exwm-workspace-swap)
-```
+```{% raw %}
+{% endraw %}
 
 #### התאמת מראה ותחושה
 
-ניתן להתאים את המראה והתחושה של EXWM באמצעות חבילות כמו `exwm-randr` לניהול רזולוציה:
+ניתן להתאים את המראה והתחושה של EXWM באמצעות חבילות כמו {% endraw %}`exwm-randr` לניהול רזולוציה:
 
+{% raw %}
 ```elisp
 ;; התאמת רזולוציה
 (require 'exwm-randr)
 (exwm-randr-enable)
-```
+```{% raw %}
+{% endraw %}
 
 ### התאמה אישית מתקדמת
 
@@ -124,23 +140,27 @@ startx
 
 #### ניהול חלונות
 
-EXWM מאפשר לכם לנהל חלונות בצורה מתקדמת באמצעות חבילות כמו `exwm-floating`:
+EXWM מאפשר לכם לנהל חלונות בצורה מתקדמת באמצעות חבילות כמו {% endraw %}`exwm-floating`:
 
+{% raw %}
 ```elisp
 ;; הגדרת חלונות צפים
 (require 'exwm-floating)
 (exwm-floating-enable)
-```
+```{% raw %}
+{% endraw %}
 
 #### אינטגרציה עם שירותים חיצוניים
 
-ניתן לשלב את EXWM עם שירותים חיצוניים כמו מנהלי חלונות אחרים או כלים לניהול משימות. לדוגמה, אינטגרציה עם `i3`:
+ניתן לשלב את EXWM עם שירותים חיצוניים כמו מנהלי חלונות אחרים או כלים לניהול משימות. לדוגמה, אינטגרציה עם {% endraw %}`i3`:
 
+{% raw %}
 ```elisp
 ;; אינטגרציה עם i3
 (require 'exwm-i3)
 (exwm-i3-enable)
 ```
+{% endraw %}
 
 ## שיטות עבודה מומלצות וטיפים
 
@@ -150,6 +170,7 @@ EXWM מאפשר לכם לנהל חלונות בצורה מתקדמת באמצע�
 
 הקפידו לשמור על קוד מאורגן ומתועד היטב. השתמשו בהערות ובהסברים כדי להבין את ההגדרות והתאמות השונות:
 
+{% raw %}
 ```elisp
 ;; דוגמה להערות בקוד
 ;; הגדרת מקשי קיצור לניהול חלונות
@@ -157,26 +178,31 @@ EXWM מאפשר לכם לנהל חלונות בצורה מתקדמת באמצע�
 (exwm-input-set-key (kbd "s-k") 'exwm-workspace-delete)  ; מקש למחיקת חלון
 (exwm-input-set-key (kbd "s-w") 'exwm-workspace-swap)  ; מקש להחלפת חלונות
 ```
+{% endraw %}
 
 ### שימוש בחבילות ומאגרים
 
 השתמשו במאגרים כמו MELPA כדי להתקין חבילות נוספות שיכולות לשפר את חוויית השימוש ב-EXWM:
 
+{% raw %}
 ```elisp
 ;; התקנת חבילות נוספות
 (package-refresh-contents)
 (package-install 'exwm-randr)
 (package-install 'exwm-floating)
 ```
+{% endraw %}
 
 ### גיבוי והתאמה
 
 הקפידו לגבות את קובצי ההתחלה שלכם ולשמור עליהם בשליטה בגרסאות, כדי שתוכלו לחזור לגרסאות קודמות במקרה הצורך:
 
+{% raw %}
 ```bash
 # גיבוי קובץ ההתחלה
 cp ~/.emacs.d/init.el ~/.emacs.d/init.el.backup
 ```
+{% endraw %}
 
 ## מלכודות נפוצות ואיך להימנע מהן
 
@@ -186,23 +212,27 @@ cp ~/.emacs.d/init.el ~/.emacs.d/init.el.backup
 
 אחת המלכודות הנפוצות היא בעיות עם מקשי קיצור. הקפידו לוודא שהמקשים שאותם אתם מגדירים אינם סותרים עם מקשים אחרים ב-EXWM או ביישומים אחרים:
 
+{% raw %}
 ```elisp
 ;; בדיקת סתירות במקשי קיצור
 (exwm-input-set-key (kbd "s-r") 'exwm-reset)
 (global-set-key (kbd "s-r") 'other-function)  ; סתירה אפשרית
 ```
+{% endraw %}
 
 ### בעיות עם יישומים חיצוניים
 
 לעיתים יישומים חיצוניים אינם מתנהגים כמצופה ב-EXWM. ניתן לפתור זאת באמצעות התאמות ספציפיות לכל יישום:
 
+{% raw %}
 ```elisp
 ;; התאמה ספציפית ליישום
 (add-to-list 'exwm-manage-configurations
              '((string= exwm-class-name "firefox") .
                ((exwm-floating-border-width . 2)
                 (exwm-floating-border-color . "red"))))
-```
+```{% raw %}
+{% endraw %}
 
 ## טכניקות מתקדמות
 
@@ -210,27 +240,31 @@ cp ~/.emacs.d/init.el ~/.emacs.d/init.el.backup
 
 ### שימוש ב-hooks
 
-Hooks מאפשרים לכם לבצע פעולות מסוימות בזמן אירועים מסוימים. לדוגמה, שימוש ב-`exwm-update-class-hook` כדי להתאים את ההתנהגות של חלונות:
+Hooks מאפשרים לכם לבצע פעולות מסוימות בזמן אירועים מסוימים. לדוגמה, שימוש ב-{% endraw %}`exwm-update-class-hook` כדי להתאים את ההתנהגות של חלונות:
 
+{% raw %}
 ```elisp
 ;; שימוש ב-hooks
 (add-hook 'exwm-update-class-hook
           (lambda ()
             (when (string= exwm-class-name "firefox")
               (exwm-workspace-move-window 1))))
-```
+```{% raw %}
+{% endraw %}
 
 ### שילוב עם כלים אחרים
 
-ניתן לשלב את EXWM עם כלים אחרים כדי לשפר את חוויית השימוש. לדוגמה, שילוב עם `dmenu` לניהול יישומים:
+ניתן לשלב את EXWM עם כלים אחרים כדי לשפר את חוויית השימוש. לדוגמה, שילוב עם {% endraw %}`dmenu` לניהול יישומים:
 
+{% raw %}
 ```elisp
 ;; שילוב עם dmenu
 (defun exwm-dmenu-launch ()
   (interactive)
   (start-process-shell-command "dmenu" nil "dmenu_run"))
 (exwm-input-set-key (kbd "s-d") 'exwm-dmenu-launch)
-```
+```{% raw %}
+{% endraw %}
 
 ## דוגמאות מהעולם האמיתי
 
@@ -238,18 +272,21 @@ Hooks מאפשרים לכם לבצע פעולות מסוימות בזמן איר
 
 ### התאמה לפיתוח תוכנה
 
-אם אתם משתמשים ב-EXWM לפיתוח תוכנה, תוכלו להתאים אותו כדי לשפר את הפרודוקטיביות שלכם. לדוגמה, התאמה לשימוש ב-`magit` לניהול גרסאות:
+אם אתם משתמשים ב-EXWM לפיתוח תוכנה, תוכלו להתאים אותו כדי לשפר את הפרודוקטיביות שלכם. לדוגמה, התאמה לשימוש ב-{% endraw %}`magit` לניהול גרסאות:
 
+{% raw %}
 ```elisp
 ;; התאמה לשימוש ב-magit
 (require 'magit)
 (exwm-input-set-key (kbd "s-g") 'magit-status)
-```
+```{% raw %}
+{% endraw %}
 
 ### התאמה למשתמשי מולטימדיה
 
-אם אתם משתמשים ב-EXWM לצפייה בסרטונים או האזנה למוזיקה, תוכלו להתאים אותו כדי לשפר את חוויית המשתמש. לדוגמה, התאמה לשימוש ב-`mpv` לנגינת וידאו:
+אם אתם משתמשים ב-EXWM לצפייה בסרטונים או האזנה למוזיקה, תוכלו להתאים אותו כדי לשפר את חוויית המשתמש. לדוגמה, התאמה לשימוש ב-{% endraw %}`mpv` לנגינת וידאו:
 
+{% raw %}
 ```elisp
 ;; התאמה לשימוש ב-mpv
 (defun exwm-mpv-launch ()
@@ -257,6 +294,7 @@ Hooks מאפשרים לכם לבצע פעולות מסוימות בזמן איר
   (start-process-shell-command "mpv" nil "mpv"))
 (exwm-input-set-key (kbd "s-v") 'exwm-mpv-launch)
 ```
+{% endraw %}
 
 ## סיכום וצעדים הבאים
 

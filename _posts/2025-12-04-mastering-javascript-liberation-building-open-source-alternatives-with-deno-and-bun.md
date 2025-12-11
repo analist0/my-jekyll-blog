@@ -36,33 +36,41 @@ author: "Tech Insights"
 
 התקנת Deno היא פשוטה ומהירה. ניתן להשתמש בפקודה הבאה:
 
+{% raw %}
 ```bash
 # התקנת Deno
 curl -fsSL https://deno.land/x/install/install.sh | sh
 ```
+{% endraw %}
 
 לאחר ההתקנה, ניתן לבדוק את הגרסה של Deno:
 
+{% raw %}
 ```bash
 # בדיקת גרסת Deno
 deno --version
 ```
+{% endraw %}
 
 ### התקנת Bun
 
 התקנת Bun דורשת מעט יותר צעדים, אך עדיין פשוטה. ניתן להשתמש בפקודה הבאה:
 
+{% raw %}
 ```bash
 # התקנת Bun
 curl -fsSL https://bun.sh/install | bash
 ```
+{% endraw %}
 
 לאחר ההתקנה, ניתן לבדוק את הגרסה של Bun:
 
+{% raw %}
 ```bash
 # בדיקת גרסת Bun
 bun --version
-```
+```{% raw %}
+{% endraw %}
 
 ## הטמעה צעד-אחר-צעד עם דוגמאות קוד
 
@@ -72,56 +80,69 @@ bun --version
 
 נתחיל ביצירת אפליקציה פשוטה ב-Deno שמציגה "Hello, World!".
 
-1. **יצירת קובץ**: צרו קובץ בשם `app.ts`.
+1. **יצירת קובץ**: צרו קובץ בשם {% endraw %}`app.ts`.
 
+{% raw %}
 ```typescript
 // app.ts
 console.log("Hello, World!");
 ```
+{% endraw %}
 
 2. **הרצת הקוד**: הריצו את הקוד עם הפקודה הבאה:
 
+{% raw %}
 ```bash
 # הרצת אפליקציה ב-Deno
 deno run app.ts
 ```
+{% endraw %}
 
 תוצאת הפלט תהיה:
 
+{% raw %}
 ```
 Hello, World!
-```
+```{% raw %}
+{% endraw %}
 
 ### יצירת אפליקציה פשוטה ב-Bun
 
 עכשיו, ניצור אפליקציה דומה ב-Bun.
 
-1. **יצירת קובץ**: צרו קובץ בשם `app.js`.
+1. **יצירת קובץ**: צרו קובץ בשם {% endraw %}`app.js`.
 
+{% raw %}
 ```javascript
 // app.js
 console.log("Hello, World!");
 ```
+{% endraw %}
 
 2. **הרצת הקוד**: הריצו את הקוד עם הפקודה הבאה:
 
+{% raw %}
 ```bash
 # הרצת אפליקציה ב-Bun
 bun run app.js
 ```
+{% endraw %}
 
 תוצאת הפלט תהיה:
 
+{% raw %}
 ```
 Hello, World!
-```
+```{% raw %}
+{% endraw %}
 
 ### יצירת שרת HTTP ב-Deno
 
 כדי להמחיש את יכולותיו של Deno, נבנה שרת HTTP פשוט.
 
-1. **יצירת קובץ**: צרו קובץ בשם `server.ts`.
+1. **יצירת קובץ**: צרו קובץ בשם {% endraw %}`server.ts`.
 
+{% raw %}
 ```typescript
 // server.ts
 import { serve } from "https://deno.land/std@0.140.0/http/server.ts";
@@ -136,15 +157,18 @@ const handler = (request: Request): Response => {
 serve(handler, { port: 8000 });
 console.log("HTTP server running on port 8000");
 ```
+{% endraw %}
 
 2. **הרצת השרת**: הריצו את השרת עם הפקודה הבאה:
 
+{% raw %}
 ```bash
 # הרצת שרת HTTP ב-Deno
 deno run --allow-net server.ts
-```
+```{% raw %}
+{% endraw %}
 
-כאשר תפתחו את הדפדפן ותנווטו לכתובת `http://localhost:8000`, תראו את ההודעה "Hello, Deno!".
+כאשר תפתחו את הדפדפן ותנווטו לכתובת {% endraw %}`http://localhost:8000`, תראו את ההודעה "Hello, Deno!".
 
 ### יצירת שרת HTTP ב-Bun
 
@@ -152,6 +176,7 @@ deno run --allow-net server.ts
 
 1. **יצירת קובץ**: צרו קובץ בשם `server.js`.
 
+{% raw %}
 ```javascript
 // server.js
 const server = Bun.serve({
@@ -163,15 +188,18 @@ const server = Bun.serve({
 
 console.log(`Listening on localhost:${server.port}`);
 ```
+{% endraw %}
 
 2. **הרצת השרת**: הריצו את השרת עם הפקודה הבאה:
 
+{% raw %}
 ```bash
 # הרצת שרת HTTP ב-Bun
 bun run server.js
-```
+```{% raw %}
+{% endraw %}
 
-כאשר תפתחו את הדפדפן ותנווטו לכתובת `http://localhost:8000`, תראו את ההודעה "Hello, Bun!".
+כאשר תפתחו את הדפדפן ותנווטו לכתובת {% endraw %}`http://localhost:8000`, תראו את ההודעה "Hello, Bun!".
 
 ## שיטות עבודה מומלצות וטיפים
 
@@ -181,6 +209,7 @@ bun run server.js
 
 Deno תומך ב-TypeScript מובנה, מה שהופך אותו לבחירה מצוינת לפיתוח ב-TypeScript.
 
+{% raw %}
 ```typescript
 // example.ts
 interface User {
@@ -195,6 +224,7 @@ function greet(user: User): string {
 const user: User = { name: "Alice", age: 30 };
 console.log(greet(user));
 ```
+{% endraw %}
 
 ### שימוש ב-TypeScript עם Bun
 
@@ -202,13 +232,16 @@ console.log(greet(user));
 
 1. **התקנת חבילת TypeScript**: התקינו את חבילת TypeScript עם npm או yarn.
 
+{% raw %}
 ```bash
 # התקנת TypeScript
 npm install -g typescript
-```
+```{% raw %}
+{% endraw %}
 
-2. **יצירת קובץ TypeScript**: צרו קובץ בשם `example.ts`.
+2. **יצירת קובץ TypeScript**: צרו קובץ בשם {% endraw %}`example.ts`.
 
+{% raw %}
 ```typescript
 // example.ts
 interface User {
@@ -223,18 +256,22 @@ function greet(user: User): string {
 const user: User = { name: "Bob", age: 25 };
 console.log(greet(user));
 ```
+{% endraw %}
 
 3. **הרצת הקוד**: הריצו את הקוד עם Bun.
 
+{% raw %}
 ```bash
 # הרצת קוד TypeScript ב-Bun
 bun run example.ts
 ```
+{% endraw %}
 
 ### ניהול תלויות ב-Deno
 
 ב-Deno, ניהול התלויות נעשה באמצעות URLים ישירות, מה שמאפשר שליטה מלאה על התלויות.
 
+{% raw %}
 ```typescript
 // app.ts
 import { serve } from "https://deno.land/std@0.140.0/http/server.ts";
@@ -242,11 +279,13 @@ import { serve } from "https://deno.land/std@0.140.0/http/server.ts";
 // שימוש בתלות
 serve(() => new Response("Hello, Deno!"), { port: 8000 });
 ```
+{% endraw %}
 
 ### ניהול תלויות ב-Bun
 
 ב-Bun, ניהול התלויות דומה לזה של Node.js, אך עם ביצועים משופרים.
 
+{% raw %}
 ```javascript
 // package.json
 {
@@ -269,24 +308,29 @@ app.listen(8000, () => {
   console.log('Server is running on port 8000');
 });
 ```
+{% endraw %}
 
 ### שימוש ב-ES Modules
 
 שניהם Deno ו-Bun תומכים ב-ES Modules, מה שמאפשר קלות בניהול קוד מודולרי.
 
+{% raw %}
 ```javascript
 // main.js
 import { greet } from './greet.js';
 
 console.log(greet('World'));
 ```
+{% endraw %}
 
+{% raw %}
 ```javascript
 // greet.js
 export function greet(name) {
   return `Hello, ${name}!`;
 }
 ```
+{% endraw %}
 
 ## מלכודות נפוצות ואיך להימנע מהן
 
@@ -296,6 +340,7 @@ export function greet(name) {
 
 1. **הרשאות**: Deno מצריך הרשאות מפורשות לגישה לרשת, קבצים וכו'. שכחה להוסיף את ההרשאות הנדרשות תגרום לשגיאות.
 
+{% raw %}
 ```bash
 # דוגמה לשגיאה בגלל חוסר הרשאות
 deno run server.ts
@@ -305,9 +350,11 @@ deno run server.ts
 # פתרון:
 deno run --allow-net server.ts
 ```
+{% endraw %}
 
 2. **תלויות**: שימוש בתלויות שאינן מעודכנות או שגויות יכול לגרום לשגיאות בזמן הרצה.
 
+{% raw %}
 ```typescript
 // דוגמה לשגיאה בגלל תלות לא נכונה
 import { serve } from "https://deno.land/std@0.130.0/http/server.ts";
@@ -318,11 +365,13 @@ import { serve } from "https://deno.land/std@0.130.0/http/server.ts";
 // פתרון:
 import { serve } from "https://deno.land/std@0.140.0/http/server.ts";
 ```
+{% endraw %}
 
 ### מלכודות ב-Bun
 
 1. **תאימות עם Node.js**: Bun עדיין בשלבי פיתוח ולא תומך בכל חבילות Node.js. חשוב לבדוק את התאימות לפני השימוש.
 
+{% raw %}
 ```javascript
 // דוגמה לשגיאה בגלל חבילה לא תואמת
 const express = require('express');
@@ -334,9 +383,11 @@ const app = express();
 // פתרון:
 // התקנת חבילה תואמת או שימוש בחלופה
 ```
+{% endraw %}
 
 2. **ביצועים**: למרות ש-Bun מהיר, שימוש לא נכון ב-API שלו יכול לגרום לירידה בביצועים.
 
+{% raw %}
 ```javascript
 // דוגמה לשגיאה בביצועים
 const server = Bun.serve({
@@ -353,6 +404,7 @@ const server = Bun.serve({
 // פתרון:
 // אופטימיזציה של הקוד או שימוש בכלים אסינכרוניים
 ```
+{% endraw %}
 
 ## טכניקות מתקדמות
 
@@ -362,6 +414,7 @@ const server = Bun.serve({
 
 Deno מאפשר שימוש ב-Web Workers לביצוע משימות אסינכרוניות.
 
+{% raw %}
 ```typescript
 // main.ts
 const worker = new Worker(new URL("./worker.ts", import.meta.url).href, {
@@ -380,11 +433,13 @@ self.onmessage = (event) => {
   self.postMessage("Hello, Main!");
 };
 ```
+{% endraw %}
 
 ### שימוש ב-Web Workers ב-Bun
 
 גם Bun תומך ב-Web Workers, אך בצורה שונה מעט.
 
+{% raw %}
 ```javascript
 // main.js
 const worker = new Worker(new URL("./worker.js", import.meta.url), {
@@ -403,11 +458,13 @@ self.onmessage = (event) => {
   self.postMessage("Hello, Main!");
 };
 ```
+{% endraw %}
 
 ### שימוש ב-Deno Deploy
 
 Deno Deploy מאפשר להריץ אפליקציות Deno בענן בקלות.
 
+{% raw %}
 ```typescript
 // server.ts
 import { serve } from "https://deno.land/std@0.140.0/http/server.ts";
@@ -421,11 +478,13 @@ const handler = (request: Request): Response => {
 
 serve(handler);
 ```
+{% endraw %}
 
 ### שימוש ב-Bun בסביבת CI/CD
 
 Bun יכול להשתלב היטב בסביבות CI/CD לשיפור הביצועים.
 
+{% raw %}
 ```yaml
 # .github/workflows/bun.yml
 name: Bun CI
@@ -451,6 +510,7 @@ jobs:
     - name: Run Bun
       run: bun run test.js
 ```
+{% endraw %}
 
 ## דוגמאות מהעולם האמיתי
 
@@ -460,6 +520,7 @@ jobs:
 
 נבנה API פשוט ב-Deno שמחזיר רשימת משתמשים.
 
+{% raw %}
 ```typescript
 // api.ts
 import { serve } from "https://deno.land/std@0.140.0/http/server.ts";
@@ -481,11 +542,13 @@ const handler = (request: Request): Response => {
 serve(handler, { port: 8000 });
 console.log("API server running on port 8000");
 ```
+{% endraw %}
 
 ### דוגמה ל-API ב-Bun
 
 נבנה API דומה ב-Bun.
 
+{% raw %}
 ```javascript
 // api.js
 const users = [
@@ -507,11 +570,13 @@ const server = Bun.serve({
 
 console.log(`API server running on localhost:${server.port}`);
 ```
+{% endraw %}
 
 ### דוגמה לכלי CLI ב-Deno
 
 נבנה כלי CLI פשוט ב-Deno שמקבל שם ומחזיר ברכה.
 
+{% raw %}
 ```typescript
 // cli.ts
 import { parse } from "https://deno.land/std@0.140.0/flags/mod.ts";
@@ -524,18 +589,22 @@ if (args.name) {
   console.log("Please provide a name with --name flag");
 }
 ```
+{% endraw %}
 
 הרצת הכלי:
 
+{% raw %}
 ```bash
 # הרצת כלי CLI ב-Deno
 deno run --allow-env cli.ts --name Alice
 ```
+{% endraw %}
 
 ### דוגמה לכלי CLI ב-Bun
 
 נבנה כלי CLI דומה ב-Bun.
 
+{% raw %}
 ```javascript
 // cli.js
 import { parseArgs } from 'util';
@@ -555,13 +624,16 @@ if (values.name) {
   console.log("Please provide a name with --name flag");
 }
 ```
+{% endraw %}
 
 הרצת הכלי:
 
+{% raw %}
 ```bash
 # הרצת כלי CLI ב-Bun
 bun run cli.js --name Bob
 ```
+{% endraw %}
 
 ## סיכום וצעדים הבאים
 

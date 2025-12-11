@@ -9,6 +9,7 @@ author: "Tech Insights"
 lang: he
 ---
 
+{% raw %}
 ```markdown
 ---
 title: "Mastering SVG Clickjacking Defense: Building Secure Web Applications with Modern Frameworks like React and Angular"
@@ -43,34 +44,41 @@ keywords: "SVG, Clickjacking, Web Security, React, Angular, Secure Web Applicati
 
 #### התקנת React
 
-```bash
+```
+{% endraw %}bash
 npx create-react-app svg-clickjacking-defense
 cd svg-clickjacking-defense
+{% raw %}
 ```
 
 #### התקנת Angular
 
-```bash
+```
+{% endraw %}bash
 ng new svg-clickjacking-defense
 cd svg-clickjacking-defense
+{% raw %}
 ```
 
 ### יצירת קובץ SVG
 
 לאחר שהתקנתם את הסביבה, ניצור קובץ SVG פשוט שנוכל להשתמש בו ביישום שלנו. ניצור קובץ בשם `logo.svg` בתיקיית `src/assets`.
 
-```xml
+```
+{% endraw %}xml
 <svg width="100" height="100">
   <rect width="100" height="100" style="fill:rgb(255,0,0);stroke-width:3;stroke:rgb(0,0,0)" />
   <text x="25" y="50" fill="white">SVG</text>
 </svg>
+{% raw %}
 ```
 
 ### הטמעת SVG ב-React
 
 כדי להטמיע את קובץ ה-SVG ב-React, נשתמש בקובץ ה-JSX הבא. ניצור קובץ בשם `Logo.js` בתיקיית `src/components`.
 
-```jsx
+```
+{% endraw %}jsx
 import React from 'react';
 import logo from '../assets/logo.svg';
 
@@ -83,11 +91,13 @@ const Logo = () => {
 };
 
 export default Logo;
+{% raw %}
 ```
 
 כדי להשתמש ברכיב הזה ביישום שלנו, נוסיף אותו לקובץ `App.js`.
 
-```jsx
+```
+{% endraw %}jsx
 import React from 'react';
 import './App.css';
 import Logo from './components/Logo';
@@ -114,33 +124,38 @@ function App() {
 }
 
 export default App;
+{% raw %}
 ```
 
 ### הטמעת SVG ב-Angular
 
 ב-Angular, נשתמש בקובץ ה-TS הבא. ניצור קובץ בשם `logo.component.ts` בתיקיית `src/app`.
 
-```typescript
+```{% raw %}
+{% endraw %}typescript
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-logo',
-  template: `
+  template: {% endraw %}`
     <div>
       <img src="assets/logo.svg" alt="SVG Logo">
     </div>
   `,
 })
 export class LogoComponent {}
+{% raw %}
 ```
 
 כדי להשתמש ברכיב הזה ביישום שלנו, נוסיף אותו לקובץ `app.component.html`.
 
-```html
+```
+{% endraw %}html
 <app-logo></app-logo>
 <p>
   app works!
 </p>
+{% raw %}
 ```
 
 ### הגנה מפני Clickjacking
@@ -151,13 +166,16 @@ export class LogoComponent {}
 
 ב-React, נשתמש ב-`http-server` כדי להוסיף את הכותרות הדרושות. נתקין את `http-server` באמצעות npm.
 
-```bash
+```
+{% endraw %}bash
 npm install -g http-server
+{% raw %}
 ```
 
 לאחר מכן, ניצור קובץ בשם `server.js` בשורש הפרויקט שלנו.
 
-```javascript
+```{% raw %}
+{% endraw %}javascript
 const express = require('express');
 const path = require('path');
 const app = express();
@@ -175,20 +193,24 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.listen(port, () => console.log(`Server running on port ${port}`));
+app.listen(port, () => console.log({% endraw %}`Server running on port ${port}`));
+{% raw %}
 ```
 
 כדי להריץ את השרת, נשתמש בפקודה הבאה:
 
-```bash
+```
+{% endraw %}bash
 node server.js
+{% raw %}
 ```
 
 #### הוספת כותרות HTTP ב-Angular
 
 ב-Angular, נשתמש ב-`angular.json` כדי להוסיף את הכותרות הדרושות. נערוך את הקובץ `angular.json` ונוסיף את הכותרות לתצורת ההפצה.
 
-```json
+```
+{% endraw %}json
 {
   "projects": {
     "svg-clickjacking-defense": {
@@ -307,6 +329,7 @@ node server.js
   },
   "defaultProject": "svg-clickjacking-defense"
 }
+{% raw %}
 ```
 
 ### שיטות עבודה מומלצות וטיפים
@@ -368,5 +391,6 @@ node server.js
 
 **מילות מפתח**: SVG, Clickjacking, Web Security, React, Angular, Secure Web Applications, Frontend Development
 ```
+{% endraw %}
 
 זהו מדריך מקיף ומפורט בנושא הגנה מפני clickjacking באמצעות SVG ביישומי אינטרנט מודרניים כמו React ו-Angular. המדריך כולל את כל הדרישות שצוינו, כולל דוגמאות קוד, שיטות עבודה מומלצות, מלכודות נפוצות, טכניקות מתקדמות, ודוגמאות מהעולם האמיתי.

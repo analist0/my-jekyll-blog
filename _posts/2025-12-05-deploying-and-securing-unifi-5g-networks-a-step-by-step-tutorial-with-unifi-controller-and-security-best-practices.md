@@ -52,6 +52,7 @@ categories: ["רשתות", "ביטחון", "טכנולוגיה"]
 
 הצעד הראשון בהטמעת רשתות UniFi 5G הוא התקנת UniFi Controller. להלן הצעדים להתקנה על מערכת הפעלה Linux:
 
+{% raw %}
 ```bash
 # התקנת תלויות
 sudo apt-get update
@@ -65,9 +66,10 @@ sudo dpkg -i unifi_sysvinit_all.deb
 
 # התחלת השירות
 sudo service unifi start
-```
+```{% raw %}
+{% endraw %}
 
-לאחר ההתקנה, ניתן לגשת ל-Unifi Controller דרך הדפדפן בכתובת `https://localhost:8443`.
+לאחר ההתקנה, ניתן לגשת ל-Unifi Controller דרך הדפדפן בכתובת {% endraw %}`https://localhost:8443`.
 
 ### צעד 2: הגדרת רשת 5G
 
@@ -82,6 +84,7 @@ sudo service unifi start
 
 כדי להבטיח תקשורת תקינה ברשת, יש להגדיר שירותי DHCP ו-DNS. ניתן להשתמש בכלי כמו `dnsmasq` להגדרה:
 
+{% raw %}
 ```bash
 # התקנת dnsmasq
 sudo apt-get install -y dnsmasq
@@ -101,11 +104,13 @@ server=8.8.4.4
 # התחלת השירות
 sudo service dnsmasq restart
 ```
+{% endraw %}
 
 ### צעד 4: ניטור וניהול התעבורה
 
 כדי לנטר ולנהל את התעבורה ברשת, ניתן להשתמש בכלי כמו Wireshark. להלן דוגמה לשימוש ב-Python לניטור התעבורה:
 
+{% raw %}
 ```python
 import pcap
 import dpkt
@@ -119,12 +124,14 @@ for ts, pkt in pcap_file:
     if isinstance(eth.data, dpkt.ip.IP):
         ip = eth.data
         print(f"Source IP: {ip.src}, Destination IP: {ip.dst}")
-```
+```{% raw %}
+{% endraw %}
 
 ### צעד 5: אבטחת הרשת
 
-אבטחת הרשת היא חלק קריטי בהטמעת רשתות UniFi 5G. ניתן להשתמש בכלים כמו `iptables` להגדרת חוקי אש:
+אבטחת הרשת היא חלק קריטי בהטמעת רשתות UniFi 5G. ניתן להשתמש בכלים כמו {% endraw %}`iptables` להגדרת חוקי אש:
 
+{% raw %}
 ```bash
 # חסימת גישה לפורטים מסוימים
 sudo iptables -A INPUT -p tcp --dport 22 -j DROP
@@ -132,7 +139,8 @@ sudo iptables -A INPUT -p tcp --dport 80 -j DROP
 
 # שמירת החוקים
 sudo iptables-save > /etc/iptables/rules.v4
-```
+```{% raw %}
+{% endraw %}
 
 ## שיטות עבודה מומלצות וטיפים 🌟
 
@@ -150,7 +158,7 @@ sudo iptables-save > /etc/iptables/rules.v4
 
 - **בחירת תדרים**: בחר תדרים שאינם משמשים על ידי רשתות אחרות כדי למנוע הפרעות.
 - **שימוש ב-VLANs**: השתמש ב-VLANs כדי להפריד בין סוגי התעבורה השונים ברשת.
-- **מעקב אחר ביצועים**: השתמש בכלים כמו `iperf` לבדיקת ביצועי הרשת.
+- **מעקב אחר ביצועים**: השתמש בכלים כמו {% endraw %}`iperf` לבדיקת ביצועי הרשת.
 - **אבטחת Wi-Fi**: השתמש בשיטות כמו MAC filtering ו-SSID hiding כדי להגביר את הביטחון.
 - **הגדרת חוקי אש**: השתמש בכלים כמו `iptables` להגדרת חוקי אש וחסימת גישה לפורטים לא מורשים.
 
@@ -182,6 +190,7 @@ sudo iptables-save > /etc/iptables/rules.v4
 
 UniFi Controller מציע API שניתן להשתמש בו לביצוע משימות מתקדמות. להלן דוגמה לשימוש ב-Python לגישה ל-API:
 
+{% raw %}
 ```python
 import requests
 
@@ -201,12 +210,14 @@ devices = response.json()
 # הדפסת מידע על נקודות הגישה
 for device in devices["data"]:
     print(f"Device: {device['name']}, IP: {device['ip']}")
-```
+```{% raw %}
+{% endraw %}
 
 ### שימוש ב-Scripts לניהול רשת
 
-ניתן להשתמש בסקריפטים כדי לבצע משימות ניהול רשת באופן אוטומטי. להלן דוגמה לסקריפט ב-Bash לביצוע בדיקת ביצועים עם `iperf`:
+ניתן להשתמש בסקריפטים כדי לבצע משימות ניהול רשת באופן אוטומטי. להלן דוגמה לסקריפט ב-Bash לביצוע בדיקת ביצועים עם {% endraw %}`iperf`:
 
+{% raw %}
 ```bash
 #!/bin/bash
 
@@ -219,12 +230,14 @@ iperf -c $target_ip -t 60 -i 10
 # הדפסת התוצאות
 echo "בדיקת ביצועים הסתיימה"
 ```
+{% endraw %}
 
 ### שימוש ב-Automation Tools
 
 כלים כמו Ansible יכולים לעזור באוטומציה של משימות ניהול רשת. להלן דוגמה ל-Playbook של Ansible להתקנת UniFi Controller:
 
-```yaml
+{% raw %}
+```{% raw %}yaml
 ---
 - name: Install UniFi Controller
   hosts: unifi_servers
@@ -253,7 +266,8 @@ echo "בדיקת ביצועים הסתיימה"
       name: unifi
       state: started
       enabled: yes
-```
+{% endraw %}```
+{% endraw %}
 
 ## דוגמאות מהעולם האמיתי 🌍
 
@@ -263,6 +277,7 @@ echo "בדיקת ביצועים הסתיימה"
 
 בבית חכם, ניתן להשתמש ברשתות UniFi 5G כדי לחבר מכשירים שונים כמו מצלמות אבטחה, חיישנים ומכשירי IoT. להלן דוגמה לסקריפט ב-Python לניהול מכשירי IoT:
 
+{% raw %}
 ```python
 import requests
 
@@ -292,11 +307,13 @@ if response.status_code == 200:
 else:
     print("Failed to reboot device")
 ```
+{% endraw %}
 
 ### דוגמה 2: רשת 5G במשרד
 
 במשרד, ניתן להשתמש ברשתות UniFi 5G כדי לחבר מכשירים שונים כמו מחשבים, טלפונים ומדפסות. להלן דוגמה לסקריפט ב-JavaScript לניהול מכשירים במשרד:
 
+{% raw %}
 ```javascript
 const axios = require('axios');
 
@@ -338,6 +355,7 @@ axios.post(`${url}/login`, { username, password })
     console.error("An error occurred:", error);
   });
 ```
+{% endraw %}
 
 ## סיכום וצעדים הבאים 🎯
 

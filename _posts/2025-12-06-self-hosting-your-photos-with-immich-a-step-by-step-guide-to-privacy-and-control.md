@@ -64,6 +64,7 @@ Immich הוא פתרון קוד פתוח לניהול תמונות שמאפשר 
 
 השלב הראשון בהטמעת Immich הוא התקנת Docker ו-Docker Compose. להלן הפקודות להתקנה ב-Linux (Ubuntu/Debian):
 
+{% raw %}
 ```bash
 # התקנת Docker
 sudo apt-get update
@@ -72,6 +73,7 @@ sudo apt-get install -y docker.io
 # התקנת Docker Compose
 sudo apt-get install -y docker-compose
 ```
+{% endraw %}
 
 ב-macOS, תוכל להתקין Docker Desktop מהאתר הרשמי של Docker. ב-Windows, התקן את Docker Desktop ל-Windows.
 
@@ -79,16 +81,19 @@ sudo apt-get install -y docker-compose
 
 כדי להוריד את קוד המקור של Immich, השתמש בפקודה הבאה:
 
+{% raw %}
 ```bash
 # הורדת קוד ממאגר GitHub
 git clone https://github.com/immich-app/immich.git
 cd immich
-```
+```{% raw %}
+{% endraw %}
 
 ### שלב 3: התקנת Immich באמצעות Docker Compose
 
-בתיקיית `immich`, תמצא קובץ בשם `docker-compose.yml`. זהו הקובץ שמגדיר את כל השירותים הדרושים להרצת Immich. להלן דוגמה לקובץ `docker-compose.yml` מותאם:
+בתיקיית {% endraw %}`immich`, תמצא קובץ בשם `docker-compose.yml`. זהו הקובץ שמגדיר את כל השירותים הדרושים להרצת Immich. להלן דוגמה לקובץ `docker-compose.yml` מותאם:
 
+{% raw %}
 ```yaml
 version: '3'
 
@@ -136,22 +141,26 @@ services:
       - immich-server
     restart: always
 ```
+{% endraw %}
 
 כדי להריץ את Immich, השתמש בפקודה הבאה:
 
+{% raw %}
 ```bash
 # הרצת Immich באמצעות Docker Compose
 docker-compose up -d
-```
+```{% raw %}
+{% endraw %}
 
 ### שלב 4: גישה ל-UI של Immich
 
-לאחר שהרצת את Immich, תוכל לגשת ל-UI שלו באמצעות הדפדפן שלך. הכתובת הבסיסית היא `http://localhost:3000`. אם אתה משתמש בשרת מרוחק, החלף את `localhost` בכתובת ה-IP של השרת שלך.
+לאחר שהרצת את Immich, תוכל לגשת ל-UI שלו באמצעות הדפדפן שלך. הכתובת הבסיסית היא {% endraw %}`http://localhost:3000`. אם אתה משתמש בשרת מרוחק, החלף את `localhost` בכתובת ה-IP של השרת שלך.
 
 ### שלב 5: התקנת תלויות נוספות
 
 Immich תומך בתכונות מתקדמות כמו זיהוי פנים ומיון תמונות באמצעות בינה מלאכותית. כדי להפעיל את התכונות הללו, תצטרך להתקין תלויות נוספות כמו TensorFlow ו-OpenCV. להלן דוגמה להתקנת התלויות הללו ב-Python:
 
+{% raw %}
 ```python
 # התקנת TensorFlow ו-OpenCV
 import subprocess
@@ -161,7 +170,8 @@ subprocess.check_call([sys.executable, "-m", "pip", "install", "tensorflow"])
 
 # התקנת OpenCV
 subprocess.check_call([sys.executable, "-m", "pip", "install", "opencv-python"])
-```
+```{% raw %}
+{% endraw %}
 
 ## שיטות עבודה מומלצות וטיפים
 
@@ -169,8 +179,9 @@ subprocess.check_call([sys.executable, "-m", "pip", "install", "opencv-python"])
 
 ### שימוש ב-Docker Volumes
 
-שימוש ב-Docker Volumes יעזור לך לשמור את הנתונים שלך גם אם תצטרך להתקין מחדש את Immich. דוגמה לשימוש ב-Docker Volumes בקובץ `docker-compose.yml`:
+שימוש ב-Docker Volumes יעזור לך לשמור את הנתונים שלך גם אם תצטרך להתקין מחדש את Immich. דוגמה לשימוש ב-Docker Volumes בקובץ {% endraw %}`docker-compose.yml`:
 
+{% raw %}
 ```yaml
 version: '3'
 
@@ -183,30 +194,36 @@ services:
 volumes:
   immich_data:
 ```
+{% endraw %}
 
 ### עדכוני אבטחה
 
 הקפד לעדכן את Immich ואת התלויות שלו באופן קבוע כדי להבטיח את האבטחה של המערכת שלך. דוגמה לפקודת עדכון:
 
+{% raw %}
 ```bash
 # עדכון Immich
 docker-compose pull
 docker-compose up -d
 ```
+{% endraw %}
 
 ### גיבויים
 
 בצע גיבויים קבועים של הנתונים שלך. דוגמה לפקודת גיבוי ב-Bash:
 
+{% raw %}
 ```bash
 # גיבוי נתונים
 tar -czvf immich_backup.tar.gz /path/to/immich_data
 ```
+{% endraw %}
 
 ### שימוש ב-HTTPS
 
 כדי להגן על התקשורת בין הדפדפן ל-Immich, השתמש ב-HTTPS. דוגמה להתקנת Let's Encrypt עבור HTTPS:
 
+{% raw %}
 ```bash
 # התקנת Certbot
 sudo apt-get install certbot
@@ -230,6 +247,7 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt:ro
 " > docker-compose.yml
 ```
+{% endraw %}
 
 ## מלכודות נפוצות ואיך להימנע מהן
 
@@ -239,15 +257,18 @@ services:
 
 אם אתה נתקל בבעיות במהלך ההתקנה, ודא שהתקנת את כל הדרישות המוקדמות ושיש לך הרשאות ניהול מתאימות. דוגמה לבדיקת הרשאות:
 
+{% raw %}
 ```bash
 # בדיקת הרשאות
 ls -la /path/to/immich_data
 ```
+{% endraw %}
 
 ### בעיות בביצועים
 
 אם אתה חווה בעיות בביצועים, ודא שהחומרה שלך עומדת בדרישות המינימליות ושקבצי התמונות שלך מאורגנים כראוי. דוגמה לבדיקת ביצועים:
 
+{% raw %}
 ```bash
 # בדיקת שימוש בזכרון
 docker stats
@@ -255,11 +276,13 @@ docker stats
 # בדיקת שימוש בדיסק
 df -h
 ```
+{% endraw %}
 
 ### בעיות בזיהוי פנים
 
 אם זיהוי הפנים לא עובד כראוי, ודא שהתקנת את כל התלויות הנדרשות ושהתמונות שלך בפורמטים נתמכים. דוגמה לבדיקת תלויות:
 
+{% raw %}
 ```python
 # בדיקת התקנת TensorFlow
 import tensorflow as tf
@@ -268,7 +291,8 @@ print(tf.__version__)
 # בדיקת התקנת OpenCV
 import cv2
 print(cv2.__version__)
-```
+```{% raw %}
+{% endraw %}
 
 ## טכניקות מתקדמות
 
@@ -276,8 +300,9 @@ print(cv2.__version__)
 
 ### שימוש ב-Kubernetes
 
-אם אתה משתמש בסביבת Kubernetes, תוכל להתקין את Immich באמצעות Helm. דוגמה לקובץ `values.yaml`:
+אם אתה משתמש בסביבת Kubernetes, תוכל להתקין את Immich באמצעות Helm. דוגמה לקובץ {% endraw %}`values.yaml`:
 
+{% raw %}
 ```yaml
 # values.yaml
 replicaCount: 1
@@ -325,9 +350,11 @@ tolerations: []
 
 affinity: {}
 ```
+{% endraw %}
 
 דוגמה להתקנת Immich באמצעות Helm:
 
+{% raw %}
 ```bash
 # הוספת repo של Helm
 helm repo add immich https://charts.immich.app
@@ -335,11 +362,13 @@ helm repo add immich https://charts.immich.app
 # התקנת Immich
 helm install immich immich/immich -f values.yaml
 ```
+{% endraw %}
 
 ### שימוש ב-API של Immich
 
 Immich מספק API שמאפשר לך לבצע פעולות מתקדמות. דוגמה לשימוש ב-API ב-JavaScript:
 
+{% raw %}
 ```javascript
 // שימוש ב-API של Immich
 const axios = require('axios');
@@ -383,11 +412,13 @@ async function uploadPhoto(filePath) {
 getPhotos();
 uploadPhoto('/path/to/photo.jpg');
 ```
+{% endraw %}
 
 ### שימוש ב-Webhooks
 
 Immich תומך ב-Webhooks, מה שמאפשר לך לקבל התראות על אירועים שונים. דוגמה להגדרת Webhook:
 
+{% raw %}
 ```bash
 # הגדרת Webhook
 curl -X POST \
@@ -399,6 +430,7 @@ curl -X POST \
     "url": "https://your-webhook-url.com"
   }'
 ```
+{% endraw %}
 
 ## דוגמאות מהעולם האמיתי
 

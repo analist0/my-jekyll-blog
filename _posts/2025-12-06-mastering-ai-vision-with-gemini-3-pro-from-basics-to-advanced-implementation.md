@@ -9,6 +9,7 @@ author: "Tech Insights"
 lang: he
 ---
 
+{% raw %}
 ```markdown
 ---
 title: "Mastering AI Vision with Gemini 3 Pro: From Basics to Advanced Implementation"
@@ -42,7 +43,8 @@ tags: [AI Vision, Gemini 3 Pro, Computer Vision, Machine Learning, Deep Learning
 
 ראשית, נתקין את הסביבה הדרושה. להלן דוגמה להתקנה של Anaconda והתקנת הספריות הדרושות:
 
-```bash
+```
+{% endraw %}bash
 # התקנת Anaconda
 wget https://repo.anaconda.com/archive/Anaconda3-2023.07-Linux-x86_64.sh
 bash Anaconda3-2023.07-Linux-x86_64.sh
@@ -53,18 +55,21 @@ conda activate gemini_env
 
 # התקנת Gemini 3 Pro SDK
 pip install gemini3pro
+{% raw %}
 ```
 
 ### התקנת מאגרי נתונים
 
 כדי להתחיל לעבוד עם Gemini 3 Pro, נצטרך מאגרי נתונים של תמונות ווידאו. דוגמה להורדת מאגר נתונים פופולרי כמו ImageNet:
 
-```bash
+```
+{% endraw %}bash
 # הורדת מאגר נתונים של ImageNet
 wget http://image-net.org/data/imagenet_synsets_index.txt
 wget http://image-net.org/data/imagenet_synsets.txt
 wget http://image-net.org/data/imagenet_fall11_urls.tgz
 tar -xzvf imagenet_fall11_urls.tgz
+{% raw %}
 ```
 
 ## הטמעה צעד-אחר-צעד עם דוגמאות קוד
@@ -75,7 +80,8 @@ tar -xzvf imagenet_fall11_urls.tgz
 
 ראשית, נתחבר ל-Gemini 3 Pro ונבדוק שהכל עובד כראוי:
 
-```python
+```
+{% endraw %}python
 # Importing the Gemini 3 Pro SDK
 import gemini3pro as gemini
 
@@ -87,13 +93,15 @@ if client.is_connected():
     print("Connected to Gemini 3 Pro successfully!")
 else:
     print("Failed to connect to Gemini 3 Pro.")
+{% raw %}
 ```
 
 ### שלב 2: זיהוי אובייקטים בסיסי
 
 לאחר שהתחברנו, נתחיל בזיהוי אובייקטים בסיסי. להלן דוגמה לזיהוי אובייקטים בתמונה:
 
-```python
+```
+{% endraw %}python
 # Loading the image
 image_path = "path/to/your/image.jpg"
 image = gemini.Image.load(image_path)
@@ -104,13 +112,15 @@ detections = client.detect_objects(image)
 # Printing the results
 for detection in detections:
     print(f"Detected: {detection.label}, Confidence: {detection.confidence}")
+{% raw %}
 ```
 
 ### שלב 3: זיהוי פנים
 
 זיהוי פנים הוא אחד השימושים הפופולריים ביותר ב-AI Vision. להלן דוגמה לזיהוי פנים:
 
-```python
+```
+{% endraw %}python
 # Loading the image
 image_path = "path/to/your/image_with_faces.jpg"
 image = gemini.Image.load(image_path)
@@ -121,13 +131,15 @@ faces = client.detect_faces(image)
 # Printing the results
 for face in faces:
     print(f"Detected face at {face.bounding_box}")
+{% raw %}
 ```
 
 ### שלב 4: זיהוי תוויות
 
 זיהוי תוויות הוא תהליך חשוב בניתוח תמונות. להלן דוגמה לזיהוי תוויות בתמונה:
 
-```python
+```
+{% endraw %}python
 # Loading the image
 image_path = "path/to/your/image_with_labels.jpg"
 image = gemini.Image.load(image_path)
@@ -138,13 +150,15 @@ labels = client.detect_labels(image)
 # Printing the results
 for label in labels:
     print(f"Detected label: {label.description}, Confidence: {label.confidence}")
+{% raw %}
 ```
 
 ### שלב 5: זיהוי טקסט בתמונות
 
 זיהוי טקסט בתמונות הוא תהליך שימושי מאוד בתחומים רבים. להלן דוגמה לזיהוי טקסט:
 
-```python
+```
+{% endraw %}python
 # Loading the image
 image_path = "path/to/your/image_with_text.jpg"
 image = gemini.Image.load(image_path)
@@ -155,13 +169,15 @@ texts = client.detect_text(image)
 # Printing the results
 for text in texts:
     print(f"Detected text: {text.description}, Confidence: {text.confidence}")
+{% raw %}
 ```
 
 ### שלב 6: זיהוי פעילויות
 
 זיהוי פעילויות בתמונות ובווידאו הוא שימוש מתקדם יותר. להלן דוגמה לזיהוי פעילויות:
 
-```python
+```
+{% endraw %}python
 # Loading the video
 video_path = "path/to/your/video.mp4"
 video = gemini.Video.load(video_path)
@@ -172,6 +188,7 @@ activities = client.detect_activities(video)
 # Printing the results
 for activity in activities:
     print(f"Detected activity: {activity.description}, Confidence: {activity.confidence}")
+{% raw %}
 ```
 
 ## שיטות עבודה מומלצות וטיפים
@@ -234,7 +251,8 @@ for activity in activities:
 
 Semantic Segmentation היא טכניקה שבה כל פיקסל בתמונה מקבל תווית. להלן דוגמה ל-Semantic Segmentation:
 
-```python
+```
+{% endraw %}python
 # Loading the image
 image_path = "path/to/your/image_for_segmentation.jpg"
 image = gemini.Image.load(image_path)
@@ -245,13 +263,15 @@ segmentation = client.semantic_segmentation(image)
 # Printing the results
 for segment in segmentation:
     print(f"Segment: {segment.label}, Pixels: {segment.pixels}")
+{% raw %}
 ```
 
 ### 2. Instance Segmentation
 
 Instance Segmentation היא טכניקה שבה כל אובייקט בתמונה מקבל תווית ומסגרת. להלן דוגמה ל-Instance Segmentation:
 
-```python
+```
+{% endraw %}python
 # Loading the image
 image_path = "path/to/your/image_for_instance_segmentation.jpg"
 image = gemini.Image.load(image_path)
@@ -262,13 +282,15 @@ instances = client.instance_segmentation(image)
 # Printing the results
 for instance in instances:
     print(f"Instance: {instance.label}, Bounding Box: {instance.bounding_box}")
+{% raw %}
 ```
 
 ### 3. Object Tracking
 
 Object Tracking הוא תהליך של מעקב אחר אובייקטים בווידאו. להלן דוגמה ל-Object Tracking:
 
-```python
+```
+{% endraw %}python
 # Loading the video
 video_path = "path/to/your/video_for_tracking.mp4"
 video = gemini.Video.load(video_path)
@@ -279,13 +301,15 @@ tracks = client.track_objects(video)
 # Printing the results
 for track in tracks:
     print(f"Tracked object: {track.label}, Path: {track.path}")
+{% raw %}
 ```
 
 ### 4. Depth Estimation
 
 Depth Estimation היא טכניקה שבה ניתן לחשב את העומק של כל פיקסל בתמונה. להלן דוגמה ל-Depth Estimation:
 
-```python
+```
+{% endraw %}python
 # Loading the image
 image_path = "path/to/your/image_for_depth_estimation.jpg"
 image = gemini.Image.load(image_path)
@@ -295,13 +319,15 @@ depth_map = client.estimate_depth(image)
 
 # Printing the results
 print(f"Depth map: {depth_map}")
+{% raw %}
 ```
 
 ### 5. 3D Reconstruction
 
 3D Reconstruction היא טכניקה שבה ניתן לבנות מודל תלת-ממדי ממספר תמונות. להלן דוגמה ל-3D Reconstruction:
 
-```python
+```
+{% endraw %}python
 # Loading the images
 image_paths = ["path/to/your/image1.jpg", "path/to/your/image2.jpg", "path/to/your/image3.jpg"]
 images = [gemini.Image.load(path) for path in image_paths]
@@ -311,6 +337,7 @@ reconstruction = client.reconstruct_3d(images)
 
 # Printing the results
 print(f"3D Reconstruction: {reconstruction}")
+{% raw %}
 ```
 
 ## דוגמאות מהעולם האמיתי
@@ -321,7 +348,8 @@ print(f"3D Reconstruction: {reconstruction}")
 
 חברות רבות משתמשות ב-Gemini 3 Pro כדי לזהות מוצרים בחנויות ולשפר את חווית הקנייה. להלן דוגמה לזיהוי מוצרים:
 
-```python
+```
+{% endraw %}python
 # Loading the image
 image_path = "path/to/your/store_image.jpg"
 image = gemini.Image.load(image_path)
@@ -332,13 +360,15 @@ products = client.detect_products(image)
 # Printing the results
 for product in products:
     print(f"Detected product: {product.label}, Price: {product.price}")
+{% raw %}
 ```
 
 ### 2. מעקב אחר תנועת כלי רכב
 
 מערכות לניהול תנועה משתמשות ב-Gemini 3 Pro כדי לעקוב אחר תנועת כלי רכב ולשפר את הבטיחות בכבישים. להלן דוגמה למעקב אחר כלי רכב:
 
-```python
+```
+{% endraw %}python
 # Loading the video
 video_path = "path/to/your/traffic_video.mp4"
 video = gemini.Video.load(video_path)
@@ -349,13 +379,15 @@ vehicles = client.track_vehicles(video)
 # Printing the results
 for vehicle in vehicles:
     print(f"Tracked vehicle: {vehicle.label}, Path: {vehicle.path}")
+{% raw %}
 ```
 
 ### 3. ניתוח תמונות רפואיות
 
 בתחום הרפואה, Gemini 3 Pro משמש לניתוח תמונות רפואיות ולשיפור אבחון מחלות. להלן דוגמה לניתוח תמונות רפואיות:
 
-```python
+```
+{% endraw %}python
 # Loading the image
 image_path = "path/to/your/medical_image.jpg"
 image = gemini.Image.load(image_path)
@@ -366,13 +398,15 @@ findings = client.analyze_medical_image(image)
 # Printing the results
 for finding in findings:
     print(f"Finding: {finding.description}, Confidence: {finding.confidence}")
+{% raw %}
 ```
 
 ### 4. בקרת איכות בתעשייה
 
 בתעשייה, Gemini 3 Pro משמש לבקרת איכות ולשיפור תהליכי ייצור. להלן דוגמה לבקרת איכות:
 
-```python
+```
+{% endraw %}python
 # Loading the image
 image_path = "path/to/your/industrial_image.jpg"
 image = gemini.Image.load(image_path)
@@ -383,6 +417,7 @@ defects = client.detect_defects(image)
 # Printing the results
 for defect in defects:
     print(f"Detected defect: {defect.description}, Severity: {defect.severity}")
+{% raw %}
 ```
 
 ## סיכום וצעדים הבאים
@@ -405,5 +440,6 @@ for defect in defects:
 תגיות: AI Vision, Gemini 3 Pro, Computer Vision, Machine Learning, Deep Learning
 מילות מפתח: AI Vision, Gemini 3 Pro, זיהוי אובייקטים, זיהוי פנים, זיהוי תוויות, זיהוי טקסט, זיהוי פעילויות, Semantic Segmentation, Instance Segmentation, Object Tracking, Depth Estimation, 3D Reconstruction, זיהוי מוצרים, מעקב אחר כלי רכב, ניתוח תמונות רפואיות, בקרת איכות
 ```
+{% endraw %}
 
 המדריך הזה מכסה את כל הנושאים הדרושים בצורה מפורטת ומקיפה, וכולל דוגמאות קוד, שיטות עבודה מומלצות, מלכודות נפוצות, טכניקות מתקדמות, ודוגמאות מהעולם האמיתי. הוא כתוב בעברית עם קוד ושמות טכניים באנגלית, ומתאים לפרסום בבלוג Jekyll.

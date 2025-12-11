@@ -47,6 +47,7 @@ tags: [WASM, Golang, Epsilon, מכונה וירטואלית, פיתוח תוכנ
 
 כדי להתקין את Go, ניתן להשתמש בפקודות הבאות:
 
+{% raw %}
 ```bash
 # לינוקס/מק
 wget https://golang.org/dl/go1.16.5.linux-amd64.tar.gz
@@ -56,11 +57,13 @@ export PATH=$PATH:/usr/local/go/bin
 # ווינדוס
 choco install golang
 ```
+{% endraw %}
 
 ### התקנת Git
 
 התקנת Git נעשית בקלות באמצעות הפקודות הבאות:
 
+{% raw %}
 ```bash
 # לינוקס/מק
 sudo apt-get install git
@@ -70,6 +73,7 @@ brew install git
 # ווינדוס
 choco install git
 ```
+{% endraw %}
 
 ## הטמעה צעד-אחר-צעד עם דוגמאות קוד
 
@@ -79,16 +83,19 @@ choco install git
 
 נתחיל בהגדרת הפרויקט והתקנת התלויות הדרושות. ניצור ספרייה חדשה ונתקין את התלויות הדרושות:
 
+{% raw %}
 ```bash
 mkdir epsilon
 cd epsilon
 go mod init epsilon
-```
+```{% raw %}
+{% endraw %}
 
 ### צעד 2: יצירת מבנה בסיסי למכונה וירטואלית
 
-נתחיל ביצירת מבנה בסיסי למכונה וירטואלית. ניצור קובץ `vm.go` שיבצע את הבסיס להרצת קוד WASM.
+נתחיל ביצירת מבנה בסיסי למכונה וירטואלית. ניצור קובץ {% endraw %}`vm.go` שיבצע את הבסיס להרצת קוד WASM.
 
+{% raw %}
 ```go
 package main
 
@@ -118,18 +125,22 @@ func main() {
 	}
 	fmt.Println("VM initialized with module")
 }
-```
+```{% raw %}
+{% endraw %}
 
 ### צעד 3: קריאת ופענוח קובץ WASM
 
-כדי לקרוא ולפענח קובץ WASM, נשתמש בספרייה `github.com/bytecodealliance/wasmtime-go`. נתקין את התלות:
+כדי לקרוא ולפענח קובץ WASM, נשתמש בספרייה {% endraw %}`github.com/bytecodealliance/wasmtime-go`. נתקין את התלות:
 
+{% raw %}
 ```bash
 go get github.com/bytecodealliance/wasmtime-go
-```
+```{% raw %}
+{% endraw %}
 
-עכשיו, נעדכן את `vm.go` כדי לקרוא ולפענח את הקובץ:
+עכשיו, נעדכן את {% endraw %}`vm.go` כדי לקרוא ולפענח את הקובץ:
 
+{% raw %}
 ```go
 package main
 
@@ -170,12 +181,14 @@ func main() {
 	}
 	fmt.Println("VM initialized with module")
 }
-```
+```{% raw %}
+{% endraw %}
 
 ### צעד 4: ביצוע קוד WASM
 
-כדי לבצע קוד WASM, נשתמש ב-`wasmtime.Store` וב-`wasmtime.Instance`. נעדכן את `vm.go`:
+כדי לבצע קוד WASM, נשתמש ב-{% endraw %}`wasmtime.Store` וב-`wasmtime.Instance`. נעדכן את `vm.go`:
 
+{% raw %}
 ```go
 package main
 
@@ -240,14 +253,16 @@ func main() {
 	}
 	fmt.Println("WASM module executed successfully")
 }
-```
+```{% raw %}
+{% endraw %}
 
 ### צעד 5: הוספת תמיכה בקלט ופלט
 
-כדי להפוך את Epsilon למכונה וירטואלית שימושית, נוסיף תמיכה בקלט ופלט. נשתמש ב-`wasmtime.Func` כדי ליצור פונקציות מותאמות אישית.
+כדי להפוך את Epsilon למכונה וירטואלית שימושית, נוסיף תמיכה בקלט ופלט. נשתמש ב-{% endraw %}`wasmtime.Func` כדי ליצור פונקציות מותאמות אישית.
 
 נוסיף את הפונקציות הבאות ל-`vm.go`:
 
+{% raw %}
 ```go
 package main
 
@@ -328,12 +343,14 @@ func main() {
 	}
 	fmt.Println("WASM module executed successfully")
 }
-```
+```{% raw %}
+{% endraw %}
 
 ### צעד 6: בדיקת המכונה וירטואלית
 
-כדי לבדוק את המכונה וירטואלית, נצטרך ליצור קובץ WASM פשוט שמשתמש בפונקציות `input` ו-`output`. נשתמש ב-Rust ליצירת קובץ WASM:
+כדי לבדוק את המכונה וירטואלית, נצטרך ליצור קובץ WASM פשוט שמשתמש בפונקציות {% endraw %}`input` ו-`output`. נשתמש ב-Rust ליצירת קובץ WASM:
 
+{% raw %}
 ```rust
 #[no_mangle]
 pub extern "C" fn main() {
@@ -361,18 +378,23 @@ pub extern "C" fn output(s: String) {
     }
 }
 ```
+{% endraw %}
 
 נקמפל את הקוד לקובץ WASM:
 
+{% raw %}
 ```bash
 rustc --target wasm32-unknown-unknown -o hello.wasm hello.rs
 ```
+{% endraw %}
 
 עכשיו, נוכל להריץ את המכונה וירטואלית עם הקובץ הזה:
 
+{% raw %}
 ```bash
 go run vm.go
-```
+```{% raw %}
+{% endraw %}
 
 ## שיטות עבודה מומלצות וטיפים
 
@@ -384,8 +406,9 @@ go run vm.go
 
 ### בדיקות יחידה ובדיקות אינטגרציה
 
-בדיקות יחידה ובדיקות אינטגרציה חיוניות לוודא שהמכונה וירטואלית עובדת כראוי. ניתן להשתמש ב-`go test` כדי לכתוב ולהריץ בדיקות.
+בדיקות יחידה ובדיקות אינטגרציה חיוניות לוודא שהמכונה וירטואלית עובדת כראוי. ניתן להשתמש ב-{% endraw %}`go test` כדי לכתוב ולהריץ בדיקות.
 
+{% raw %}
 ```go
 package vm
 
@@ -415,7 +438,8 @@ func TestRun(t *testing.T) {
 		t.Fatalf("Failed to run VM: %v", err)
 	}
 }
-```
+```{% raw %}
+{% endraw %}
 
 ### אופטימיזציה לביצועים
 
@@ -423,12 +447,13 @@ func TestRun(t *testing.T) {
 
 - **שימוש בזיכרון**: ניהול נכון של זיכרון יכול לשפר את הביצועים באופן משמעותי.
 - **מקבילות**: שימוש ב-Goroutines יכול לשפר את הביצועים של מכונות וירטואליות.
-- **אופטימיזציה של קוד WASM**: שימוש בכלים כמו `wasm-opt` יכול לשפר את הביצועים של קוד WASM.
+- **אופטימיזציה של קוד WASM**: שימוש בכלים כמו {% endraw %}`wasm-opt` יכול לשפר את הביצועים של קוד WASM.
 
 ### ניהול שגיאות
 
 ניהול שגיאות הוא חלק חשוב בפיתוח תוכנה. כדאי להשתמש ב-`error` כדי לטפל בשגיאות בצורה מסודרת.
 
+{% raw %}
 ```go
 func (vm *VM) Run() error {
 	store := wasmtime.NewStore(vm.engine)
@@ -450,6 +475,7 @@ func (vm *VM) Run() error {
 	return nil
 }
 ```
+{% endraw %}
 
 ## מלכודות נפוצות ואיך להימנע מהן
 
@@ -459,6 +485,7 @@ func (vm *VM) Run() error {
 
 שגיאות בקריאת קובץ WASM יכולות לנבוע ממספר סיבות, כמו קובץ לא קיים או קובץ פגום. כדי להימנע מכך, כדאי לבצע בדיקות לפני קריאת הקובץ:
 
+{% raw %}
 ```go
 func NewVM(modulePath string) (*VM, error) {
 	if _, err := os.Stat(modulePath); os.IsNotExist(err) {
@@ -482,11 +509,13 @@ func NewVM(modulePath string) (*VM, error) {
 	}, nil
 }
 ```
+{% endraw %}
 
 ### בעיות ביצועים
 
 בעיות ביצועים יכולות לנבוע ממספר סיבות, כמו שימוש לא נכון בזיכרון או חוסר אופטימיזציה של קוד WASM. כדי להימנע מכך, כדאי לבצע פרופילינג ולאופטמז את הקוד:
 
+{% raw %}
 ```go
 import (
 	"runtime/pprof"
@@ -512,12 +541,14 @@ func main() {
 	}
 	fmt.Println("WASM module executed successfully")
 }
-```
+```{% raw %}
+{% endraw %}
 
 ### בעיות ביטחון
 
-בעיות ביטחון יכולות לנבוע ממספר סיבות, כמו גישה לזיכרון לא מורשה או שימוש בפונקציות לא בטוחות. כדי להימנע מכך, כדאי להשתמש בכלים כמו `wasmtime` שמספקים שכבת ביטחון נוספת.
+בעיות ביטחון יכולות לנבוע ממספר סיבות, כמו גישה לזיכרון לא מורשה או שימוש בפונקציות לא בטוחות. כדי להימנע מכך, כדאי להשתמש בכלים כמו {% endraw %}`wasmtime` שמספקים שכבת ביטחון נוספת.
 
+{% raw %}
 ```go
 func (vm *VM) Run() error {
 	store := wasmtime.NewStore(vm.engine)
@@ -540,7 +571,8 @@ func (vm *VM) Run() error {
 	_, err = mainFunc.Func.Call(store)
 	return err
 }
-```
+```{% raw %}
+{% endraw %}
 
 ## טכניקות מתקדמות
 
@@ -548,8 +580,9 @@ func (vm *VM) Run() error {
 
 ### תמיכה ב-Threads
 
-תמיכה ב-Threads יכולה לשפר את הביצועים של מכונה וירטואלית. ניתן להשתמש ב-`wasmtime` כדי להפעיל קוד WASM עם Threads:
+תמיכה ב-Threads יכולה לשפר את הביצועים של מכונה וירטואלית. ניתן להשתמש ב-{% endraw %}`wasmtime` כדי להפעיל קוד WASM עם Threads:
 
+{% raw %}
 ```go
 func (vm *VM) Run() error {
 	store := wasmtime.NewStore(vm.engine)
@@ -572,12 +605,14 @@ func (vm *VM) Run() error {
 	_, err = mainFunc.Func.Call(store)
 	return err
 }
-```
+```{% raw %}
+{% endraw %}
 
 ### תמיכה ב-SIMD
 
-תמיכה ב-SIMD (Single Instruction, Multiple Data) יכולה לשפר את הביצועים של מכונה וירטואלית. ניתן להשתמש ב-`wasmtime` כדי להפעיל קוד WASM עם SIMD:
+תמיכה ב-SIMD (Single Instruction, Multiple Data) יכולה לשפר את הביצועים של מכונה וירטואלית. ניתן להשתמש ב-{% endraw %}`wasmtime` כדי להפעיל קוד WASM עם SIMD:
 
+{% raw %}
 ```go
 func (vm *VM) Run() error {
 	store := wasmtime.NewStore(vm.engine)
@@ -600,12 +635,14 @@ func (vm *VM) Run() error {
 	_, err = mainFunc.Func.Call(store)
 	return err
 }
-```
+```{% raw %}
+{% endraw %}
 
 ### תמיכה ב-GC
 
-תמיכה ב-GC (Garbage Collection) יכולה לשפר את ניהול הזיכרון של מכונה וירטואלית. ניתן להשתמש ב-`wasmtime` כדי להפעיל קוד WASM עם GC:
+תמיכה ב-GC (Garbage Collection) יכולה לשפר את ניהול הזיכרון של מכונה וירטואלית. ניתן להשתמש ב-{% endraw %}`wasmtime` כדי להפעיל קוד WASM עם GC:
 
+{% raw %}
 ```go
 func (vm *VM) Run() error {
 	store := wasmtime.NewStore(vm.engine)
@@ -629,6 +666,7 @@ func (vm *VM) Run() error {
 	return err
 }
 ```
+{% endraw %}
 
 ## דוגמאות מהעולם האמיתי
 
@@ -638,6 +676,7 @@ func (vm *VM) Run() error {
 
 משחקים הם דוגמה מצוינת לשימוש במכונות וירטואליות WASM. ניתן להשתמש ב-Epsilon כדי לבצע קוד WASM של משחקים בצורה מהירה ויעילה.
 
+{% raw %}
 ```go
 func main() {
 	vm, err := NewVM("game.wasm")
@@ -653,11 +692,13 @@ func main() {
 	fmt.Println("Game executed successfully")
 }
 ```
+{% endraw %}
 
 ### עיבוד נתונים
 
 עיבוד נתונים הוא עוד דוגמה לשימוש במכונות וירטואליות WASM. ניתן להשתמש ב-Epsilon כדי לבצע קוד WASM של עיבוד נתונים בצורה מהירה ויעילה.
 
+{% raw %}
 ```go
 func main() {
 	vm, err := NewVM("data_processing.wasm")
@@ -673,11 +714,13 @@ func main() {
 	fmt.Println("Data processing executed successfully")
 }
 ```
+{% endraw %}
 
 ### שרתי אינטרנט
 
 שרתי אינטרנט הם דוגמה נוספת לשימוש במכונות וירטואליות WASM. ניתן להשתמש ב-Epsilon כדי לבצע קוד WASM של שרתי אינטרנט בצורה מהירה ויעילה.
 
+{% raw %}
 ```go
 func main() {
 	vm, err := NewVM("web_server.wasm")
@@ -693,6 +736,7 @@ func main() {
 	fmt.Println("Web server executed successfully")
 }
 ```
+{% endraw %}
 
 ## סיכום וצעדים הבאים
 

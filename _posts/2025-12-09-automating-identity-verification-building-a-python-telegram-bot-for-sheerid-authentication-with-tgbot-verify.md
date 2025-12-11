@@ -42,9 +42,11 @@ tags: [פייתון, בוט טלגרם, אימות זהות, SheerID, tgbot-veri
 
 כדי להתקין את הספריות הדרושות, נשתמש בפקודות הבאות:
 
+{% raw %}
 ```bash
 pip install python-telegram-bot requests
-```
+```{% raw %}
+{% endraw %}
 
 ## הטמעה צעד-אחר-צעד עם דוגמאות קוד
 
@@ -52,12 +54,13 @@ pip install python-telegram-bot requests
 
 ### צעד 1: יצירת הבוט בטלגרם
 
-ראשית, נפתח את האפליקציה של טלגרם ונתחיל שיחה עם BotFather. נשתמש בפקודה `/newbot` כדי ליצור בוט חדש. נקבל שאלות על שם הבוט ועל שם המשתמש שלו, ולאחר מכן נקבל את ה-API Key הדרוש לנו.
+ראשית, נפתח את האפליקציה של טלגרם ונתחיל שיחה עם BotFather. נשתמש בפקודה {% endraw %}`/newbot` כדי ליצור בוט חדש. נקבל שאלות על שם הבוט ועל שם המשתמש שלו, ולאחר מכן נקבל את ה-API Key הדרוש לנו.
 
 ### צעד 2: התחלת קוד הבוט
 
 נתחיל בכתיבת קוד הבוט הבסיסי. נשתמש בספריית `python-telegram-bot` כדי ליצור בוט פשוט שמגיב לפקודות בסיסיות.
 
+{% raw %}
 ```python
 import logging
 from telegram import Update
@@ -95,14 +98,16 @@ def main():
 
 if __name__ == '__main__':
     main()
-```
+```{% raw %}
+{% endraw %}
 
-הקוד הזה יוצר בוט בסיסי שמגיב לפקודות `/start`, `/help`, ו-`/verify`. כמובן, נצטרך להוסיף את הלוגיקה של האימות עצמו.
+הקוד הזה יוצר בוט בסיסי שמגיב לפקודות {% endraw %}`/start`, `/help`, ו-`/verify`. כמובן, נצטרך להוסיף את הלוגיקה של האימות עצמו.
 
 ### צעד 3: שילוב של SheerID ו-tgbot-verify
 
 כדי לשלב את SheerID ו-tgbot-verify בבוט שלנו, נצטרך להוסיף את הלוגיקה הדרושה לביצוע האימות. נתחיל בהוספת הפונקציה שמתחילה את תהליך האימות.
 
+{% raw %}
 ```python
 import requests
 import json
@@ -132,6 +137,7 @@ async def start_verification(update: Update, context: ContextTypes.DEFAULT_TYPE)
     else:
         await update.message.reply_text('שגיאה בהתחלת תהליך האימות. אנא נסה שוב מאוחר יותר.')
 ```
+{% endraw %}
 
 הפונקציה הזו מבצעת בקשה ל-SheerID כדי להתחיל את תהליך האימות ושומרת את ה-verification ID במשתנה גלובלי או במסד נתונים.
 
@@ -139,6 +145,7 @@ async def start_verification(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
 כדי להשתמש ב-tgbot-verify, נצטרך להוסיף את הלוגיקה הדרושה לביצוע האימות בתוך הבוט. נתחיל בהוספת הפונקציה שמבצעת את האימות באמצעות tgbot-verify.
 
+{% raw %}
 ```python
 # הגדרת הפונקציה לביצוע האימות באמצעות tgbot-verify
 async def verify_identity(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -177,6 +184,7 @@ async def verify_identity(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text('שגיאה בבדיקת סטטוס האימות. אנא נסה שוב מאוחר יותר.')
 ```
+{% endraw %}
 
 הפונקציה הזו בודקת את סטטוס האימות ב-SheerID ובמידה והאימות הושלם, היא מבצעת את האימות באמצעות tgbot-verify.
 
@@ -184,6 +192,7 @@ async def verify_identity(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 כדי לשלב את הפונקציות בקוד הבוט, נצטרך להוסיף אותן לפונקציית ה-main ולשנות את הפונקציה לפקודת /verify כדי להתחיל את תהליך האימות.
 
+{% raw %}
 ```python
 # שינוי הפונקציה לפקודת /verify
 async def verify(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -205,7 +214,8 @@ def main():
 
 if __name__ == '__main__':
     main()
-```
+```{% raw %}
+{% endraw %}
 
 הקוד הזה משלב את הפונקציות החדשות בבוט שלנו ומאפשר למשתמשים להתחיל את תהליך האימות ולבדוק את סטטוס האימות שלהם.
 
@@ -217,7 +227,7 @@ if __name__ == '__main__':
 
 1. **שימוש בלוגינג**: שימוש בלוגינג יאפשר לכם לעקוב אחר פעולות הבוט ולזהות בעיות בזמן אמת. בקוד שלנו השתמשנו בספריית הלוגינג של פייתון כדי לרשום את הפעולות של הבוט.
 
-2. **שימוש בספריות מוכרות**: שימוש בספריות מוכרות ומתוחזקות כמו `python-telegram-bot` יאפשר לכם לחסוך זמן ולמנוע בעיות אבטחה. הספרייה הזו מטופלת באופן קבוע ומכילה את כל הכלים הדרושים לבניית בוט טלגרם.
+2. **שימוש בספריות מוכרות**: שימוש בספריות מוכרות ומתוחזקות כמו {% endraw %}`python-telegram-bot` יאפשר לכם לחסוך זמן ולמנוע בעיות אבטחה. הספרייה הזו מטופלת באופן קבוע ומכילה את כל הכלים הדרושים לבניית בוט טלגרם.
 
 3. **שימוש במסד נתונים**: שימוש במסד נתונים יאפשר לכם לשמור מידע על המשתמשים ועל תהליכי האימות שלהם. במקום לשמור את ה-verification ID במשתנה גלובלי, ניתן לשמור אותו במסד נתונים כמו PostgreSQL או MongoDB.
 
@@ -279,6 +289,7 @@ if __name__ == '__main__':
 
 שימוש ב-Webhooks יאפשר לכם לקבל עדכונים בזמן אמת מטלגרם מבלי לרוץ את הבוט באופן קבוע. במקום לרוץ את הבוט באופן קבוע, ניתן להשתמש ב-Webhooks כדי לקבל עדכונים מטלגרם כאשר יש הודעה חדשה.
 
+{% raw %}
 ```python
 # הגדרת הפונקציה לטיפול ב-Webhook
 async def webhook_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -317,6 +328,7 @@ if __name__ == '__main__':
     asyncio.run(set_webhook())
     main()
 ```
+{% endraw %}
 
 הקוד הזה מראה כיצד להשתמש ב-Webhooks כדי לקבל עדכונים מטלגרם ולטפל בהודעות בזמן אמת.
 
@@ -324,6 +336,7 @@ if __name__ == '__main__':
 
 שימוש במסד נתונים יאפשר לכם לשמור מידע על המשתמשים ועל תהליכי האימות שלהם. במקום לשמור את ה-verification ID במשתנה גלובלי, ניתן לשמור אותו במסד נתונים כמו PostgreSQL או MongoDB.
 
+{% raw %}
 ```python
 import psycopg2
 
@@ -418,6 +431,7 @@ async def verify_identity(update: Update, context: ContextTypes.DEFAULT_TYPE):
     else:
         await update.message.reply_text('שגיאה בבדיקת סטטוס האימות. אנא נסה שוב מאוחר יותר.')
 ```
+{% endraw %}
 
 הקוד הזה מראה כיצד לשמור את ה-verification ID במסד נתונים ולקבל אותו בחזרה כאשר נדרש.
 
@@ -425,6 +439,7 @@ async def verify_identity(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 שימוש ב-Asyncio יאפשר לכם לטפל בהודעות בצורה אסינכרונית ולשפר את ביצועי הבוט. במקום לטפל בהודעות בצורה סינכרונית, ניתן להשתמש ב-Asyncio כדי לטפל בהודעות בצורה אסינכרונית ולשפר את ביצועי הבוט.
 
+{% raw %}
 ```python
 import asyncio
 
@@ -447,7 +462,8 @@ async def main():
 
 if __name__ == '__main__':
     asyncio.run(main())
-```
+```{% raw %}
+{% endraw %}
 
 הקוד הזה מראה כיצד להשתמש ב-Asyncio כדי לטפל בהודעות בצורה אסינכרונית ולשפר את ביצועי הבוט.
 
@@ -459,5 +475,5 @@ if __name__ == '__main__':
 
 חברה שמציעה שירותים מקוונים יכולה להשתמש בבוט טלגרם כדי לאמת את זהות הלקוחות שלה. הלקוחות יכולים להתחיל את תהליך האימות בבוט, לסיים אותו באתר של SheerID, ולאחר מכן לבדוק את סטטוס האימות שלהם בבוט.
 
-```python
+{% endraw %}```python
 # הגדרת הפונקציה לשליחת הודעה לאחר אימות מוצל

@@ -39,6 +39,7 @@ tags: ["AV1", "FFmpeg", "Netflix", "Streaming", "Video Encoding"]
 
 כדי להתקין FFmpeg עם תמיכה ב-AV1, ניתן להשתמש בפקודות הבאות ב-Linux:
 
+{% raw %}
 ```bash
 # התקנת תלויות
 sudo apt-get update
@@ -57,11 +58,13 @@ sudo make install
 # בדיקה שההתקנה הצליחה
 ffmpeg -version
 ```
+{% endraw %}
 
 ### התקנת נטפליקס VMAF
 
 כדי להתקין את כלי VMAF של נטפליקס, ניתן להשתמש בפקודות הבאות:
 
+{% raw %}
 ```bash
 # הורדת קוד המקור של VMAF
 git clone https://github.com/Netflix/vmaf.git
@@ -73,6 +76,7 @@ make
 # התקנת VMAF
 sudo make install
 ```
+{% endraw %}
 
 ## הטמעה צעד-אחר-צעד עם דוגמאות קוד
 
@@ -82,13 +86,15 @@ sudo make install
 
 הצעד הראשון הוא לקודד וידאו לפורמט AV1 באמצעות FFmpeg. ניתן להשתמש בפקודה הבאה כדי לקודד וידאו:
 
+{% raw %}
 ```bash
 # קידוד וידאו ל-AV1
 ffmpeg -i input.mp4 -c:v libaom-av1 -crf 30 -b:v 0 output.av1.mp4
-```
+```{% raw %}
+{% endraw %}
 
 הסבר:
-- `-i input.mp4`: קובץ הווידאו המקורי.
+- {% endraw %}`-i input.mp4`: קובץ הווידאו המקורי.
 - `-c:v libaom-av1`: שימוש בקודק AV1.
 - `-crf 30`: קביעת איכות הקידוד (CRF - Constant Rate Factor). ערך נמוך יותר מספק איכות גבוהה יותר, אך גם גודל קובץ גדול יותר.
 - `-b:v 0`: אפס ביטרייט ורייט, מה שאומר שה-CRF יקבע את האיכות.
@@ -97,13 +103,15 @@ ffmpeg -i input.mp4 -c:v libaom-av1 -crf 30 -b:v 0 output.av1.mp4
 
 לאחר שקידדנו את הווידאו ל-AV1, ניתן לבצע אופטימיזציה נוספת כדי לשפר את ביצועי הקידוד. ניתן להשתמש בפקודה הבאה כדי לשפר את האיכות והביצועים:
 
+{% raw %}
 ```bash
 # אופטימיזציה של קידוד AV1
 ffmpeg -i input.mp4 -c:v libaom-av1 -crf 30 -b:v 0 -cpu-used 4 -tile-columns 2 -tile-rows 2 -row-mt 1 output.av1.mp4
-```
+```{% raw %}
+{% endraw %}
 
 הסבר:
-- `-cpu-used 4`: קביעת רמת השימוש במעבד (מ-0 עד 8, כאשר 0 הוא הכי איטי והכי איכותי).
+- {% endraw %}`-cpu-used 4`: קביעת רמת השימוש במעבד (מ-0 עד 8, כאשר 0 הוא הכי איטי והכי איכותי).
 - `-tile-columns 2` ו`-tile-rows 2`: חלוקת הווידאו לטיילים לשיפור ביצועי הקידוד במעבדים מרובי ליבות.
 - `-row-mt 1`: אפשרות קידוד מקביל בשורות.
 
@@ -111,19 +119,22 @@ ffmpeg -i input.mp4 -c:v libaom-av1 -crf 30 -b:v 0 -cpu-used 4 -tile-columns 2 -
 
 כדי לוודא שאיכות הווידאו לא נפגעה במהלך הקידוד, ניתן להשתמש בכלי VMAF של נטפליקס לבדיקת איכות הווידאו. ניתן להשתמש בפקודה הבאה:
 
+{% raw %}
 ```bash
 # בדיקת איכות הווידאו באמצעות VMAF
 ffmpeg -i input.mp4 -i output.av1.mp4 -lavfi "libvmaf=model_path=/usr/local/share/model/vmaf_v0.6.1.json:log_path=vmaf_log.json:log_fmt=json" -f null -
-```
+```{% raw %}
+{% endraw %}
 
 הסבר:
-- `-lavfi "libvmaf=model_path=/usr/local/share/model/vmaf_v0.6.1.json:log_path=vmaf_log.json:log_fmt=json"`: שימוש בפילטר VMAF עם מודל ספציפי ושמירת התוצאות בקובץ JSON.
+- {% endraw %}`-lavfi "libvmaf=model_path=/usr/local/share/model/vmaf_v0.6.1.json:log_path=vmaf_log.json:log_fmt=json"`: שימוש בפילטר VMAF עם מודל ספציפי ושמירת התוצאות בקובץ JSON.
 - `-f null -`: פלט ריק כדי למנוע יצירת קובץ פלט.
 
 ### צעד 4: אוטומציה של תהליך הקידוד
 
 כדי לשפר את יעילות התהליך, ניתן להשתמש בשפת Python לצורך אוטומציה של קידוד הווידאו. להלן דוגמה לקוד Python שמבצע את התהליך:
 
+{% raw %}
 ```python
 import subprocess
 import os
@@ -187,11 +198,13 @@ encode_video(input_file, output_file)
 vmaf_result = vmaf_test(input_file, output_file)
 print("תוצאות VMAF:", vmaf_result)
 ```
+{% endraw %}
 
 ### צעד 5: הטמעת קידוד AV1 בשירות סטרימינג
 
 לאחר שקידדנו את הווידאו ל-AV1 ובדקנו את איכותו, נוכל להטמיע את הווידאו המקודד בשירות הסטרימינג. להלן דוגמה לקוד JavaScript שמטמיע וידאו AV1 בדף אינטרנט:
 
+{% raw %}
 ```javascript
 // קידוד וידאו AV1 בדף אינטרנט
 const video = document.createElement('video');
@@ -199,6 +212,7 @@ video.src = 'output.av1.mp4';
 video.controls = true;
 document.body.appendChild(video);
 ```
+{% endraw %}
 
 ## שיטות עבודה מומלצות וטיפים
 
@@ -218,10 +232,12 @@ document.body.appendChild(video);
 
 שימוש בטיילים (tiles) יכול לשפר את ביצועי הקידוד במעבדים מרובי ליבות. חשוב לבחור את מספר הטיילים בהתאם למספר הליבות במעבד. להלן דוגמה לפקודה עם טיילים:
 
+{% raw %}
 ```bash
 # קידוד וידאו ל-AV1 עם טיילים
 ffmpeg -i input.mp4 -c:v libaom-av1 -crf 30 -b:v 0 -cpu-used 4 -tile-columns 2 -tile-rows 2 -row-mt 1 output.av1.mp4
-```
+```{% raw %}
+{% endraw %}
 
 ### בדיקת איכות באמצעות VMAF
 
@@ -229,7 +245,7 @@ ffmpeg -i input.mp4 -c:v libaom-av1 -crf 30 -b:v 0 -cpu-used 4 -tile-columns 2 -
 
 ### אופטימיזציה של פרמטרים
 
-ניתן לשפר את ביצועי הקידוד על ידי אופטימיזציה של פרמטרים כמו `-cpu-used`, `-tile-columns`, `-tile-rows` ו-`-row-mt`. חשוב לבצע ניסויים ולמצוא את הפרמטרים הטובים ביותר עבור הווידאו הספציפי.
+ניתן לשפר את ביצועי הקידוד על ידי אופטימיזציה של פרמטרים כמו {% endraw %}`-cpu-used`, `-tile-columns`, `-tile-rows` ו-`-row-mt`. חשוב לבצע ניסויים ולמצוא את הפרמטרים הטובים ביותר עבור הווידאו הספציפי.
 
 ### אוטומציה של תהליך הקידוד
 
@@ -251,6 +267,7 @@ ffmpeg -i input.mp4 -c:v libaom-av1 -crf 30 -b:v 0 -cpu-used 4 -tile-columns 2 -
 
 לא כל הדפדפנים והמכשירים תומכים בקידוד AV1. חשוב לבדוק את התאימות לפני הטמעת קידוד AV1 בשירות סטרימינג. להלן דוגמה לבדיקת תאימות ב-JavaScript:
 
+{% raw %}
 ```javascript
 // בדיקת תאימות ל-AV1
 const isAV1Supported = () => {
@@ -264,6 +281,7 @@ if (isAV1Supported()) {
     console.log('AV1 לא נתמך');
 }
 ```
+{% endraw %}
 
 ### מלכודת 4: שגיאות בקידוד
 
@@ -277,38 +295,44 @@ if (isAV1Supported()) {
 
 ניתן לשפר את ביצועי הקידוד על ידי שימוש בכרטיס מסך (GPU) במקום במעבד (CPU). FFmpeg תומך בקידוד AV1 באמצעות כרטיסי מסך מסוימים. להלן דוגמה לפקודה עם שימוש ב-GPU:
 
+{% raw %}
 ```bash
 # קידוד וידאו ל-AV1 באמצעות GPU
 ffmpeg -hwaccel cuda -i input.mp4 -c:v av1_nvenc -crf 30 -b:v 0 output.av1.mp4
-```
+```{% raw %}
+{% endraw %}
 
 הסבר:
-- `-hwaccel cuda`: שימוש בתאוצת חומרה של NVIDIA.
+- {% endraw %}`-hwaccel cuda`: שימוש בתאוצת חומרה של NVIDIA.
 - `-c:v av1_nvenc`: שימוש בקודק AV1 של NVIDIA.
 
 ### שימוש ב-FFmpeg עם פילטרים
 
 ניתן לשפר את איכות הווידאו על ידי שימוש בפילטרים ב-FFmpeg. להלן דוגמה לפקודה עם פילטרים:
 
+{% raw %}
 ```bash
 # קידוד וידאו ל-AV1 עם פילטרים
 ffmpeg -i input.mp4 -vf "scale=1920:1080,format=yuv420p" -c:v libaom-av1 -crf 30 -b:v 0 output.av1.mp4
-```
+```{% raw %}
+{% endraw %}
 
 הסבר:
-- `-vf "scale=1920:1080,format=yuv420p"`: שימוש בפילטרים לשינוי גודל הווידאו ופורמט הצבע.
+- {% endraw %}`-vf "scale=1920:1080,format=yuv420p"`: שימוש בפילטרים לשינוי גודל הווידאו ופורמט הצבע.
 
 ### שימוש בכלי נוספים של נטפליקס
 
 נטפליקס פיתחה כלים נוספים שיכולים לעזור בשיפור איכות הווידאו וביצועי הקידוד. להלן דוגמה לשימוש בכלי נוסף של נטפליקס:
 
+{% raw %}
 ```bash
 # שימוש בכלי נוסף של נטפליקס
 ffmpeg -i input.mp4 -c:v libaom-av1 -crf 30 -b:v 0 -filter:v "nlmeans=s=3:r=7" output.av1.mp4
-```
+```{% raw %}
+{% endraw %}
 
 הסבר:
-- `-filter:v "nlmeans=s=3:r=7"`: שימוש בפילטר NLMeans לשיפור איכות הווידאו.
+- {% endraw %}`-filter:v "nlmeans=s=3:r=7"`: שימוש בפילטר NLMeans לשיפור איכות הווידאו.
 
 ## דוגמאות מהעולם האמיתי
 

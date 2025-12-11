@@ -62,16 +62,20 @@ categories: ["מדריכים טכניים", "AI"]
    - הורד את הגרסה האחרונה של Python מאתר ה-Python והתקן אותה.
 
 2. **יצירת סביבת פיתוח**:
-   ```bash
+   {% raw %}
+```bash
    python3 -m venv myenv
    source myenv/bin/activate  # ב-Linux/macOS
    myenv\Scripts\activate  # ב-Windows
    ```
+{% endraw %}
 
 3. **התקנת תלויות**:
-   ```bash
+   {% raw %}
+```bash
    pip install -r requirements.txt
    ```
+{% endraw %}
 
 ## הטמעה צעד-אחר-צעד עם דוגמאות קוד
 
@@ -80,20 +84,25 @@ categories: ["מדריכים טכניים", "AI"]
 ### התקנת Open-AutoGLM
 
 1. **קלונינג הריפוזיטורי**:
-   ```bash
+   {% raw %}
+```bash
    git clone https://github.com/Open-AutoGLM/Open-AutoGLM.git
    cd Open-AutoGLM
    ```
+{% endraw %}
 
 2. **התקנת התלויות**:
-   ```bash
+   {% raw %}
+```bash
    pip install -r requirements.txt
    ```
+{% endraw %}
 
 ### יצירת סוכן טלפון בסיסי
 
 כדי ליצור סוכן טלפון בסיסי, נשתמש בקובץ Python שישמש כנקודת כניסה לסוכן. הנה דוגמה לקוד בסיסי:
 
+{% raw %}
 ```python
 # Importing necessary libraries
 import autoglm
@@ -112,11 +121,13 @@ if __name__ == "__main__":
     agent = BasicPhoneAgent()
     agent.run()
 ```
+{% endraw %}
 
 ### הוספת תגובות מתקדמות
 
 כדי להפוך את הסוכן ליותר מתקדם, ניתן להוסיף תגובות לשאלות נפוצות ולנהל שיחות מורכבות יותר. הנה דוגמה לקוד שמוסיף תגובות מתקדמות:
 
+{% raw %}
 ```python
 # Importing necessary libraries
 import autoglm
@@ -147,11 +158,13 @@ if __name__ == "__main__":
     agent = AdvancedPhoneAgent()
     agent.run()
 ```
+{% endraw %}
 
 ### שילוב עם מערכות טלפון
 
 כדי לשלב את הסוכן עם מערכות טלפון, ניתן להשתמש ב-API של מערכות כמו Twilio. הנה דוגמה לקוד ב-Python שמשתמש ב-Twilio לניהול שיחות טלפון:
 
+{% raw %}
 ```python
 # Importing necessary libraries
 import autoglm
@@ -195,7 +208,8 @@ if __name__ == "__main__":
     agent = TwilioPhoneAgent()
     # Example call handling
     agent.handle_call('your_call_sid')
-```
+```{% raw %}
+{% endraw %}
 
 ## שיטות עבודה מומלצות וטיפים
 
@@ -212,7 +226,7 @@ if __name__ == "__main__":
    - בצע בדיקות אינטגרציה לוודא שהסוכן עובד כמצופה.
 
 3. **ניהול תלויות**:
-   - השתמש ב-`requirements.txt` או בכלי ניהול תלויות כמו `pipenv` או `poetry`.
+   - השתמש ב-{% endraw %}`requirements.txt` או בכלי ניהול תלויות כמו `pipenv` או `poetry`.
 
 4. **לוגינג ומעקב אחר שגיאות**:
    - השתמש בכלי לוגינג כמו `logging` ב-Python כדי לעקוב אחר פעולות הסוכן ולזהות שגיאות.
@@ -267,6 +281,7 @@ if __name__ == "__main__":
 
 שילוב עם מערכות NLP מתקדמות כמו BERT או RoBERTa יכול לשפר את היכולת של הסוכן לזיהוי כוונות ולהבנה של שפה טבעית. הנה דוגמה לשילוב עם BERT:
 
+{% raw %}
 ```python
 # Importing necessary libraries
 import autoglm
@@ -305,11 +320,13 @@ if __name__ == "__main__":
     agent = BERTPhoneAgent()
     agent.run()
 ```
+{% endraw %}
 
 ### שימוש ב-Deep Learning לניתוח שיחות
 
 שימוש ברשתות נוירונים עמוקות יכול לסייע בניתוח שיחות ובזיהוי דפוסים. הנה דוגמה לשימוש ב-LSTM לניתוח שיחות:
 
+{% raw %}
 ```python
 # Importing necessary libraries
 import autoglm
@@ -362,11 +379,13 @@ if __name__ == "__main__":
     agent = LSTMPhoneAgent()
     agent.run()
 ```
+{% endraw %}
 
 ### שילוב עם מערכות CRM
 
 שילוב עם מערכות ניהול קשרי לקוחות (CRM) יכול לסייע בניהול יעיל יותר של הלקוחות. הנה דוגמה לשילוב עם Salesforce:
 
+{% raw %}
 ```python
 # Importing necessary libraries
 import autoglm
@@ -412,6 +431,7 @@ if __name__ == "__main__":
     agent = SalesforcePhoneAgent()
     agent.run()
 ```
+{% endraw %}
 
 ## דוגמאות מהעולם האמיתי
 
@@ -421,6 +441,7 @@ if __name__ == "__main__":
 
 Amazon משתמשת בסוכני טלפון AI כדי לטפל בשאלות נפוצות של לקוחות. הסוכן יכול לענות על שאלות בנוגע למוצרים, למשלוחים ולמדיניות ההחזרות. הנה דוגמה לקוד שמדמה את הפעולה של הסוכן:
 
+{% raw %}
 ```python
 # Importing necessary libraries
 import autoglm
@@ -455,11 +476,13 @@ if __name__ == "__main__":
     agent = AmazonCustomerServiceAgent()
     agent.run()
 ```
+{% endraw %}
 
 ### דוגמה: מערכת הזמנות של Domino's Pizza
 
 Domino's Pizza משתמשת בסוכן טלפון AI כדי לקבל הזמנות מלקוחות. הסוכן יכול לקבל הזמנות, לתת מידע על זמני משלוח ולענות על שאלות נפוצות. הנה דוגמה לקוד שמדמה את הפעולה של הסוכן:
 
+{% raw %}
 ```python
 # Importing necessary libraries
 import autoglm
@@ -495,6 +518,7 @@ if __name__ == "__main__":
     agent = DominoPizzaOrderAgent()
     agent.run()
 ```
+{% endraw %}
 
 ## סיכום וצעדים הבאים
 

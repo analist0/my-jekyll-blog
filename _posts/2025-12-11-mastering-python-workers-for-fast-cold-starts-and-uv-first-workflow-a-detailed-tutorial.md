@@ -54,6 +54,7 @@ keywords: "Python Workers, Fast Cold Starts, UV-First Workflow, Python Optimizat
 
 להתקנה של הכלים הנדרשים, תוכלו להשתמש בפקודות הבאות:
 
+{% raw %}
 ```bash
 # התקנת Python
 sudo apt-get update
@@ -86,6 +87,7 @@ pip3 install aiohttp
 # התקנת boto3
 pip3 install boto3
 ```
+{% endraw %}
 
 ## הטמעה צעד-אחר-צעד עם דוגמאות קוד 🛠️
 
@@ -95,6 +97,7 @@ pip3 install boto3
 
 ראשית, ניצור סביבת עבודה חדשה לפרויקט שלנו. זה יעזור לנו לנהל את התלויות והגרסאות של Python בצורה יעילה.
 
+{% raw %}
 ```bash
 # יצירת סביבת עבודה חדשה
 python3 -m venv myenv
@@ -105,11 +108,13 @@ source myenv/bin/activate
 # התקנת התלויות
 pip install uvloop asyncio aiohttp boto3
 ```
+{% endraw %}
 
 ### צעד 2: כתיבת קוד בסיסי ל-Python Worker
 
 נתחיל עם קוד בסיסי ל-Python Worker שמשתמש ב-asyncio לביצוע פעולות אסינכרוניות.
 
+{% raw %}
 ```python
 import asyncio
 
@@ -127,14 +132,16 @@ async def main():
 
 # הפעלת לולאת האירועים
 asyncio.run(main())
-```
+```{% raw %}
+{% endraw %}
 
-בדוגמה זו, אנו משתמשים ב-`asyncio` ליצירת פעולה אסינכרונית פשוטה שממתינה שנייה אחת ואז מדפיסה הודעה.
+בדוגמה זו, אנו משתמשים ב-{% endraw %}`asyncio` ליצירת פעולה אסינכרונית פשוטה שממתינה שנייה אחת ואז מדפיסה הודעה.
 
 ### צעד 3: שימוש ב-uvloop לשיפור ביצועים
 
 כדי לשפר את ביצועי לולאת האירועים, נשתמש ב-`uvloop`. `uvloop` הוא מימוש מהיר של לולאת האירועים של Python, שמבוסס על libuv.
 
+{% raw %}
 ```python
 import asyncio
 import uvloop
@@ -156,9 +163,10 @@ asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 # הפעלת לולאת האירועים
 asyncio.run(main())
-```
+```{% raw %}
+{% endraw %}
 
-בדוגמה זו, אנו מגדירים את `uvloop` כמדיניות לולאת האירועים, מה שמאפשר לנו ליהנות משיפור בביצועים.
+בדוגמה זו, אנו מגדירים את {% endraw %}`uvloop` כמדיניות לולאת האירועים, מה שמאפשר לנו ליהנות משיפור בביצועים.
 
 ### צעד 4: שילוב עם שירותי AWS
 
@@ -166,14 +174,17 @@ asyncio.run(main())
 
 ראשית, ניצור קובץ `requirements.txt` עם התלויות הנדרשות:
 
+{% raw %}
 ```text
 uvloop==0.15.0
 aiohttp==3.7.4
 boto3==1.17.92
 ```
+{% endraw %}
 
 לאחר מכן, נכתוב את קוד ה-Lambda שלנו:
 
+{% raw %}
 ```python
 import asyncio
 import uvloop
@@ -197,10 +208,12 @@ asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 # הפעלת לולאת האירועים
 asyncio.run(main())
-```
+```{% raw %}
+{% endraw %}
 
-כדי להפעיל את ה-Lambda, נצטרך ליצור תיקייה בשם `lambda_function` ולשים בה את הקוד שלנו. לאחר מכן, נשתמש ב-Docker ליצירת סביבה בידודית ובניית ה-Lambda:
+כדי להפעיל את ה-Lambda, נצטרך ליצור תיקייה בשם {% endraw %}`lambda_function` ולשים בה את הקוד שלנו. לאחר מכן, נשתמש ב-Docker ליצירת סביבה בידודית ובניית ה-Lambda:
 
+{% raw %}
 ```bash
 # יצירת תיקייה ל-Lambda
 mkdir lambda_function
@@ -226,6 +239,7 @@ aws lambda create-function --function-name my-lambda-function \
     --package-type Image --code ImageUri=123456789012.dkr.ecr.us-east-1.amazonaws.com/my-lambda:latest \
     --role arn:aws:iam::123456789012:role/lambda-role
 ```
+{% endraw %}
 
 ### צעד 5: אופטימיזציה של זמני התחלה מהירים
 
@@ -237,27 +251,33 @@ aws lambda create-function --function-name my-lambda-function \
 
 נתחיל עם שימוש ב-λ Provisioned Concurrency:
 
+{% raw %}
 ```bash
 # הגדרת Provisioned Concurrency
 aws lambda put-provisioned-concurrency-config --function-name my-lambda-function --provisioned-concurrency-config ProvisionedConcurrentExecutions=5
 ```
+{% endraw %}
 
 לאחר מכן, נאופטמז את גודל התמונה על ידי התקנת תלויות בצורה יעילה:
 
+{% raw %}
 ```bash
 # התקנת תלויות עם אפשרות --no-cache-dir
 pip3 install -r requirements.txt --no-cache-dir --target /var/task
 ```
+{% endraw %}
 
 לבסוף, נשתמש ב-λ SnapStart:
 
+{% raw %}
 ```bash
 # יצירת Lambda Function עם SnapStart
 aws lambda create-function --function-name my-lambda-function-snapstart \
     --package-type Image --code ImageUri=123456789012.dkr.ecr.us-east-1.amazonaws.com/my-lambda:latest \
     --role arn:aws:iam::123456789012:role/lambda-role \
     --snap-start ApplyOn="PublishedVersions"
-```
+```{% raw %}
+{% endraw %}
 
 ## שיטות עבודה מומלצות וטיפים 💡
 
@@ -265,8 +285,9 @@ aws lambda create-function --function-name my-lambda-function-snapstart \
 
 ### שימוש ב-asyncio לתכנות אסינכרוני
 
-תכנות אסינכרוני הוא חיוני לשיפור ביצועי ה-Workers. כאשר משתמשים ב-`asyncio`, חשוב להבין את היסודות של לולאת האירועים ומשימות אסינכרוניות.
+תכנות אסינכרוני הוא חיוני לשיפור ביצועי ה-Workers. כאשר משתמשים ב-{% endraw %}`asyncio`, חשוב להבין את היסודות של לולאת האירועים ומשימות אסינכרוניות.
 
+{% raw %}
 ```python
 import asyncio
 
@@ -279,20 +300,23 @@ async def main():
     await asyncio.gather(*tasks)
 
 asyncio.run(main())
-```
+```{% raw %}
+{% endraw %}
 
-בדוגמה זו, אנו מריצים 5 משימות בו זמנית באמצעות `asyncio.gather`.
+בדוגמה זו, אנו מריצים 5 משימות בו זמנית באמצעות {% endraw %}`asyncio.gather`.
 
 ### שימוש ב-uvloop לשיפור ביצועים
 
 כפי שראינו קודם, `uvloop` יכול לשפר את ביצועי לולאת האירועים. חשוב להשתמש בו כברירת מחדל:
 
+{% raw %}
 ```python
 import asyncio
 import uvloop
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 ```
+{% endraw %}
 
 ### אופטימיזציה של זמני התחלה מהירים
 
@@ -306,6 +330,7 @@ asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 שכבות Lambda (λ Layers) מאפשרות לנו לנתק את התלויות מהקוד הראשי של ה-Lambda. זה יכול לשפר את זמני ההתחלה ולפשט את ניהול התלויות.
 
+{% raw %}
 ```bash
 # יצירת שכבה חדשה
 aws lambda publish-layer-version --layer-name my-layer --description "My layer" --zip-file fileb://layer.zip --compatible-runtimes python3.8
@@ -313,18 +338,21 @@ aws lambda publish-layer-version --layer-name my-layer --description "My layer" 
 # הוספת השכבה ל-Lambda
 aws lambda update-function-configuration --function-name my-lambda-function --layers arn:aws:lambda:us-east-1:123456789012:layer:my-layer:1
 ```
+{% endraw %}
 
 ### שימוש ב-λ Power Tuning לביצועים מיטביים
 
 כלי ה-λ Power Tuning של AWS מאפשר לנו למצוא את התצורה האופטימלית ל-Lambda שלנו. זה יכול לשפר את זמני ההתחלה ואת ביצועי האפליקציה.
 
+{% raw %}
 ```bash
 # התקנת כלי ה-Power Tuning
 npm install -g aws-lambda-power-tuning
 
 # הפעלת הכלי
 aws-lambda-power-tuning --function-name my-lambda-function --power-values 128,256,512,1024,2048,3008 --payload '{"key": "value"}'
-```
+```{% raw %}
+{% endraw %}
 
 ## מלכודות נפוצות ואיך להימנע מהן 🚧
 
@@ -332,8 +360,9 @@ aws-lambda-power-tuning --function-name my-lambda-function --power-values 128,25
 
 ### מלכודת 1: שימוש לא נכון ב-asyncio
 
-שימוש לא נכון ב-`asyncio` יכול לגרום לבעיות בביצועים. חשוב להבין את היסודות של לולאת האירועים ומשימות אסינכרוניות.
+שימוש לא נכון ב-{% endraw %}`asyncio` יכול לגרום לבעיות בביצועים. חשוב להבין את היסודות של לולאת האירועים ומשימות אסינכרוניות.
 
+{% raw %}
 ```python
 # דוגמה לשימוש לא נכון
 import asyncio
@@ -350,12 +379,14 @@ async def main():
     await worker()
 
 asyncio.run(main())
-```
+```{% raw %}
+{% endraw %}
 
 ### מלכודת 2: שימוש לא נכון ב-uvloop
 
-שימוש לא נכון ב-`uvloop` יכול לגרום לבעיות בביצועים. חשוב להגדיר אותו כמדיניות לולאת האירועים בתחילת הקוד.
+שימוש לא נכון ב-{% endraw %}`uvloop` יכול לגרום לבעיות בביצועים. חשוב להגדיר אותו כמדיניות לולאת האירועים בתחילת הקוד.
 
+{% raw %}
 ```python
 # דוגמה לשימוש לא נכון
 import asyncio
@@ -375,11 +406,13 @@ asyncio.run(main())
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 asyncio.run(main())
 ```
+{% endraw %}
 
 ### מלכודת 3: אופטימיזציה לא נכונה של זמני התחלה מהירים
 
 אופטימיזציה לא נכונה של זמני ההתחלה המהירים יכולה לגרום לבעיות בביצועים. חשוב להשתמש במספר טכניקות בצורה נכונה.
 
+{% raw %}
 ```bash
 # דוגמה לשימוש לא נכון
 # הגדרת Provisioned Concurrency ליותר מדי מופעים
@@ -388,11 +421,13 @@ aws lambda put-provisioned-concurrency-config --function-name my-lambda-function
 # שימוש נכון
 aws lambda put-provisioned-concurrency-config --function-name my-lambda-function --provisioned-concurrency-config ProvisionedConcurrentExecutions=5
 ```
+{% endraw %}
 
 ### מלכודת 4: שימוש לא נכון ב-λ Layers
 
 שימוש לא נכון בשכבות Lambda יכול לגרום לבעיות בביצועים. חשוב להשתמש בהן בצורה נכונה ולוודא שהן לא מכבידות על זמני ההתחלה.
 
+{% raw %}
 ```bash
 # דוגמה לשימוש לא נכון
 # יצירת שכבה גדולה מדי
@@ -402,11 +437,13 @@ aws lambda publish-layer-version --layer-name my-layer --description "My layer" 
 # יצירת שכבה קטנה ויעילה
 aws lambda publish-layer-version --layer-name my-layer --description "My layer" --zip-file fileb://small_layer.zip --compatible-runtimes python3.8
 ```
+{% endraw %}
 
 ### מלכודת 5: שימוש לא נכון ב-λ Power Tuning
 
 שימוש לא נכון בכלי ה-λ Power Tuning יכול לגרום לבעיות בביצועים. חשוב להשתמש בו בצורה נכונה ולוודא שהוא לא מכביד על זמני ההתחלה.
 
+{% raw %}
 ```bash
 # דוגמה לשימוש לא נכון
 # הפעלת הכלי עם יותר מדי ערכי כוח
@@ -415,7 +452,8 @@ aws-lambda-power-tuning --function-name my-lambda-function --power-values 128,25
 # שימוש נכון
 # הפעלת הכלי עם ערכי כוח מתאימים
 aws-lambda-power-tuning --function-name my-lambda-function --power-values 128,256,512,1024,2048,3008 --payload '{"key": "value"}'
-```
+```{% raw %}
+{% endraw %}
 
 ## טכניקות מתקדמות 🚀
 
@@ -423,8 +461,9 @@ aws-lambda-power-tuning --function-name my-lambda-function --power-values 128,25
 
 ### שימוש ב-asyncio לתכנות אסינכרוני מתקדם
 
-תכנות אסינכרוני מתקדם יכול לשפר את ביצועי ה-Workers. כאשר משתמשים ב-`asyncio`, חשוב להבין את היסודות של לולאת האירועים ומשימות אסינכרוניות.
+תכנות אסינכרוני מתקדם יכול לשפר את ביצועי ה-Workers. כאשר משתמשים ב-{% endraw %}`asyncio`, חשוב להבין את היסודות של לולאת האירועים ומשימות אסינכרוניות.
 
+{% raw %}
 ```python
 import asyncio
 
@@ -437,20 +476,23 @@ async def main():
     await asyncio.gather(*tasks)
 
 asyncio.run(main())
-```
+```{% raw %}
+{% endraw %}
 
-בדוגמה זו, אנו מריצים 5 משימות בו זמנית באמצעות `asyncio.gather`.
+בדוגמה זו, אנו מריצים 5 משימות בו זמנית באמצעות {% endraw %}`asyncio.gather`.
 
 ### שימוש ב-uvloop לשיפור ביצועים מתקדמים
 
 כפי שראינו קודם, `uvloop` יכול לשפר את ביצועי לולאת האירועים. חשוב להשתמש בו כברירת מחדל:
 
+{% raw %}
 ```python
 import asyncio
 import uvloop
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 ```
+{% endraw %}
 
 ### אופטימיזציה מתקדמת של זמני התחלה מהירים
 
@@ -464,6 +506,7 @@ asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 שכבות Lambda (λ Layers) מאפשרות לנו לנתק את התלויות מהקוד הראשי של ה-Lambda. זה יכול לשפר את זמני ההתחלה ולפשט את ניהול התלויות.
 
+{% raw %}
 ```bash
 # יצירת שכבה חדשה
 aws lambda publish-layer-version --layer-name my-layer --description "My layer" --zip-file fileb://layer.zip --compatible-runtimes python3.8
@@ -471,11 +514,13 @@ aws lambda publish-layer-version --layer-name my-layer --description "My layer" 
 # הוספת השכבה ל-Lambda
 aws lambda update-function-configuration --function-name my-lambda-function --layers arn:aws:lambda:us-east-1:123456789012:layer:my-layer:1
 ```
+{% endraw %}
 
 ### שימוש ב-λ Power Tuning לביצועים מיטביים מתקדמים
 
 כלי ה-λ Power Tuning של AWS מאפשר לנו למצוא את התצורה האופטימלית ל-Lambda שלנו. זה יכול לשפר את זמני ההתחלה ואת ביצועי האפליקציה.
 
+{% raw %}
 ```bash
 # התקנת כלי ה-Power Tuning
 npm install -g aws-lambda-power-tuning
@@ -483,6 +528,7 @@ npm install -g aws-lambda-power-tuning
 # הפעלת הכלי
 aws-lambda-power-tuning --function-name my-lambda-function --power-values 128,256,512,1024,2048,3008 --payload '{"key": "value"}'
 ```
+{% endraw %}
 
 ## דוגמאות מהעולם האמיתי 🌍
 
@@ -492,6 +538,7 @@ aws-lambda-power-tuning --function-name my-lambda-function --power-values 128,25
 
 בדוגמה זו, ניצור שירות חסר שרתים שמבצע בקשות HTTP באופן אסינכרוני.
 
+{% raw %}
 ```python
 import asyncio
 import uvloop
@@ -508,14 +555,16 @@ async def main():
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 asyncio.run(main())
-```
+```{% raw %}
+{% endraw %}
 
-בדוגמה זו, אנו משתמשים ב-`aiohttp` לביצוע בקשות HTTP באופן אסינכרוני.
+בדוגמה זו, אנו משתמשים ב-{% endraw %}`aiohttp` לביצוע בקשות HTTP באופן אסינכרוני.
 
 ### דוגמה 2: שירות חסר שרתים לביצוע משימות ברקע
 
 בדוגמה זו, ניצור שירות חסר שרתים שמבצע משימות ברקע באופן אסינכרוני.
 
+{% raw %}
 ```python
 import asyncio
 import uvloop
@@ -530,14 +579,16 @@ async def main():
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 asyncio.run(main())
-```
+```{% raw %}
+{% endraw %}
 
-בדוגמה זו, אנו משתמשים ב-`asyncio` לביצוע משימות ברקע באופן אסינכרוני.
+בדוגמה זו, אנו משתמשים ב-{% endraw %}`asyncio` לביצוע משימות ברקע באופן אסינכרוני.
 
 ### דוגמה 3: שירות חסר שרתים לביצוע משימות מקבילות
 
 בדוגמה זו, ניצור שירות חסר שרתים שמבצע משימות מקבילות באופן אסינכרוני.
 
+{% raw %}
 ```python
 import asyncio
 import uvloop
@@ -552,9 +603,10 @@ async def main():
 
 asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 asyncio.run(main())
-```
+```{% raw %}
+{% endraw %}
 
-בדוגמה זו, אנו משתמשים ב-`asyncio` לביצוע משימות מקבילות באופן אסינכרוני.
+בדוגמה זו, אנו משתמשים ב-{% endraw %}`asyncio` לביצוע משימות מקבילות באופן אסינכרוני.
 
 ## סיכום וצעדים הבאים 📚
 

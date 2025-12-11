@@ -41,15 +41,19 @@ categories: ["Development", "Security"]
 
 נתחיל בהתקנת `react2shell-scanner` באמצעות npm:
 
+{% raw %}
 ```bash
 npm install react2shell-scanner --save-dev
 ```
+{% endraw %}
 
 או באמצעות yarn:
 
+{% raw %}
 ```bash
 yarn add react2shell-scanner --dev
-```
+```{% raw %}
+{% endraw %}
 
 לאחר ההתקנה, נוכל להתחיל בהטמעה של הכלי בפרויקט Next.js שלנו.
 
@@ -57,8 +61,9 @@ yarn add react2shell-scanner --dev
 
 ### צעד 1: קונפיגורציה של Next.js
 
-ראשית, נוודא שהפרויקט שלנו מוגדר כראוי לשימוש ב-Next.js. נתחיל בקובץ `next.config.js`:
+ראשית, נוודא שהפרויקט שלנו מוגדר כראוי לשימוש ב-Next.js. נתחיל בקובץ {% endraw %}`next.config.js`:
 
+{% raw %}
 ```javascript
 module.exports = {
   reactStrictMode: true,
@@ -66,14 +71,16 @@ module.exports = {
     esmExternals: 'loose',
   },
 };
-```
+```{% raw %}
+{% endraw %}
 
-הגדרה זו מאפשרת לנו להשתמש ב-`react2shell-scanner` בצורה אופטימלית.
+הגדרה זו מאפשרת לנו להשתמש ב-{% endraw %}`react2shell-scanner` בצורה אופטימלית.
 
 ### צעד 2: הטמעת react2shell-scanner
 
 כדי להטמיע את `react2shell-scanner` בפרויקט שלנו, נוסיף את הכלי לקובץ `next.config.js`. נשתמש בפלאגין הבא:
 
+{% raw %}
 ```javascript
 const React2ShellScanner = require('react2shell-scanner');
 
@@ -94,6 +101,7 @@ module.exports = {
   },
 };
 ```
+{% endraw %}
 
 הפלאגין הזה יסרוק את הקוד שלנו בזמן הבנייה ויבדוק לפגיעויות RCE.
 
@@ -101,22 +109,27 @@ module.exports = {
 
 לאחר שהטמענו את הכלי, נרצה לבדוק את הקוד שלנו כדי לוודא שהוא נקי מפגיעויות. נריץ את הבנייה של Next.js כרגיל:
 
+{% raw %}
 ```bash
 npm run build
 ```
+{% endraw %}
 
 או באמצעות yarn:
 
+{% raw %}
 ```bash
 yarn build
-```
+```{% raw %}
+{% endraw %}
 
-במהלך הבנייה, `react2shell-scanner` יבדוק את הקוד וידווח על כל פגיעויות שהוא מוצא.
+במהלך הבנייה, {% endraw %}`react2shell-scanner` יבדוק את הקוד וידווח על כל פגיעויות שהוא מוצא.
 
 ### צעד 4: תיקון פגיעויות
 
 אם `react2shell-scanner` מצא פגיעויות, נצטרך לתקן אותן. נניח שהכלי מצא פגיעות בקובץ `pages/api/handler.js`:
 
+{% raw %}
 ```javascript
 // pages/api/handler.js
 
@@ -133,9 +146,11 @@ export default function handler(req, res) {
   });
 }
 ```
+{% endraw %}
 
 נתקן את הפגיעות על ידי מניעת הרצת קוד זדוני:
 
+{% raw %}
 ```javascript
 // pages/api/handler.js
 
@@ -156,18 +171,20 @@ export default function handler(req, res) {
     res.status(400).json({ error: 'Invalid command' });
   }
 }
-```
+```{% raw %}
+{% endraw %}
 
 בצורה זו, אנחנו מוודאים שהמשתמש יכול להריץ רק פקודות מוגדרות מראש.
 
 ## שיטות עבודה מומלצות וטיפים 🌟
 
-כדי לשפר את הביטחון של האפליקציה שלכם ולהשתמש ב-`react2shell-scanner` בצורה אופטימלית, הנה כמה שיטות עבודה מומלצות וטיפים:
+כדי לשפר את הביטחון של האפליקציה שלכם ולהשתמש ב-{% endraw %}`react2shell-scanner` בצורה אופטימלית, הנה כמה שיטות עבודה מומלצות וטיפים:
 
 ### 1. שימוש ב-Environment Variables
 
 השתמשו ב-Environment Variables כדי להגדיר ערכים רגישים כמו מפתחות API וסיסמאות. זה ימנע מהערכים הללו להיות חשופים בקוד המקור:
 
+{% raw %}
 ```javascript
 // .env.local
 API_KEY=your_api_key_here
@@ -180,11 +197,13 @@ export default function handler(req, res) {
   // השתמשו ב-apiKey כאן
 }
 ```
+{% endraw %}
 
 ### 2. הגבלת גישה ל-API
 
 הגבלו את הגישה ל-API שלכם באמצעות מנגנוני אימות ואישור. ניתן להשתמש ב-JWT (JSON Web Tokens) כדי לאמת משתמשים:
 
+{% raw %}
 ```javascript
 // pages/api/protected.js
 
@@ -204,11 +223,13 @@ export default function handler(req, res) {
   }
 }
 ```
+{% endraw %}
 
 ### 3. שימוש ב-Content Security Policy (CSP)
 
 הטמיעו מדיניות CSP כדי להגביל את המקורות שמהם האפליקציה שלכם יכולה לטעון משאבים. זה ימנע התקפות כמו XSS (Cross-Site Scripting):
 
+{% raw %}
 ```javascript
 // pages/_document.js
 
@@ -230,12 +251,14 @@ export default function Document() {
     </Html>
   );
 }
-```
+```{% raw %}
+{% endraw %}
 
 ### 4. שימוש ב-Input Validation
 
-אמתו את הקלט של המשתמש כדי למנוע התקפות כמו SQL Injection ו-XSS. השתמשו בספריות כמו `joi` לווידוא קלט:
+אמתו את הקלט של המשתמש כדי למנוע התקפות כמו SQL Injection ו-XSS. השתמשו בספריות כמו {% endraw %}`joi` לווידוא קלט:
 
+{% raw %}
 ```javascript
 // pages/api/handler.js
 
@@ -253,25 +276,30 @@ export default function handler(req, res) {
   }
   // המשיכו עם הנתונים המאומתים
 }
-```
+```{% raw %}
+{% endraw %}
 
 ### 5. עדכון תלויות באופן קבוע
 
-עדכנו את התלויות שלכם באופן קבוע כדי להגן על האפליקציה מפני פגיעויות ידועות. השתמשו בכלים כמו `npm audit` או `yarn audit` כדי לזהות פגיעויות בתלויות:
+עדכנו את התלויות שלכם באופן קבוע כדי להגן על האפליקציה מפני פגיעויות ידועות. השתמשו בכלים כמו {% endraw %}`npm audit` או `yarn audit` כדי לזהות פגיעויות בתלויות:
 
+{% raw %}
 ```bash
 npm audit
 ```
+{% endraw %}
 
 או:
 
+{% raw %}
 ```bash
 yarn audit
-```
+```{% raw %}
+{% endraw %}
 
 ## מלכודות נפוצות ואיך להימנע מהן 🚨
 
-במהלך הטמעת `react2shell-scanner` ושימוש בו, ישנן כמה מלכודות נפוצות שכדאי להימנע מהן:
+במהלך הטמעת {% endraw %}`react2shell-scanner` ושימוש בו, ישנן כמה מלכודות נפוצות שכדאי להימנע מהן:
 
 ### 1. התעלמות מדיווחי הכלי
 
@@ -281,6 +309,7 @@ yarn audit
 
 שימוש בקונפיגורציה לא נכונה של `react2shell-scanner` עלול לגרום לתוצאות שגויות. ודאו שאתם משתמשים בקונפיגורציה הנכונה ומתאימים אותה לצרכים שלכם:
 
+{% raw %}
 ```javascript
 const React2ShellScanner = require('react2shell-scanner');
 
@@ -296,30 +325,36 @@ module.exports = {
     return config;
   },
 };
-```
+```{% raw %}
+{% endraw %}
 
 ### 3. התעלמות מבדיקות ביטחון אחרות
 
-`react2shell-scanner` הוא כלי חשוב, אך הוא לא מחליף בדיקות ביטחון אחרות. השתמשו בכלים נוספים כמו `Snyk`, `OWASP ZAP`, ו-`Burp Suite` כדי להגביר את הביטחון של האפליקציה שלכם.
+{% endraw %}`react2shell-scanner` הוא כלי חשוב, אך הוא לא מחליף בדיקות ביטחון אחרות. השתמשו בכלים נוספים כמו `Snyk`, `OWASP ZAP`, ו-`Burp Suite` כדי להגביר את הביטחון של האפליקציה שלכם.
 
 ### 4. חוסר עדכון של התלויות
 
 חוסר עדכון של התלויות עלול לגרום לפגיעויות ידועות. ודאו שאתם עדכנים את התלויות שלכם באופן קבוע:
 
+{% raw %}
 ```bash
 npm update
 ```
+{% endraw %}
 
 או:
 
+{% raw %}
 ```bash
 yarn upgrade
-```
+```{% raw %}
+{% endraw %}
 
 ### 5. התעלמות מ-Input Validation
 
-התעלמות מווידוא קלט עלולה להוביל להתקפות כמו SQL Injection ו-XSS. השתמשו בספריות כמו `joi` כדי לוודא את הקלט של המשתמש:
+התעלמות מווידוא קלט עלולה להוביל להתקפות כמו SQL Injection ו-XSS. השתמשו בספריות כמו {% endraw %}`joi` כדי לוודא את הקלט של המשתמש:
 
+{% raw %}
 ```javascript
 const Joi = require('joi');
 
@@ -336,6 +371,7 @@ export default function handler(req, res) {
   // המשיכו עם הנתונים המאומתים
 }
 ```
+{% endraw %}
 
 ## טכניקות מתקדמות 🚀
 
@@ -345,6 +381,7 @@ export default function handler(req, res) {
 
 שימוש ב-WAF יכול לעזור לחסום התקפות לפני שהן מגיעות לשרת שלכם. ניתן להשתמש בשירותים כמו AWS WAF או Cloudflare כדי להגן על האפליקציה שלכם:
 
+{% raw %}
 ```javascript
 // הגדרת WAF ב-AWS
 const AWS = require('aws-sdk');
@@ -361,11 +398,13 @@ waf.createWebACL(params, (err, data) => {
   else console.log(data);
 });
 ```
+{% endraw %}
 
 ### 2. שימוש ב-Containerization
 
 שימוש ב-Containerization יכול לסייע בהגנה על האפליקציה שלכם על ידי בידוד התלויות והקוד. ניתן להשתמש ב-Docker כדי ליצור קונטיינרים:
 
+{% raw %}
 ```dockerfile
 # Dockerfile
 FROM node:14
@@ -381,12 +420,14 @@ COPY . .
 RUN npm run build
 
 CMD ["npm", "start"]
-```
+```{% raw %}
+{% endraw %}
 
 ### 3. שימוש ב-Continuous Security Monitoring
 
-שימוש ב-Continuous Security Monitoring יכול לעזור לזהות פגיעויות בזמן אמת. ניתן להשתמש בכלים כמו `Snyk` ו-`Dependabot` כדי לנטר את התלויות שלכם:
+שימוש ב-Continuous Security Monitoring יכול לעזור לזהות פגיעויות בזמן אמת. ניתן להשתמש בכלים כמו {% endraw %}`Snyk` ו-`Dependabot` כדי לנטר את התלויות שלכם:
 
+{% raw %}
 ```yaml
 # .github/dependabot.yml
 version: 2
@@ -396,24 +437,28 @@ updates:
     schedule:
       interval: "daily"
     open-pull-requests-limit: 10
-```
+```{% raw %}
+{% endraw %}
 
 ### 4. שימוש ב-Static Code Analysis
 
-שימוש ב-Static Code Analysis יכול לעזור לזהות פגיעויות בקוד לפני שהוא נכנס לייצור. ניתן להשתמש בכלים כמו `ESLint` עם כללי ביטחון:
+שימוש ב-Static Code Analysis יכול לעזור לזהות פגיעויות בקוד לפני שהוא נכנס לייצור. ניתן להשתמש בכלים כמו {% endraw %}`ESLint` עם כללי ביטחון:
 
+{% raw %}
 ```javascript
 // .eslintrc.js
 module.exports = {
   extends: ['plugin:security/recommended'],
   plugins: ['security'],
 };
-```
+```{% raw %}
+{% endraw %}
 
 ### 5. שימוש ב-Runtime Application Self-Protection (RASP)
 
-שימוש ב-RASP יכול לעזור לזהות ולמנוע התקפות בזמן הרצת האפליקציה. ניתן להשתמש בכלים כמו `Sqreen` כדי להטמיע RASP ב-Next.js:
+שימוש ב-RASP יכול לעזור לזהות ולמנוע התקפות בזמן הרצת האפליקציה. ניתן להשתמש בכלים כמו {% endraw %}`Sqreen` כדי להטמיע RASP ב-Next.js:
 
+{% raw %}
 ```javascript
 // pages/_app.js
 
@@ -428,16 +473,18 @@ function MyApp({ Component, pageProps }) {
 }
 
 export default MyApp;
-```
+```{% raw %}
+{% endraw %}
 
 ## דוגמאות מהעולם האמיתי 🌍
 
-כדי להמחיש את השימוש ב-`react2shell-scanner` ובשיטות עבודה מומלצות, הנה כמה דוגמאות מהעולם האמיתי:
+כדי להמחיש את השימוש ב-{% endraw %}`react2shell-scanner` ובשיטות עבודה מומלצות, הנה כמה דוגמאות מהעולם האמיתי:
 
 ### דוגמה 1: זיהוי ותיקון פגיעות RCE ב-API
 
 בדוגמה הזו, נראה כיצד `react2shell-scanner` יכול לזהות פגיעות RCE ב-API וכיצד לתקן אותה:
 
+{% raw %}
 ```javascript
 // pages/api/handler.js
 
@@ -454,9 +501,11 @@ export default function handler(req, res) {
   });
 }
 ```
+{% endraw %}
 
 לאחר שהכלי זיהה את הפגיעות, נתקן אותה:
 
+{% raw %}
 ```javascript
 // pages/api/handler.js
 
@@ -478,11 +527,13 @@ export default function handler(req, res) {
   }
 }
 ```
+{% endraw %}
 
 ### דוגמה 2: שימוש ב-Environment Variables לשמירת סיסמאות
 
 בדוגמה הזו, נראה כיצד להשתמש ב-Environment Variables כדי לשמור סיסמאות ומפתחות API:
 
+{% raw %}
 ```javascript
 // .env.local
 API_KEY=your_api_key_here
@@ -495,11 +546,13 @@ export default function handler(req, res) {
   // השתמשו ב-apiKey כאן
 }
 ```
+{% endraw %}
 
 ### דוגמה 3: הגבלת גישה ל-API עם JWT
 
 בדוגמה הזו, נראה כיצד להגביל את הגישה ל-API באמצעות JWT:
 
+{% raw %}
 ```javascript
 // pages/api/protected.js
 
@@ -519,11 +572,13 @@ export default function handler(req, res) {
   }
 }
 ```
+{% endraw %}
 
 ### דוגמה 4: שימוש ב-Content Security Policy (CSP)
 
 בדוגמה הזו, נראה כיצד להטמיע מדיניות CSP כדי להגביל את המקורות שמהם האפליקציה שלכם יכולה לטעון משאבים:
 
+{% raw %}
 ```javascript
 // pages/_document.js
 
@@ -546,11 +601,13 @@ export default function Document() {
   );
 }
 ```
+{% endraw %}
 
 ### דוגמה 5: שימוש ב-Input Validation
 
 בדוגמה הזו, נראה כיצד לאמת את הקלט של המשתמש כדי למנוע התקפות כמו SQL Injection ו-XSS:
 
+{% raw %}
 ```javascript
 // pages/api/handler.js
 
@@ -568,11 +625,12 @@ export default function handler(req, res) {
   }
   // המשיכו עם הנתונים המאומתים
 }
-```
+```{% raw %}
+{% endraw %}
 
 ## סיכום וצעדים הבאים 🔚
 
-במדריך זה, למדנו כיצד להטמיע את `react2shell-scanner` בפרויקט Next.js כדי לזהות ולמנוע פגיעויות RCE. סקרנו את הדרישות המוקדמות, הצגנו צעדים מפורטים להטמעה, ודנו בשיטות עבודה מומלצות ובטיפים להגברת הביטחון של האפליקציה שלכם.
+במדריך זה, למדנו כיצד להטמיע את {% endraw %}`react2shell-scanner` בפרויקט Next.js כדי לזהות ולמנוע פגיעויות RCE. סקרנו את הדרישות המוקדמות, הצגנו צעדים מפורטים להטמעה, ודנו בשיטות עבודה מומלצות ובטיפים להגברת הביטחון של האפליקציה שלכם.
 
 כצעדים הבאים, מומלץ להמשיך ולשפר את הביטחון של האפליקציה שלכם על ידי:
 

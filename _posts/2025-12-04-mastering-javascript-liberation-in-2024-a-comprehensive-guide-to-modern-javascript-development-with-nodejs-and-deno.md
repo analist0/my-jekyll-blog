@@ -47,10 +47,12 @@ JavaScript היא שפת התכנות המועדפת ברשת בזכות היו�
 
 לאחר ההתקנה, תוכלו לבדוק את הגרסה של Node.js ו-npm באמצעות הפקודות הבאות:
 
+{% raw %}
 ```bash
 node -v
 npm -v
 ```
+{% endraw %}
 
 ### התקנת Deno
 
@@ -59,15 +61,19 @@ npm -v
 1. פתחו את מסוף הקו המפקדה (terminal) שלכם.
 2. הריצו את הפקודה הבאה להתקנת Deno:
 
+{% raw %}
 ```bash
 curl -fsSL https://deno.land/x/install/install.sh | sh
 ```
+{% endraw %}
 
 3. לאחר ההתקנה, תוכלו לבדוק את הגרסה של Deno באמצעות הפקודה הבאה:
 
+{% raw %}
 ```bash
 deno --version
-```
+```{% raw %}
+{% endraw %}
 
 ## הטמעה צעד-אחר-צעד עם דוגמאות קוד
 
@@ -79,28 +85,34 @@ deno --version
 
 1. **יצירת קובץ JavaScript חדש**:
 
-   צרו קובץ חדש בשם `app.js` וכתבו בו את הקוד הבא:
+   צרו קובץ חדש בשם {% endraw %}`app.js` וכתבו בו את הקוד הבא:
 
-   ```javascript
+   {% raw %}
+```javascript
    // app.js
 
    // Print "Hello, World!" to the console
    console.log("Hello, World!");
    ```
+{% endraw %}
 
 2. **הרצת הקוד**:
 
    בצעו את הפקודה הבאה במסוף הקו המפקדה כדי להריץ את הקוד:
 
-   ```bash
+   {% raw %}
+```bash
    node app.js
    ```
+{% endraw %}
 
    תראו את הפלט הבא במסוף:
 
-   ```
+   {% raw %}
+```
    Hello, World!
-   ```
+   ```{% raw %}
+{% endraw %}
 
 ### התחלה עם Deno
 
@@ -108,28 +120,34 @@ deno --version
 
 1. **יצירת קובץ JavaScript חדש**:
 
-   צרו קובץ חדש בשם `app.js` וכתבו בו את הקוד הבא:
+   צרו קובץ חדש בשם {% endraw %}`app.js` וכתבו בו את הקוד הבא:
 
-   ```javascript
+   {% raw %}
+```javascript
    // app.js
 
    // Print "Hello, World!" to the console
    console.log("Hello, World!");
    ```
+{% endraw %}
 
 2. **הרצת הקוד**:
 
    בצעו את הפקודה הבאה במסוף הקו המפקדה כדי להריץ את הקוד:
 
-   ```bash
+   {% raw %}
+```bash
    deno run app.js
    ```
+{% endraw %}
 
    תראו את הפלט הבא במסוף:
 
-   ```
+   {% raw %}
+```
    Hello, World!
-   ```
+   ```{% raw %}
+{% endraw %}
 
 ### יצירת שרת HTTP פשוט עם Node.js
 
@@ -137,9 +155,10 @@ deno --version
 
 1. **יצירת קובץ JavaScript חדש**:
 
-   צרו קובץ חדש בשם `server.js` וכתבו בו את הקוד הבא:
+   צרו קובץ חדש בשם {% endraw %}`server.js` וכתבו בו את הקוד הבא:
 
-   ```javascript
+   {% raw %}
+```javascript
    // server.js
 
    // Import the http module
@@ -159,26 +178,33 @@ deno --version
        console.log('Server running on port 3000');
    });
    ```
+{% endraw %}
 
 2. **הרצת הקוד**:
 
    בצעו את הפקודה הבאה במסוף הקו המפקדה כדי להריץ את הקוד:
 
-   ```bash
+   {% raw %}
+```bash
    node server.js
    ```
+{% endraw %}
 
    תראו את הפלט הבא במסוף:
 
-   ```
+   {% raw %}
+```
    Server running on port 3000
-   ```
+   ```{% raw %}
+{% endraw %}
 
-   כעת, אם תפתחו את הדפדפן ותכניסו את הכתובת `http://localhost:3000`, תראו את הפלט הבא:
+   כעת, אם תפתחו את הדפדפן ותכניסו את הכתובת {% endraw %}`http://localhost:3000`, תראו את הפלט הבא:
 
-   ```
+   {% raw %}
+```
    Hello, World!
-   ```
+   ```{% raw %}
+{% endraw %}
 
 ### יצירת שרת HTTP פשוט עם Deno
 
@@ -186,9 +212,10 @@ deno --version
 
 1. **יצירת קובץ JavaScript חדש**:
 
-   צרו קובץ חדש בשם `server.js` וכתבו בו את הקוד הבא:
+   צרו קובץ חדש בשם {% endraw %}`server.js` וכתבו בו את הקוד הבא:
 
-   ```javascript
+   {% raw %}
+```javascript
    // server.js
 
    // Import the http module from the Deno standard library
@@ -204,26 +231,33 @@ deno --version
        req.respond({ body: "Hello, World!\n" });
    }
    ```
+{% endraw %}
 
 2. **הרצת הקוד**:
 
    בצעו את הפקודה הבאה במסוף הקו המפקדה כדי להריץ את הקוד:
 
-   ```bash
+   {% raw %}
+```bash
    deno run --allow-net server.js
    ```
+{% endraw %}
 
    תראו את הפלט הבא במסוף:
 
-   ```
+   {% raw %}
+```
    HTTP server running on port 3000
-   ```
+   ```{% raw %}
+{% endraw %}
 
-   כעת, אם תפתחו את הדפדפן ותכניסו את הכתובת `http://localhost:3000`, תראו את הפלט הבא:
+   כעת, אם תפתחו את הדפדפן ותכניסו את הכתובת {% endraw %}`http://localhost:3000`, תראו את הפלט הבא:
 
-   ```
+   {% raw %}
+```
    Hello, World!
    ```
+{% endraw %}
 
 ## שיטות עבודה מומלצות וטיפים
 
@@ -237,23 +271,28 @@ deno --version
 
 ב-Node.js, ניתן להשתמש ב-ES6 Modules על ידי הוספת הדגל הבא לקובץ ה-JavaScript:
 
+{% raw %}
 ```javascript
 // app.js
 import { greet } from './greet.js';
 
 console.log(greet('World'));
-```
+```{% raw %}
+{% endraw %}
 
-והרצת הקוד עם הדגל `--experimental-specifier-resolution`:
+והרצת הקוד עם הדגל {% endraw %}`--experimental-specifier-resolution`:
 
+{% raw %}
 ```bash
 node --experimental-specifier-resolution=node app.js
 ```
+{% endraw %}
 
 #### Deno
 
 ב-Deno, ES6 Modules הם הדרך היחידה ליבוא מודולים. לדוגמה:
 
+{% raw %}
 ```javascript
 // app.js
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
@@ -266,6 +305,7 @@ for await (const req of server) {
     req.respond({ body: "Hello, World!\n" });
 }
 ```
+{% endraw %}
 
 ### שימוש ב-async/await
 
@@ -275,6 +315,7 @@ for await (const req of server) {
 
 ב-Node.js, ניתן להשתמש ב-async/await בקלות:
 
+{% raw %}
 ```javascript
 // asyncExample.js
 import fetch from 'node-fetch';
@@ -291,11 +332,13 @@ async function getData() {
 
 getData();
 ```
+{% endraw %}
 
 #### Deno
 
 ב-Deno, ניתן להשתמש ב-async/await בצורה דומה:
 
+{% raw %}
 ```javascript
 // asyncExample.js
 import { fetch } from "https://deno.land/std@0.177.0/node/fetch.ts";
@@ -311,7 +354,8 @@ async function getData() {
 }
 
 getData();
-```
+```{% raw %}
+{% endraw %}
 
 ### שימוש ב-TypeScript
 
@@ -319,14 +363,17 @@ TypeScript היא שפת תכנות המבוססת על JavaScript ומוסיפ�
 
 #### Node.js
 
-ב-Node.js, ניתן להשתמש ב-TypeScript על ידי התקנת חבילות כמו `typescript` ו-`ts-node`:
+ב-Node.js, ניתן להשתמש ב-TypeScript על ידי התקנת חבילות כמו {% endraw %}`typescript` ו-`ts-node`:
 
+{% raw %}
 ```bash
 npm install -g typescript ts-node
-```
+```{% raw %}
+{% endraw %}
 
-ואז, ניתן לכתוב קוד ב-TypeScript ולהריץ אותו עם `ts-node`:
+ואז, ניתן לכתוב קוד ב-TypeScript ולהריץ אותו עם {% endraw %}`ts-node`:
 
+{% raw %}
 ```typescript
 // app.ts
 import { greet } from './greet';
@@ -334,15 +381,19 @@ import { greet } from './greet';
 const message: string = greet('World');
 console.log(message);
 ```
+{% endraw %}
 
+{% raw %}
 ```bash
 ts-node app.ts
-```
+```{% raw %}
+{% endraw %}
 
 #### Deno
 
-ב-Deno, TypeScript נתמכת באופן מובנה. ניתן לכתוב קוד ב-TypeScript ולהריץ אותו ישירות עם `deno run`:
+ב-Deno, TypeScript נתמכת באופן מובנה. ניתן לכתוב קוד ב-TypeScript ולהריץ אותו ישירות עם {% endraw %}`deno run`:
 
+{% raw %}
 ```typescript
 // app.ts
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
@@ -355,10 +406,13 @@ for await (const req of server) {
     req.respond({ body: "Hello, World!\n" });
 }
 ```
+{% endraw %}
 
+{% raw %}
 ```bash
 deno run app.ts
 ```
+{% endraw %}
 
 ### שימוש בכלים לבדיקות ולניהול תלויות
 
@@ -368,12 +422,15 @@ deno run app.ts
 
 ב-Node.js, ניתן להשתמש ב-Jest לבדיקות:
 
+{% raw %}
 ```bash
 npm install --save-dev jest
-```
+```{% raw %}
+{% endraw %}
 
-ואז, לכתוב בדיקות בקובץ כמו `app.test.js`:
+ואז, לכתוב בדיקות בקובץ כמו {% endraw %}`app.test.js`:
 
+{% raw %}
 ```javascript
 // app.test.js
 const { greet } = require('./greet');
@@ -382,17 +439,21 @@ test('greet function returns the correct message', () => {
     expect(greet('World')).toBe('Hello, World!');
 });
 ```
+{% endraw %}
 
 ולהריץ את הבדיקות עם:
 
+{% raw %}
 ```bash
 npx jest
 ```
+{% endraw %}
 
 #### Deno
 
 ב-Deno, ניתן להשתמש בכלי הבדיקות המובנה:
 
+{% raw %}
 ```typescript
 // app_test.ts
 import { assertEquals } from "https://deno.land/std@0.177.0/testing/asserts.ts";
@@ -402,12 +463,15 @@ Deno.test("greet function returns the correct message", () => {
     assertEquals(greet("World"), "Hello, World!");
 });
 ```
+{% endraw %}
 
 ולהריץ את הבדיקות עם:
 
+{% raw %}
 ```bash
 deno test
 ```
+{% endraw %}
 
 ## מלכודות נפוצות ואיך להימנע מהן
 
@@ -421,6 +485,7 @@ deno test
 
 ב-Node.js, ניתן להשתמש ב-Try/Catch כדי לתפוס שגיאות:
 
+{% raw %}
 ```javascript
 // errorHandling.js
 try {
@@ -431,11 +496,13 @@ try {
     console.error('Error:', error.message);
 }
 ```
+{% endraw %}
 
 #### Deno
 
 ב-Deno, ניתן להשתמש ב-Try/Catch בצורה דומה:
 
+{% raw %}
 ```javascript
 // errorHandling.js
 try {
@@ -446,6 +513,7 @@ try {
     console.error('Error:', error.message);
 }
 ```
+{% endraw %}
 
 ### מלכודת: תלויות לא מנוהלות
 
@@ -455,23 +523,29 @@ try {
 
 ב-Node.js, ניתן להשתמש ב-npm או ב-yarn לניהול תלויות:
 
+{% raw %}
 ```bash
 npm install express
 ```
+{% endraw %}
 
 ואז, לוודא שהתלויות מעודכנות:
 
+{% raw %}
 ```bash
 npm outdated
 ```
+{% endraw %}
 
 #### Deno
 
 ב-Deno, ניתן להשתמש בכלי הניהול המובנה של Deno:
 
+{% raw %}
 ```bash
 deno info
-```
+```{% raw %}
+{% endraw %}
 
 ### מלכודת: בעיות ביצועים
 
@@ -479,22 +553,26 @@ deno info
 
 #### Node.js
 
-ב-Node.js, ניתן להשתמש בכלים כמו `clinic` לניתוח ביצועים:
+ב-Node.js, ניתן להשתמש בכלים כמו {% endraw %}`clinic` לניתוח ביצועים:
 
+{% raw %}
 ```bash
 npm install -g clinic
 clinic doctor -- node app.js
 ```
+{% endraw %}
 
 #### Deno
 
 ב-Deno, ניתן להשתמש בכלי הניטור המובנה:
 
+{% raw %}
 ```bash
 deno run --inspect-brk app.js
-```
+```{% raw %}
+{% endraw %}
 
-ואז, לפתוח את הדפדפן בכתובת `chrome://inspect` כדי לנטר את הביצועים.
+ואז, לפתוח את הדפדפן בכתובת {% endraw %}`chrome://inspect` כדי לנטר את הביצועים.
 
 ## טכניקות מתקדמות
 
@@ -508,6 +586,7 @@ Web Workers מאפשרים לנו לבצע משימות כבדות ברקע מב
 
 ב-Node.js, ניתן להשתמש ב-`worker_threads` ליצירת Web Workers:
 
+{% raw %}
 ```javascript
 // main.js
 const { Worker } = require('worker_threads');
@@ -520,7 +599,9 @@ worker.on('message', (result) => {
 
 worker.postMessage('Start');
 ```
+{% endraw %}
 
+{% raw %}
 ```javascript
 // worker.js
 const { parentPort } = require('worker_threads');
@@ -541,12 +622,14 @@ function performHeavyTask() {
     }
     return result;
 }
-```
+```{% raw %}
+{% endraw %}
 
 #### Deno
 
-ב-Deno, ניתן להשתמש ב-`Deno.Worker` ליצירת Web Workers:
+ב-Deno, ניתן להשתמש ב-{% endraw %}`Deno.Worker` ליצירת Web Workers:
 
+{% raw %}
 ```javascript
 // main.js
 const worker = new Deno.Worker('./worker.js', { type: 'module' });
@@ -557,7 +640,9 @@ worker.onmessage = (event) => {
 
 worker.postMessage('Start');
 ```
+{% endraw %}
 
+{% raw %}
 ```javascript
 // worker.js
 self.onmessage = (event) => {
@@ -576,7 +661,8 @@ function performHeavyTask() {
     }
     return result;
 }
-```
+```{% raw %}
+{% endraw %}
 
 ### שימוש ב-WebSockets
 
@@ -584,8 +670,9 @@ WebSockets מאפשרים לנו ליצור תקשורת בזמן אמת בין 
 
 #### Node.js
 
-ב-Node.js, ניתן להשתמש בחבילה כמו `ws` ליצירת WebSockets:
+ב-Node.js, ניתן להשתמש בחבילה כמו {% endraw %}`ws` ליצירת WebSockets:
 
+{% raw %}
 ```javascript
 // server.js
 const WebSocket = require('ws');
@@ -605,7 +692,9 @@ wss.on('connection', (ws) => {
     });
 });
 ```
+{% endraw %}
 
+{% raw %}
 ```javascript
 // client.js
 const WebSocket = require('ws');
@@ -624,12 +713,14 @@ ws.on('message', (message) => {
 ws.on('close', () => {
     console.log('Disconnected from server');
 });
-```
+```{% raw %}
+{% endraw %}
 
 #### Deno
 
-ב-Deno, ניתן להשתמש בחבילה כמו `ws` מהספרייה הסטנדרטית של Deno:
+ב-Deno, ניתן להשתמש בחבילה כמו {% endraw %}`ws` מהספרייה הסטנדרטית של Deno:
 
+{% raw %}
 ```javascript
 // server.js
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
@@ -663,7 +754,9 @@ for await (const req of server) {
     }
 }
 ```
+{% endraw %}
 
+{% raw %}
 ```javascript
 // client.js
 import { WebSocket } from "https://deno.land/std@0.177.0/ws/mod.ts";
@@ -684,7 +777,8 @@ ws.onmessage = (event) => {
 ws.onclose = () => {
     console.log("Disconnected from server");
 };
-```
+```{% raw %}
+{% endraw %}
 
 ### שימוש ב-GraphQL
 
@@ -692,8 +786,9 @@ GraphQL היא שפת שאילתות ל-API שמאפשרת לנו לבקש בד�
 
 #### Node.js
 
-ב-Node.js, ניתן להשתמש בחבילה כמו `apollo-server` ליצירת שרת GraphQL:
+ב-Node.js, ניתן להשתמש בחבילה כמו {% endraw %}`apollo-server` ליצירת שרת GraphQL:
 
+{% raw %}
 ```javascript
 // server.js
 const { ApolloServer, gql } = require('apollo-server');
@@ -715,12 +810,14 @@ const server = new ApolloServer({ typeDefs, resolvers });
 server.listen().then(({ url }) => {
   console.log(`🚀 Server ready at ${url}`);
 });
-```
+```{% raw %}
+{% endraw %}
 
 #### Deno
 
-ב-Deno, ניתן להשתמש בחבילה כמו `graphql-yoga` ליצירת שרת GraphQL:
+ב-Deno, ניתן להשתמש בחבילה כמו {% endraw %}`graphql-yoga` ליצירת שרת GraphQL:
 
+{% raw %}
 ```javascript
 // server.js
 import { createYoga } from "https://deno.land/x/graphql_yoga/mod.ts";
@@ -742,6 +839,7 @@ const yoga = createYoga({ schema: { typeDefs, resolvers } });
 
 Deno.serve(yoga);
 ```
+{% endraw %}
 
 ## דוגמאות מהעולם האמיתי
 
@@ -753,6 +851,7 @@ Deno.serve(yoga);
 
 #### Node.js
 
+{% raw %}
 ```javascript
 // server.js
 const WebSocket = require('ws');
@@ -777,7 +876,9 @@ wss.on('connection', (ws) => {
     });
 });
 ```
+{% endraw %}
 
+{% raw %}
 ```javascript
 // client.js
 const WebSocket = require('ws');
@@ -796,9 +897,11 @@ ws.on('open', () => {
     });
 });
 ```
+{% endraw %}
 
 #### Deno
 
+{% raw %}
 ```javascript
 // server.js
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
@@ -837,7 +940,9 @@ for await (const req of server) {
     }
 }
 ```
+{% endraw %}
 
+{% raw %}
 ```javascript
 // client.js
 import { WebSocket } from "https://deno.land/std@0.177.0/ws/mod.ts";
@@ -858,6 +963,7 @@ ws.onopen = () => {
     };
 };
 ```
+{% endraw %}
 
 ### יישום מיקרו-שירותים
 
@@ -865,6 +971,7 @@ ws.onopen = () => {
 
 #### Node.js
 
+{% raw %}
 ```javascript
 // user-service.js
 const express = require('express');
@@ -878,7 +985,9 @@ app.listen(3001, () => {
     console.log('User service running on port 3001');
 });
 ```
+{% endraw %}
 
+{% raw %}
 ```javascript
 // order-service.js
 const express = require('express');
@@ -892,9 +1001,11 @@ app.listen(3002, () => {
     console.log('Order service running on port 3002');
 });
 ```
+{% endraw %}
 
 #### Deno
 
+{% raw %}
 ```javascript
 // user-service.js
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
@@ -909,7 +1020,9 @@ for await (const req of server) {
     }
 }
 ```
+{% endraw %}
 
+{% raw %}
 ```javascript
 // order-service.js
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
@@ -924,6 +1037,7 @@ for await (const req of server) {
     }
 }
 ```
+{% endraw %}
 
 ## סיכום וצעדים הבאים
 

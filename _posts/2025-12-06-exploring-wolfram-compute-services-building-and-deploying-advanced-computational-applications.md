@@ -43,6 +43,7 @@ tags: [Wolfram, Compute Services, יישומים חישוביים, מדריך ט
 
 הצעד הראשון בבניית יישום חישובי ב-WCS הוא התחברות לשירות. אתם יכולים להשתמש ב-API של WCS לשם כך. להלן דוגמה לקוד ב-Python להתחברות ל-WCS:
 
+{% raw %}
 ```python
 # Import the required libraries
 import requests
@@ -69,11 +70,13 @@ def get_access_token():
 access_token = get_access_token()
 print("Access Token:", access_token)
 ```
+{% endraw %}
 
 ### צעד 2: בניית יישום בסיסי
 
 לאחר שהתחברתם ל-WCS, ניתן להתחיל לבנות יישומים בסיסיים. להלן דוגמה לקוד ב-Wolfram Language לבניית יישום פשוט שמחשב את שורש ריבועי של מספר:
 
+{% raw %}
 ```wolfram
 (* Define a function to calculate the square root of a number *)
 squareRoot[n_?NumericQ] := Sqrt[n]
@@ -81,11 +84,13 @@ squareRoot[n_?NumericQ] := Sqrt[n]
 (* Test the function *)
 squareRoot[16]
 ```
+{% endraw %}
 
 ### צעד 3: הטמעת יישום ב-WCS
 
 לאחר שבניתם את היישום הבסיסי, תוכלו להטמיע אותו ב-WCS. להלן דוגמה לקוד ב-Python להטמעת היישום ב-WCS:
 
+{% raw %}
 ```python
 # Import the required libraries
 import requests
@@ -118,11 +123,13 @@ def deploy_application():
 deployment_url = deploy_application()
 print("Deployment URL:", deployment_url)
 ```
+{% endraw %}
 
 ### צעד 4: התקשרות עם היישום המוטמע
 
 לאחר שהטמעתם את היישום, תוכלו להתקשר איתו כדי לקבל תוצאות. להלן דוגמה לקוד ב-Python להתקשרות עם היישום המוטמע:
 
+{% raw %}
 ```python
 # Import the required libraries
 import requests
@@ -143,11 +150,13 @@ def call_application(number):
 result = call_application(16)
 print("Result:", result)
 ```
+{% endraw %}
 
 ### צעד 5: בניית יישום מתקדם
 
 לאחר שבניתם יישומים בסיסיים, תוכלו להתקדם לבניית יישומים מתקדמים יותר. להלן דוגמה לקוד ב-Wolfram Language לבניית יישום מתקדם שמחשב את הסדרה של פיבונאצ'י:
 
+{% raw %}
 ```wolfram
 (* Define a function to calculate the Fibonacci sequence *)
 fibonacci[n_Integer?Positive] := fibonacci[n] = fibonacci[n-1] + fibonacci[n-2]
@@ -157,11 +166,13 @@ fibonacci[2] = 1
 (* Test the function *)
 fibonacci[10]
 ```
+{% endraw %}
 
 ### צעד 6: הטמעת יישום מתקדם ב-WCS
 
 לאחר שבניתם את היישום המתקדם, תוכלו להטמיע אותו ב-WCS. להלן דוגמה לקוד ב-Python להטמעת היישום המתקדם ב-WCS:
 
+{% raw %}
 ```python
 # Import the required libraries
 import requests
@@ -194,11 +205,13 @@ def deploy_application():
 deployment_url = deploy_application()
 print("Deployment URL:", deployment_url)
 ```
+{% endraw %}
 
 ### צעד 7: התקשרות עם היישום המתקדם המוטמע
 
 לאחר שהטמעתם את היישום המתקדם, תוכלו להתקשר איתו כדי לקבל תוצאות. להלן דוגמה לקוד ב-Python להתקשרות עם היישום המתקדם המוטמע:
 
+{% raw %}
 ```python
 # Import the required libraries
 import requests
@@ -219,6 +232,7 @@ def call_application(number):
 result = call_application(10)
 print("Result:", result)
 ```
+{% endraw %}
 
 ## שיטות עבודה מומלצות וטיפים
 
@@ -245,6 +259,7 @@ print("Result:", result)
 
 - **שימוש ב-Parallel Computing**: שימוש בחישוב מקביל יכול לשפר את ביצועי היישום שלכם. להלן דוגמה לקוד ב-Wolfram Language לשימוש בחישוב מקביל:
 
+{% raw %}
 ```wolfram
 (* Define a function to calculate the sum of squares in parallel *)
 sumOfSquaresParallel[n_Integer?Positive] := ParallelSum[i^2, {i, 1, n}]
@@ -252,9 +267,11 @@ sumOfSquaresParallel[n_Integer?Positive] := ParallelSum[i^2, {i, 1, n}]
 (* Test the function *)
 sumOfSquaresParallel[1000000]
 ```
+{% endraw %}
 
 - **שימוש ב-Machine Learning**: שימוש בלמידה חישובית יכול לשפר את היישומים שלכם. להלן דוגמה לקוד ב-Wolfram Language לשימוש בלמידה חישובית:
 
+{% raw %}
 ```wolfram
 (* Load the Machine Learning package *)
 Needs["NeuralNetworks`"]
@@ -272,9 +289,11 @@ trainedNet = NetTrain[net, {1 -> 2, 2 -> 4, 3 -> 6, 4 -> 8}]
 (* Test the trained neural network *)
 trainedNet[5]
 ```
+{% endraw %}
 
 - **שימוש ב-Data Visualization**: שימוש בוויזואליזציה של נתונים יכול לשפר את הבנת הנתונים והתוצאות. להלן דוגמה לקוד ב-Wolfram Language לשימוש בוויזואליזציה של נתונים:
 
+{% raw %}
 ```wolfram
 (* Generate some data *)
 data = Table[{x, x^2}, {x, 1, 10}];
@@ -285,6 +304,7 @@ plot = ListPlot[data, PlotStyle -> Red, PlotMarkers -> Automatic]
 (* Display the plot *)
 plot
 ```
+{% endraw %}
 
 ## דוגמאות מהעולם האמיתי
 
@@ -294,6 +314,7 @@ plot
 
 בתחום הפיננסי, ישנו צורך בניתוח נתונים מהיר ויעיל כדי לקבל החלטות מושכלות. WCS יכול לסייע בבניית יישומים לניתוח נתונים פיננסיים. להלן דוגמה לקוד ב-Wolfram Language לניתוח נתונים פיננסיים:
 
+{% raw %}
 ```wolfram
 (* Import financial data *)
 data = FinancialData["AAPL", "Close", {DateObject[{2020, 1, 1}], DateObject[{2023, 1, 1}]}]
@@ -307,11 +328,13 @@ plot = DateListPlot[{data, movingAverage}, PlotStyle -> {Blue, Red}, PlotLegends
 (* Display the plot *)
 plot
 ```
+{% endraw %}
 
 ### דוגמה 2: מודלים מתמטיים בתחום ההנדסה
 
 בתחום ההנדסה, ישנו צורך במודלים מתמטיים מורכבים כדי לפתור בעיות הנדסיות. WCS יכול לסייע בבניית מודלים מתמטיים. להלן דוגמה לקוד ב-Wolfram Language לבניית מודל מתמטי:
 
+{% raw %}
 ```wolfram
 (* Define the differential equation *)
 eq = y''[x] + y[x] == Sin[x]
@@ -325,11 +348,13 @@ plot = Plot[y[x] /. sol, {x, 0, 10}]
 (* Display the plot *)
 plot
 ```
+{% endraw %}
 
 ### דוגמה 3: כלים ללמידה חישובית
 
 בתחום החינוך, ישנו צורך בכלים ללמידה חישובית כדי לסייע לתלמידים להבין מושגים מתמטיים ומדעיים. WCS יכול לסייע בבניית כלים כאלה. להלן דוגמה לקוד ב-Wolfram Language לבניית כלי ללמידה חישובית:
 
+{% raw %}
 ```wolfram
 (* Define a function to calculate the area of a circle *)
 areaOfCircle[r_?NumericQ] := Pi * r^2
@@ -344,6 +369,7 @@ Manipulate[
     {r, 1, 10, 0.1}
 ]
 ```
+{% endraw %}
 
 ## סיכום וצעדים הבאים
 

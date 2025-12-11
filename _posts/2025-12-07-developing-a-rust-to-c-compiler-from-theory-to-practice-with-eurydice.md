@@ -57,15 +57,19 @@ description: מדריך מקיף ומפורט לפיתוח מערכת קומפי
 
 כדי להתקין את Eurydice, נשתמש ב-Cargo:
 
+{% raw %}
 ```bash
 cargo install eurydice
 ```
+{% endraw %}
 
 לאחר ההתקנה, ניתן לוודא שהכלי התקין כראוי:
 
+{% raw %}
 ```bash
 eurydice --version
 ```
+{% endraw %}
 
 ## הטמעה צעד-אחר-צעד עם דוגמאות קוד
 
@@ -75,13 +79,16 @@ eurydice --version
 
 ראשית, ניצור פרויקט Rust חדש:
 
+{% raw %}
 ```bash
 cargo new rust_to_c_example
 cd rust_to_c_example
-```
+```{% raw %}
+{% endraw %}
 
-נוסיף קובץ `main.rs` עם קוד Rust פשוט:
+נוסיף קובץ {% endraw %}`main.rs` עם קוד Rust פשוט:
 
+{% raw %}
 ```rust
 // main.rs
 
@@ -93,41 +100,51 @@ fn add(a: i32, b: i32) -> i32 {
     a + b
 }
 ```
+{% endraw %}
 
 ### שלב 2: קומפילציה של הקוד ל-C באמצעות Eurydice
 
 כדי לתרגם את הקוד Rust ל-C, נשתמש ב-Eurydice:
 
+{% raw %}
 ```bash
 eurydice main.rs --output main.c
-```
+```{% raw %}
+{% endraw %}
 
-הפקודה הזו תיצור קובץ `main.c` שמכיל את הקוד C המתורגם.
+הפקודה הזו תיצור קובץ {% endraw %}`main.c` שמכיל את הקוד C המתורגם.
 
 ### שלב 3: קומפילציה של הקוד C
 
 לאחר שיש לנו את הקוד C, נוכל לקמפל אותו באמצעות GCC או Clang. נשתמש ב-GCC:
 
+{% raw %}
 ```bash
 gcc main.c -o main
 ```
+{% endraw %}
 
 לאחר הקומפילציה, נוכל להריץ את התוכנית:
 
+{% raw %}
 ```bash
 ./main
 ```
+{% endraw %}
 
 הפלט יהיה:
 
+{% raw %}
 ```
 Hello, Rust to C!
-```
+```{% raw %}
+{% endraw %}
 
 ### שלב 4: שימוש בפונקציות מתורגמות
 
-בדוגמה הבאה, נשתמש בפונקציה `add` שתורגמה מ-Rust ל-C:
+בדוגמה הבאה, נשתמש בפונקציה {% endraw %}`add` שתורגמה מ-Rust ל-C:
 
+{% raw %}
 ```rust
 // main.rs
 
@@ -141,15 +158,19 @@ fn add(a: i32, b: i32) -> i32 {
     a + b
 }
 ```
+{% endraw %}
 
 לאחר תרגום הקוד ל-C:
 
+{% raw %}
 ```bash
 eurydice main.rs --output main.c
-```
+```{% raw %}
+{% endraw %}
 
-נקבל קובץ `main.c` עם הקוד הבא:
+נקבל קובץ {% endraw %}`main.c` עם הקוד הבא:
 
+{% raw %}
 ```c
 // main.c
 
@@ -166,20 +187,25 @@ int main() {
     return 0;
 }
 ```
+{% endraw %}
 
 נקמפל ונריץ את התוכנית:
 
+{% raw %}
 ```bash
 gcc main.c -o main
 ./main
 ```
+{% endraw %}
 
 הפלט יהיה:
 
+{% raw %}
 ```
 Hello, Rust to C!
 5 + 3 = 8
 ```
+{% endraw %}
 
 ## שיטות עבודה מומלצות וטיפים
 
@@ -189,29 +215,35 @@ Hello, Rust to C!
 
 ב-Rust, מומלץ להשתמש בטיפוסים ברורים כדי להקל על Eurydice לתרגם את הקוד ל-C:
 
+{% raw %}
 ```rust
 // טיפוסים ברורים
 let a: i32 = 5;
 let b: i32 = 3;
 let result: i32 = add(a, b);
-```
+```{% raw %}
+{% endraw %}
 
 ### ניהול זיכרון
 
-Rust משתמשת בניהול זיכרון אוטומטי, בעוד שב-C נדרש לנהל את הזיכרון ידנית. כדי להתמודד עם הבדל זה, Eurydice מוסיפה קריאות לפונקציות כמו `malloc` ו-`free` כאשר נדרש:
+Rust משתמשת בניהול זיכרון אוטומטי, בעוד שב-C נדרש לנהל את הזיכרון ידנית. כדי להתמודד עם הבדל זה, Eurydice מוסיפה קריאות לפונקציות כמו {% endraw %}`malloc` ו-`free` כאשר נדרש:
 
+{% raw %}
 ```rust
 // Rust
 let s = String::from("Hello, Rust to C!");
 ```
+{% endraw %}
 
 יתורגם ל-C כך:
 
+{% raw %}
 ```c
 // C
 char* s = malloc(strlen("Hello, Rust to C!") + 1);
 strcpy(s, "Hello, Rust to C!");
 ```
+{% endraw %}
 
 ### שימוש בתכונות של Rust
 
@@ -221,6 +253,7 @@ Eurydice תומכת בחלק מהתכונות המתקדמות של Rust, כמו
 
 בדיקות יחידה חשובות לוודא שהקוד מתורגם כראוי. ניתן לכתוב בדיקות יחידה ב-Rust ולהריץ אותן לפני התרגום:
 
+{% raw %}
 ```rust
 // main.rs
 
@@ -234,12 +267,15 @@ mod tests {
     }
 }
 ```
+{% endraw %}
 
 לאחר כתיבת הבדיקות, ניתן לרוץ אותם:
 
+{% raw %}
 ```bash
 cargo test
 ```
+{% endraw %}
 
 ## מלכודות נפוצות ואיך להימנע מהן
 
@@ -249,26 +285,31 @@ cargo test
 
 Eurydice לא תומכת בכל התכונות של Rust. חשוב לבדוק את התיעוד של Eurydice כדי לוודא שהתכונות שבהן אתם משתמשים נתמכות:
 
+{% raw %}
 ```rust
 // לא נתמכת
 async fn example() {
     // קוד אסינכרוני
 }
 ```
+{% endraw %}
 
 ### בעיות בניהול זיכרון
 
 ב-C, ניהול זיכרון ידני יכול לגרום לבעיות כמו דליפות זיכרון. חשוב לבדוק את הקוד C המתורגם ולוודא שהזיכרון משוחרר כראוי:
 
+{% raw %}
 ```c
 // דוגמה לשחרור זיכרון
 free(s);
 ```
+{% endraw %}
 
 ### בעיות בקריאות לספריות חיצוניות
 
 אם הקוד Rust משתמש בספריות חיצוניות, חשוב לוודא שהספריות הללו זמינות גם ב-C. אם לא, יש צורך לכתוב מחדש את הקריאות לספריות הללו ב-C:
 
+{% raw %}
 ```rust
 // Rust
 use std::fs::File;
@@ -277,9 +318,11 @@ fn main() {
     let file = File::open("example.txt").unwrap();
 }
 ```
+{% endraw %}
 
 יתורגם ל-C כך:
 
+{% raw %}
 ```c
 // C
 #include <stdio.h>
@@ -294,6 +337,7 @@ int main() {
     return 0;
 }
 ```
+{% endraw %}
 
 ## טכניקות מתקדמות
 
@@ -303,6 +347,7 @@ int main() {
 
 מאקרו ב-Rust יכולים להיות מורכבים לתרגום ל-C. Eurydice מספקת תמיכה בחלק מהמאקרו, אך חשוב לבדוק את התיעוד לפני שימוש במאקרו מתקדמים:
 
+{% raw %}
 ```rust
 // Rust
 macro_rules! say_hello {
@@ -315,9 +360,11 @@ fn main() {
     say_hello!();
 }
 ```
+{% endraw %}
 
 יתורגם ל-C כך:
 
+{% raw %}
 ```c
 // C
 #include <stdio.h>
@@ -331,11 +378,13 @@ int main() {
     return 0;
 }
 ```
+{% endraw %}
 
 ### שימוש בתכונות (traits)
 
 תכונות ב-Rust יכולות להיות מורכבות לתרגום ל-C. Eurydice מספקת תמיכה בחלק מהתכונות, אך חשוב לבדוק את התיעוד לפני שימוש בתכונות מתקדמות:
 
+{% raw %}
 ```rust
 // Rust
 trait Shape {
@@ -357,9 +406,11 @@ fn main() {
     println!("Area of circle: {}", circle.area());
 }
 ```
+{% endraw %}
 
 יתורגם ל-C כך:
 
+{% raw %}
 ```c
 // C
 #include <stdio.h>
@@ -379,11 +430,13 @@ int main() {
     return 0;
 }
 ```
+{% endraw %}
 
 ### שימוש בגנריקות
 
 גנריקות ב-Rust יכולות להיות מורכבות לתרגום ל-C. Eurydice מספקת תמיכה בחלק מהגנריקות, אך חשוב לבדוק את התיעוד לפני שימוש בגנריקות מתקדמות:
 
+{% raw %}
 ```rust
 // Rust
 fn max<T: Ord>(a: T, b: T) -> T {
@@ -399,9 +452,11 @@ fn main() {
     println!("Max of 5 and 3: {}", result);
 }
 ```
+{% endraw %}
 
 יתורגם ל-C כך:
 
+{% raw %}
 ```c
 // C
 #include <stdio.h>
@@ -416,6 +471,7 @@ int main() {
     return 0;
 }
 ```
+{% endraw %}
 
 ## דוגמאות מהעולם האמיתי
 
@@ -425,6 +481,7 @@ int main() {
 
 בדוגמה זו, נראה כיצד לתרגם מערכת קטנה לניהול משימות מ-Rust ל-C.
 
+{% raw %}
 ```rust
 // Rust
 struct Task {
@@ -446,15 +503,19 @@ fn main() {
     }
 }
 ```
+{% endraw %}
 
 לאחר תרגום הקוד ל-C:
 
+{% raw %}
 ```bash
 eurydice main.rs --output main.c
-```
+```{% raw %}
+{% endraw %}
 
-נקבל קובץ `main.c` עם הקוד הבא:
+נקבל קובץ {% endraw %}`main.c` עם הקוד הבא:
 
+{% raw %}
 ```c
 // C
 #include <stdio.h>
@@ -493,11 +554,13 @@ int main() {
     return 0;
 }
 ```
+{% endraw %}
 
 ### דוגמה 2: תרגום מערכת לניהול משתמשים
 
 בדוגמה זו, נראה כיצד לתרגם מערכת לניהול משתמשים מ-Rust ל-C.
 
+{% raw %}
 ```rust
 // Rust
 struct User {
@@ -519,15 +582,19 @@ fn main() {
     }
 }
 ```
+{% endraw %}
 
 לאחר תרגום הקוד ל-C:
 
+{% raw %}
 ```bash
 eurydice main.rs --output main.c
-```
+```{% raw %}
+{% endraw %}
 
-נקבל קובץ `main.c` עם הקוד הבא:
+נקבל קובץ {% endraw %}`main.c` עם הקוד הבא:
 
+{% raw %}
 ```c
 // C
 #include <stdio.h>
@@ -581,6 +648,7 @@ int main() {
     return 0;
 }
 ```
+{% endraw %}
 
 ## סיכום וצעדים הבאים
 

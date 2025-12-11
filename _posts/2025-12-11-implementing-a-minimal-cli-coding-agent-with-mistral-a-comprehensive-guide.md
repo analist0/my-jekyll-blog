@@ -35,6 +35,7 @@ lang: he
 
 כדי להתקין את הדרישות, ניתן להשתמש בפקודות הבאות:
 
+{% raw %}
 ```bash
 # התקנת Python 3.7 או חדשה יותר
 sudo apt-get update
@@ -48,7 +49,8 @@ pip install mistral-ai
 
 # התקנת Git
 sudo apt-get install git
-```
+```{% raw %}
+{% endraw %}
 
 לאחר שווידאנו שהדרישות והכלים מותקנים, נוכל להתחיל בהטמעה של הסוכן.
 
@@ -58,8 +60,9 @@ sudo apt-get install git
 
 ### צעד 1: יצירת קובץ Python בסיסי
 
-נתחיל ביצירת קובץ Python בשם `cli_agent.py`. בקובץ זה, נשתמש במודל Mistral כדי לקבל קלט מהמשתמש ולבצע משימות פשוטות.
+נתחיל ביצירת קובץ Python בשם {% endraw %}`cli_agent.py`. בקובץ זה, נשתמש במודל Mistral כדי לקבל קלט מהמשתמש ולבצע משימות פשוטות.
 
+{% raw %}
 ```python
 # cli_agent.py
 
@@ -83,17 +86,21 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+{% endraw %}
 
 הקוד הזה יוצר לולאה אינסופית שמקבלת קלט מהמשתמש ומשתמש במודל Mistral כדי לבצע את הפקודה. ניתן להריץ את הסקריפט באמצעות הפקודה הבאה:
 
+{% raw %}
 ```bash
 python cli_agent.py
-```
+```{% raw %}
+{% endraw %}
 
 ### צעד 2: הוספת פקודות בסיסיות
 
-כדי להפוך את הסוכן ליותר שימושי, נוסיף כמה פקודות בסיסיות שהוא יוכל לבצע. נתחיל בפקודות כמו `hello`, `time`, ו`calculate`.
+כדי להפוך את הסוכן ליותר שימושי, נוסיף כמה פקודות בסיסיות שהוא יוכל לבצע. נתחיל בפקודות כמו {% endraw %}`hello`, `time`, ו`calculate`.
 
+{% raw %}
 ```python
 # cli_agent.py
 
@@ -139,17 +146,21 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+{% endraw %}
 
 בקוד הזה, הוספנו פונקציות לביצוע פקודות בסיסיות. ניתן להריץ את הסקריפט ולהשתמש בפקודות החדשות:
 
+{% raw %}
 ```bash
 python cli_agent.py
 ```
+{% endraw %}
 
 ### צעד 3: הוספת פקודות מתקדמות
 
 כדי להפוך את הסוכן למתקדם יותר, נוסיף פקודות שמאפשרות לו לבצע משימות קידוד בסיסיות, כמו יצירת קובץ Python חדש או שינוי קובץ קיים.
 
+{% raw %}
 ```python
 # cli_agent.py
 
@@ -226,17 +237,21 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+{% endraw %}
 
 בקוד הזה, הוספנו פונקציות ליצירת ושינוי קבצים. ניתן להשתמש בפקודות הבאות:
 
+{% raw %}
 ```bash
 python cli_agent.py
 ```
+{% endraw %}
 
 ### צעד 4: הוספת תמיכה בפקודות מורכבות
 
 כדי להפוך את הסוכן ליותר שימושי, נוסיף תמיכה בפקודות מורכבות יותר, כמו ביצוע משימות קידוד מורכבות ושימוש ב-API של Mistral לביצוע בקשות מותאמות אישית.
 
+{% raw %}
 ```python
 # cli_agent.py
 
@@ -324,12 +339,15 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+{% endraw %}
 
 בקוד הזה, הוספנו פונקציה לביצוע בקשות מותאמות אישית בעזרת Mistral. ניתן להשתמש בפקודה הבאה:
 
+{% raw %}
 ```bash
 python cli_agent.py
 ```
+{% endraw %}
 
 ## שיטות עבודה מומלצות וטיפים
 
@@ -370,80 +388,106 @@ python cli_agent.py
 
 נניח שמפתח רוצה ליצור קובץ Python חדש עם קוד בסיסי. הוא יכול להשתמש בסוכן כדי ליצור את הקובץ:
 
+{% raw %}
 ```bash
 python cli_agent.py
 ```
+{% endraw %}
 
+{% raw %}
 ```
 Enter a command: create_file example.py "print('Hello, World!')"
-```
+```{% raw %}
+{% endraw %}
 
-הסוכן ייצור את הקובץ `example.py` עם הקוד הבא:
+הסוכן ייצור את הקובץ {% endraw %}`example.py` עם הקוד הבא:
 
+{% raw %}
 ```python
 # example.py
 
 print('Hello, World!')
 ```
+{% endraw %}
 
 ### דוגמה 2: שינוי קובץ קיים
 
 נניח שמפתח רוצה לשנות קובץ Python קיים ולהוסיף לו קוד נוסף. הוא יכול להשתמש בסוכן כדי לשנות את הקובץ:
 
+{% raw %}
 ```bash
 python cli_agent.py
 ```
+{% endraw %}
 
+{% raw %}
 ```
 Enter a command: modify_file example.py "print('Welcome to Python!')"
-```
+```{% raw %}
+{% endraw %}
 
-הסוכן ישנה את הקובץ `example.py` והקוד יהיה:
+הסוכן ישנה את הקובץ {% endraw %}`example.py` והקוד יהיה:
 
+{% raw %}
 ```python
 # example.py
 
 print('Hello, World!')
 print('Welcome to Python!')
 ```
+{% endraw %}
 
 ### דוגמה 3: ביצוע חישובים
 
 נניח שמפתח רוצה לבצע חישובים פשוטים. הוא יכול להשתמש בסוכן כדי לבצע את החישובים:
 
+{% raw %}
 ```bash
 python cli_agent.py
 ```
+{% endraw %}
 
+{% raw %}
 ```
 Enter a command: calculate 2 + 2
 ```
+{% endraw %}
 
 הסוכן יחזיר את התוצאה:
 
+{% raw %}
 ```
 4
 ```
+{% endraw %}
 
 ### דוגמה 4: בקשה מותאמת אישית
 
 נניח שמפתח רוצה לבצע בקשה מותאמת אישית בעזרת Mistral. הוא יכול להשתמש בסוכן כדי לבצע את הבקשה:
 
+{% raw %}
 ```bash
 python cli_agent.py
 ```
+{% endraw %}
 
+{% raw %}
 ```
 Enter a command: custom_request "Generate a Python function to calculate the factorial of a number"
 ```
+{% endraw %}
 
 הסוכן יחזיר את התשובה:
 
+{% raw %}
 ```json
 {
-  "response": "Here is a Python function to calculate the factorial of a number:\n\n```python\ndef factorial(n):\n    if n == 0:\n        return 1\n    else:\n        return n * factorial(n-1)\n```"
+  "response": "Here is a Python function to calculate the factorial of a number:\n\n```
+{% endraw %}python\ndef factorial(n):\n    if n == 0:\n        return 1\n    else:\n        return n * factorial(n-1)\n{% raw %}
+```"
 }
 ```
+{% endraw %}
 
 ## סיכום וצעדים הבאים
 

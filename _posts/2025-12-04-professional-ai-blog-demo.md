@@ -30,6 +30,7 @@ Machine learning algorithms have reached unprecedented levels of sophistication.
 
 Deep neural networks have evolved significantly:
 
+{% raw %}
 ```python
 # Example: Modern Neural Network Architecture
 import torch
@@ -46,6 +47,7 @@ class ModernAI(nn.Module):
         # Advanced processing
         return self.output(x)
 ```
+{% endraw %}
 
 ## 🚀 Key AI Trends in 2025
 
@@ -143,6 +145,7 @@ The AI market is experiencing explosive growth:
 
 Essential tools and frameworks:
 
+{% raw %}
 ```bash
 # Install popular AI libraries
 pip install tensorflow pytorch transformers
@@ -154,6 +157,7 @@ from transformers import pipeline
 assistant = pipeline("text-generation", model="gpt-4")
 response = assistant("Explain AI in simple terms")
 ```
+{% endraw %}
 
 ### For Businesses
 

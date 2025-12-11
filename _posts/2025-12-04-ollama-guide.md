@@ -112,10 +112,12 @@ dir: rtl
 
 #### שיטה 1: התקנה אוטומטית (מהירה)
 
+{% raw %}
 ```bash
 # הורדה והתקנה בפקודה אחת
 curl -fsSL https://ollama.com/install.sh | sh
 ```
+{% endraw %}
 
 **מה הסקריפט עושה?**
 1. זיהוי אוטומטי של ההפצה והארכיטקטורה
@@ -125,6 +127,7 @@ curl -fsSL https://ollama.com/install.sh | sh
 
 #### שיטה 2: התקנה ידנית (שליטה מלאה)
 
+{% raw %}
 ```bash
 # 1. הורדת קובץ הבינארי
 curl -L https://ollama.com/download/ollama-linux-amd64 -o ollama
@@ -164,9 +167,11 @@ sudo systemctl start ollama
 # 7. בדיקת סטטוס
 sudo systemctl status ollama
 ```
+{% endraw %}
 
 #### 🎮 תמיכה בכרטיסי מסך NVIDIA
 
+{% raw %}
 ```bash
 # התקנת NVIDIA Container Toolkit
 distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
@@ -180,6 +185,7 @@ sudo apt-get install -y nvidia-container-toolkit
 # אתחול Ollama
 sudo systemctl restart ollama
 ```
+{% endraw %}
 
 ---
 
@@ -188,10 +194,12 @@ sudo systemctl restart ollama
 #### שיטה 1: התקנה גרפית (מומלץ למתחילים)
 
 1. **הורדה:**
-   ```bash
+   {% raw %}
+```bash
    # פתיחת דפדפן והורדה
    open https://ollama.com/download/Ollama.dmg
    ```
+{% endraw %}
 
 2. **התקנה:**
    - פתח את קובץ ה-DMG שהורד
@@ -200,13 +208,16 @@ sudo systemctl restart ollama
    - אשר את ההתראות בפעם הראשונה
 
 3. **אימות:**
-   ```bash
+   {% raw %}
+```bash
    # בדיקה שהפקודה זמינה בטרמינל
    ollama --version
    ```
+{% endraw %}
 
 #### שיטה 2: Homebrew (למפתחים)
 
+{% raw %}
 ```bash
 # התקנה דרך Homebrew
 brew install ollama
@@ -217,9 +228,11 @@ brew services start ollama
 # בדיקת סטטוס
 brew services list | grep ollama
 ```
+{% endraw %}
 
 #### 💡 טיפ למשתמשי Apple Silicon
 
+{% raw %}
 ```bash
 # בדיקת סוג המעבד
 uname -m
@@ -229,6 +242,7 @@ uname -m
 
 # Ollama מזהה אוטומטית ומשתמש באופטימיזציות המתאימות
 ```
+{% endraw %}
 
 ---
 
@@ -239,28 +253,33 @@ uname -m
 1. **הורדה:**
    - גש לכתובת: https://ollama.com/download/OllamaSetup.exe
    - או דרך PowerShell:
-   ```powershell
+   {% raw %}
+```powershell
    # הורדה דרך PowerShell
    Invoke-WebRequest -Uri "https://ollama.com/download/OllamaSetup.exe" -OutFile "$env:TEMP\OllamaSetup.exe"
    
    # הרצת ההתקנה
    Start-Process "$env:TEMP\OllamaSetup.exe"
-   ```
+   ```{% raw %}
+{% endraw %}
 
 2. **התקנה:**
-   - הרץ את `OllamaSetup.exe`
+   - הרץ את {% endraw %}`OllamaSetup.exe`
    - אשר את User Account Control (UAC)
    - עקוב אחר אשף ההתקנה
    - Ollama יתווסף אוטומטית ל-PATH
 
 3. **אימות:**
-   ```powershell
+   {% raw %}
+```powershell
    # פתח PowerShell או CMD חדש
    ollama --version
    ```
+{% endraw %}
 
 #### שיטה 2: WSL2 (למפתחים)
 
+{% raw %}
 ```bash
 # 1. וודא ש-WSL2 מותקן
 wsl --install
@@ -274,9 +293,11 @@ curl -fsSL https://ollama.com/install.sh | sh
 # 4. הרץ מ-Windows PowerShell
 wsl ollama serve
 ```
+{% endraw %}
 
 #### ⚙️ הגדרות נוספות ל-Windows
 
+{% raw %}
 ```powershell
 # הוספת Ollama לחומת האש (אם נדרש)
 New-NetFirewallRule -DisplayName "Ollama" -Direction Inbound -Program "C:\Program Files\Ollama\ollama.exe" -Action Allow
@@ -284,6 +305,7 @@ New-NetFirewallRule -DisplayName "Ollama" -Direction Inbound -Program "C:\Progra
 # שינוי יציאת ברירת המחדל (אופציונלי)
 [Environment]::SetEnvironmentVariable("OLLAMA_HOST", "0.0.0.0:11434", "User")
 ```
+{% endraw %}
 
 ---
 
@@ -291,13 +313,16 @@ New-NetFirewallRule -DisplayName "Ollama" -Direction Inbound -Program "C:\Progra
 
 #### התקנה בסיסית
 
+{% raw %}
 ```bash
 # הרצת Ollama בקונטיינר
 docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama
 ```
+{% endraw %}
 
 #### עם תמיכת GPU (NVIDIA)
 
+{% raw %}
 ```bash
 # הרצה עם CUDA
 docker run -d \
@@ -306,12 +331,14 @@ docker run -d \
   -p 11434:11434 \
   --name ollama \
   ollama/ollama
-```
+```{% raw %}
+{% endraw %}
 
 #### Docker Compose (מומלץ לפרודקשן)
 
-צור קובץ `docker-compose.yml`:
+צור קובץ {% endraw %}`docker-compose.yml`:
 
+{% raw %}
 ```yaml
 version: '3.8'
 
@@ -337,7 +364,9 @@ volumes:
   ollama_data:
     driver: local
 ```
+{% endraw %}
 
+{% raw %}
 ```bash
 # הפעלה
 docker-compose up -d
@@ -348,6 +377,7 @@ docker-compose logs -f
 # עצירה
 docker-compose down
 ```
+{% endraw %}
 
 ---
 
@@ -355,6 +385,7 @@ docker-compose down
 
 ⚠️ **שים לב:** זוהי שיטה לא רשמית ומתאימה למשתמשים מתקדמים בלבד.
 
+{% raw %}
 ```bash
 # 1. התקן Termux מ-F-Droid (לא Google Play!)
 # הורד מ: https://f-droid.org/packages/com.termux/
@@ -375,6 +406,7 @@ curl -fsSL https://ollama.com/install.sh | sh
 # 6. הרץ מודל קטן (מומלץ gemma3:1b)
 ollama run gemma3:1b
 ```
+{% endraw %}
 
 💡 **המלצות לאנדרואיד:**
 - השתמש במודלים קטנים (1B-3B)
@@ -388,6 +420,7 @@ ollama run gemma3:1b
 
 ### בדיקת התקנה תקינה
 
+{% raw %}
 ```bash
 # בדיקת גרסה
 ollama --version
@@ -397,9 +430,11 @@ ollama --version
 ollama list
 # פלט מצופה: רשימה ריקה או מודלים קיימים
 ```
+{% endraw %}
 
 ### הורדת המודל הראשון
 
+{% raw %}
 ```bash
 # הורדת מודל קל למתחילים (Gemma 3 - 4B)
 ollama pull gemma3
@@ -409,19 +444,21 @@ ollama pull gemma3
 # pulling model... 100%
 # verifying sha256 digest
 # success
-```
+```{% raw %}
+{% endraw %}
 
 ### 🎯 בחירת המודל הראשון שלך
 
 | מודל | גודל | שימוש מומלץ | RAM נדרש |
 |------|------|-------------|----------|
-| `gemma3:1b` | 815MB | ⚡ תשובות מהירות, צ'אט בסיסי | 4GB |
+| {% endraw %}`gemma3:1b` | 815MB | ⚡ תשובות מהירות, צ'אט בסיסי | 4GB |
 | `gemma3` | 3.3GB | 💬 שיחות כלליות, קוד פשוט | 8GB |
 | `llama3.2` | 2.0GB | 🎯 איזון בין מהירות לאיכות | 8GB |
 | `deepseek-r1` | 4.7GB | 🧠 חשיבה מתקדמת, מתמטיקה | 16GB |
 | `llama3.2-vision` | 7.9GB | 👁️ עיבוד תמונות | 16GB |
 | `codellama` | 3.8GB | 💻 כתיבת קוד | 8GB |
 
+{% raw %}
 ```bash
 # דוגמה: הורדת מודל לקוד
 ollama pull codellama
@@ -429,11 +466,13 @@ ollama pull codellama
 # דוגמה: הורדת מודל ראייה
 ollama pull llama3.2-vision
 ```
+{% endraw %}
 
 ### 🔧 משתני סביבה (אופציונלי)
 
 #### Linux/macOS
 
+{% raw %}
 ```bash
 # הוספה ל-~/.bashrc או ~/.zshrc
 
@@ -449,9 +488,11 @@ export OLLAMA_MAX_VRAM=4096
 # החלת השינויים
 source ~/.bashrc
 ```
+{% endraw %}
 
 #### Windows (PowerShell)
 
+{% raw %}
 ```powershell
 # הגדרת משתנים קבועים
 [Environment]::SetEnvironmentVariable("OLLAMA_HOST", "0.0.0.0:11434", "User")
@@ -459,6 +500,7 @@ source ~/.bashrc
 
 # הפעלה מחדש של PowerShell
 ```
+{% endraw %}
 
 ---
 
@@ -466,6 +508,7 @@ source ~/.bashrc
 
 ### 1️⃣ מצב אינטראקטיבי (צ'אט)
 
+{% raw %}
 ```bash
 # הרצת מודל במצב שיחה
 ollama run gemma3
@@ -477,13 +520,14 @@ ollama run gemma3
 # מנתונים מבלי להיות מתוכנתים במפורש...
 #
 # >>> /bye
-```
+```{% raw %}
+{% endraw %}
 
 #### פקודות שימושיות במצב אינטראקטיבי
 
 | פקודה | תיאור |
 |-------|-------|
-| `/bye` | יציאה מהצ'אט |
+| {% endraw %}`/bye` | יציאה מהצ'אט |
 | `/clear` | ניקוי היסטוריית השיחה |
 | `/set parameter value` | שינוי פרמטרים |
 | `/show info` | הצגת מידע על המודל |
@@ -491,6 +535,7 @@ ollama run gemma3
 
 ### 2️⃣ שאילתה חד-פעמית
 
+{% raw %}
 ```bash
 # שאילתה ישירה ללא כניסה למצב אינטראקטיבי
 ollama run gemma3 "כתוב לי פונקציה פייתון שמחשבת פיבונאצ'י"
@@ -499,9 +544,11 @@ ollama run gemma3 "כתוב לי פונקציה פייתון שמחשבת פיב
 ollama run gemma3 --temperature 0.7 --top-p 0.9 \
   "הסבר את תורת היחסות של איינשטיין בפשטות"
 ```
+{% endraw %}
 
 ### 3️⃣ עבודה עם קבצים
 
+{% raw %}
 ```bash
 # העברת קובץ טקסט למודל
 cat document.txt | ollama run gemma3 "סכם את הטקסט הבא:"
@@ -509,9 +556,11 @@ cat document.txt | ollama run gemma3 "סכם את הטקסט הבא:"
 # ניתוח קוד
 ollama run codellama "סקור את הקוד הבא ומצא באגים: $(cat script.py)"
 ```
+{% endraw %}
 
 ### 4️⃣ עבודה עם תמונות (מודלי Vision)
 
+{% raw %}
 ```bash
 # ניתוח תמונה
 ollama run llama3.2-vision "מה אתה רואה בתמונה הזו?" --image path/to/image.jpg
@@ -521,11 +570,13 @@ ollama run llama3.2-vision \
   "תאר את התמונה בפירוט, כולל צבעים, אובייקטים ורקע" \
   --image photo.png
 ```
+{% endraw %}
 
 ### 5️⃣ API REST - שימוש מתוכניות
 
 #### Python
 
+{% raw %}
 ```python
 import requests
 import json
@@ -542,9 +593,11 @@ response = requests.post(url, json=payload)
 result = response.json()
 print(result['response'])
 ```
+{% endraw %}
 
 #### דוגמה מתקדמת עם Streaming
 
+{% raw %}
 ```python
 import requests
 
@@ -561,9 +614,11 @@ with requests.post(url, json=payload, stream=True) as response:
             data = json.loads(line)
             print(data.get('response', ''), end='', flush=True)
 ```
+{% endraw %}
 
 #### JavaScript/Node.js
 
+{% raw %}
 ```javascript
 const ollama = require('ollama');
 
@@ -578,9 +633,11 @@ async function chat() {
 
 chat();
 ```
+{% endraw %}
 
 #### cURL (בדיקות מהירות)
 
+{% raw %}
 ```bash
 # בקשה פשוטה
 curl http://localhost:11434/api/generate -d '{
@@ -601,6 +658,7 @@ curl http://localhost:11434/api/generate -d '{
   }
 }'
 ```
+{% endraw %}
 
 ---
 
@@ -610,7 +668,8 @@ curl http://localhost:11434/api/generate -d '{
 
 Modelfile מאפשר לך להתאים מודל קיים להתנהגות ספציפית.
 
-```dockerfile
+{% raw %}
+```{% raw %}dockerfile
 # צור קובץ בשם Modelfile
 
 FROM gemma3
@@ -632,8 +691,10 @@ TEMPLATE """{{ if .System }}<|system|>
 {{ .Prompt }}<|end|>
 {{ end }}<|assistant|>
 """
-```
+{% endraw %}```
+{% endraw %}
 
+{% raw %}
 ```bash
 # יצירת המודל המותאם
 ollama create python-expert -f Modelfile
@@ -641,10 +702,12 @@ ollama create python-expert -f Modelfile
 # הרצה
 ollama run python-expert "איך ליצור virtual environment?"
 ```
+{% endraw %}
 
 ### 2. ייבוא מודלים מ-Hugging Face (GGUF)
 
-```bash
+{% raw %}
+```{% raw %}bash
 # 1. הורד מודל GGUF מ-Hugging Face
 wget https://huggingface.co/TheBloke/Mistral-7B-Instruct-v0.2-GGUF/resolve/main/mistral-7b-instruct-v0.2.Q4_K_M.gguf
 
@@ -668,12 +731,14 @@ ollama create my-mistral -f Modelfile
 
 # 4. הרצה
 ollama run my-mistral
-```
+{% endraw %}```
+{% endraw %}
 
 ### 3. אופטימיזציה למודלים גדולים
 
 #### Quantization - הקטנת גודל המודל
 
+{% raw %}
 ```bash
 # הורדת מודל בקוונטיזציות שונות
 
@@ -689,9 +754,11 @@ ollama pull llama3.1:8b-q8_0
 # השוואת גדלים
 ollama list
 ```
+{% endraw %}
 
 #### Context Window - הגדלת זיכרון השיחה
 
+{% raw %}
 ```bash
 # הרצה עם חלון הקשר מוגדל (ברירת מחדל: 2048)
 ollama run gemma3 --ctx-size 4096
@@ -699,11 +766,13 @@ ollama run gemma3 --ctx-size 4096
 # או ב-Modelfile:
 # PARAMETER num_ctx 4096
 ```
+{% endraw %}
 
 ### 4. גישה מרחוק לשרת Ollama
 
 #### הגדרת שרת
 
+{% raw %}
 ```bash
 # Linux/macOS - ערוך את קובץ השירות
 sudo systemctl edit ollama
@@ -719,9 +788,11 @@ sudo systemctl restart ollama
 [Environment]::SetEnvironmentVariable("OLLAMA_HOST", "0.0.0.0:11434", "Machine")
 Restart-Service Ollama
 ```
+{% endraw %}
 
 #### חיבור מלקוח
 
+{% raw %}
 ```bash
 # במחשב מרוחק
 export OLLAMA_HOST="http://192.168.1.100:11434"
@@ -733,9 +804,11 @@ curl http://192.168.1.100:11434/api/generate -d '{
   "prompt": "Hello from remote!"
 }'
 ```
+{% endraw %}
 
 ### 5. Multi-modal - שילוב טקסט ותמונות
 
+{% raw %}
 ```python
 import base64
 import requests
@@ -756,9 +829,11 @@ payload = {
 response = requests.post(url, json=payload)
 print(response.json()['response'])
 ```
+{% endraw %}
 
 ### 6. Batch Processing - עיבוד אצווה
 
+{% raw %}
 ```bash
 #!/bin/bash
 # עיבוד רשימת שאלות מקובץ
@@ -770,9 +845,11 @@ while IFS= read -r question; do
     echo "---"
 done < questions.txt > answers.txt
 ```
+{% endraw %}
 
 ### 7. שימוש ב-GPU מרובים
 
+{% raw %}
 ```bash
 # הצגת GPU זמינים
 nvidia-smi
@@ -783,11 +860,13 @@ export CUDA_VISIBLE_DEVICES=0,1  # שימוש ב-GPU 0 ו-1
 # או בהרצה ספציפית
 CUDA_VISIBLE_DEVICES=1 ollama run llama3.3:70b
 ```
+{% endraw %}
 
 ### 8. Prompt Engineering - טכניקות מתקדמות
 
 #### Chain of Thought (חשיבה שלבית)
 
+{% raw %}
 ```bash
 ollama run gemma3 "
 פתור את הבעיה הבאה צעד אחר צעד:
@@ -800,11 +879,12 @@ ollama run gemma3 "
 2. חישוב מושבים תפוסים
 3. תשובה סופית
 "
-```
+```{% raw %}
+{% endraw %}
 
 #### Few-Shot Learning (למידה מדוגמאות)
 
-```bash
+{% endraw %}```bash
 ollama run gemma3 "
 תרגם משפטים לאנגלית:
 

@@ -19,6 +19,7 @@ generate_image: true
 
 הבלוג משתמש ב-**Tailwind CSS CDN** - ספריית CSS החדשנית ביותר:
 
+{% raw %}
 ```html
 <!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -38,6 +39,7 @@ generate_image: true
   }
 </script>
 ```
+{% endraw %}
 
 ### 2. 💻 בלוקי קוד מקצועיים
 
@@ -50,6 +52,7 @@ generate_image: true
 
 דוגמה לקוד Python:
 
+{% raw %}
 ```python
 def generate_blog_post(title, content):
     """
@@ -72,9 +75,11 @@ post = generate_blog_post(
 )
 print(post)
 ```
+{% endraw %}
 
 דוגמה לקוד JavaScript:
 
+{% raw %}
 ```javascript
 // Modern async/await example
 async function fetchBlogPosts() {
@@ -97,12 +102,14 @@ async function fetchBlogPosts() {
 // Usage
 const posts = await fetchBlogPosts();
 console.log(`Loaded ${posts.length} posts`);
-```
+```{% raw %}
+{% endraw %}
 
 ### 3. 🖼️ תמונות אוטומטיות עם X.AI
 
-הסקריפט `generate_ai_image.py` מייצר תמונות hero אוטומטית:
+הסקריפט {% endraw %}`generate_ai_image.py` מייצר תמונות hero אוטומטית:
 
+{% raw %}
 ```bash
 # Generate image for a post
 python3 scripts/generate_ai_image.py _posts/2025-12-04-my-post.md
@@ -110,6 +117,7 @@ python3 scripts/generate_ai_image.py _posts/2025-12-04-my-post.md
 # Test mode
 python3 scripts/generate_ai_image.py --test "My Title" "Description"
 ```
+{% endraw %}
 
 התמונות נוצרות באמצעות **X.AI Grok Vision** ומתעדכנות אוטומטית ב-frontmatter של הפוסט.
 
@@ -117,6 +125,7 @@ python3 scripts/generate_ai_image.py --test "My Title" "Description"
 
 העיצוב מותאם **mobile-first**:
 
+{% raw %}
 ```css
 /* Mobile First */
 .container {
@@ -137,23 +146,29 @@ python3 scripts/generate_ai_image.py --test "My Title" "Description"
   }
 }
 ```
+{% endraw %}
 
 ## 🛠️ איך להשתמש?
 
 ### התקנה
 
 1. **הוסף X.AI API Key**:
+{% raw %}
 ```bash
 export XAI_API_KEY="xai-your-key-here"
 ```
+{% endraw %}
 
 2. **צור פוסט חדש**:
+{% raw %}
 ```bash
 cd ~/my-jekyll-blog/_posts
 nano 2025-12-04-my-new-post.md
 ```
+{% endraw %}
 
 3. **הגדר את ה-layout**:
+{% raw %}
 ```yaml
 ---
 layout: post-modern  # <-- Important!
@@ -162,17 +177,22 @@ description: "תיאור קצר"
 generate_image: true  # <-- For AI image
 ---
 ```
+{% endraw %}
 
 4. **צור תמונה (אופציונלי)**:
+{% raw %}
 ```bash
 python3 scripts/generate_ai_image.py _posts/2025-12-04-my-new-post.md
 ```
+{% endraw %}
 
 5. **הרץ את הבלוג**:
+{% raw %}
 ```bash
 cd ~/my-jekyll-blog
 bundle exec jekyll serve
 ```
+{% endraw %}
 
 ## 🎯 תכונות נוספות
 
@@ -200,6 +220,7 @@ bundle exec jekyll serve
 
 ### שימוש ב-Tailwind Classes
 
+{% raw %}
 ```html
 <!-- Buttons -->
 <button class="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/80 transition">
@@ -217,28 +238,36 @@ bundle exec jekyll serve
   Content here
 </div>
 ```
+{% endraw %}
 
 ### Prism.js Languages
 
 תמיכה מלאה ב:
 
+{% raw %}
 ```bash
 # Shell scripts
 npm install tailwindcss
 ```
+{% endraw %}
 
+{% raw %}
 ```ruby
 # Ruby (Jekyll)
 gem 'jekyll', '~> 4.3'
 ```
+{% endraw %}
 
+{% raw %}
 ```css
 /* CSS */
 .hero {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 ```
+{% endraw %}
 
+{% raw %}
 ```json
 {
   "name": "modern-blog",
@@ -246,6 +275,7 @@ gem 'jekyll', '~> 4.3'
   "description": "Modern Jekyll blog"
 }
 ```
+{% endraw %}
 
 ## 📊 ביצועים
 
@@ -278,12 +308,14 @@ gem 'jekyll', '~> 4.3'
 
 רוצה לתרום? הפרויקט ב-GitHub:
 
+{% raw %}
 ```bash
 git clone https://github.com/analist0/my-jekyll-blog.git
 cd my-jekyll-blog
 bundle install
 bundle exec jekyll serve
 ```
+{% endraw %}
 
 ---
 

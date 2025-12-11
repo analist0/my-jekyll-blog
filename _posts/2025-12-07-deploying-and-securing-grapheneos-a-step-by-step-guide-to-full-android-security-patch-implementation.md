@@ -44,16 +44,20 @@ tags: [Android Security, GrapheneOS, Deployment, Security Patch, Mobile Security
 1. **הפעלת Fastboot Mode**: כדי להפעיל את Fastboot Mode, כבה את המכשיר ואז לחץ על כפתורי ההפעלה וההנמכה יחד עד שתראה את מסך Fastboot.
 2. **נעילת ה-bootloader**: בדרך כלל, ה-bootloader של מכשירי Pixel כבר נעול. אם לא, תוכלו לנעול אותו באמצעות הפקודה הבאה:
 
+{% raw %}
 ```bash
 fastboot flashing lock
 ```
+{% endraw %}
 
 3. **מחיקת הנתונים**: אם אתם רוצים למחוק את כל הנתונים מהמכשיר, השתמשו בפקודה הבאה:
 
+{% raw %}
 ```bash
 fastboot erase userdata
 fastboot erase cache
 ```
+{% endraw %}
 
 ### צעד 2: הורדת ופתיחת תמונות המפעל של GrapheneOS
 
@@ -63,6 +67,7 @@ fastboot erase cache
 
 לאחר שיש לכם את תמונות המפעל, ניתן להתחיל בהתקנת GrapheneOS על המכשיר. השתמשו בפקודות הבאות להתקנה:
 
+{% raw %}
 ```bash
 # חיבור המכשיר למחשב במצב Fastboot
 fastboot flashing unlock
@@ -80,6 +85,7 @@ fastboot flash super super.img
 # אתחול המכשיר
 fastboot reboot
 ```
+{% endraw %}
 
 ### צעד 4: קונפיגורציה ראשונית
 
@@ -114,6 +120,7 @@ GrapheneOS משחרר עדכוני אבטחה באופן קבוע. כדי להת
 
 השתמשו ב-VPN כדי להגן על חיבור האינטרנט שלכם ולהסתיר את כתובת ה-IP. זה יכול להגן עליכם מפני התקפות MITM (Man-in-the-Middle).
 
+{% raw %}
 ```bash
 # התקנת OpenVPN על GrapheneOS
 pkg install openvpn
@@ -132,11 +139,13 @@ verb 3
 # התחלת השירות של OpenVPN
 openvpn --config /etc/openvpn/client.conf
 ```
+{% endraw %}
 
 ### שימוש ב-Tor
 
 השתמשו ב-Tor כדי לגלוש באינטרנט באופן אנונימי. זה יכול להגן עליכם מפני מעקב ופגיעה בפרטיות.
 
+{% raw %}
 ```bash
 # התקנת Tor על GrapheneOS
 pkg install tor
@@ -144,11 +153,13 @@ pkg install tor
 # הפעלת Tor
 tor
 ```
+{% endraw %}
 
 ### שימוש ב-Encrypted File System
 
 השתמשו במערכת קבצים מוצפנת כדי להגן על הנתונים שלכם. GrapheneOS תומך בהצפנה של מערכת הקבצים.
 
+{% raw %}
 ```bash
 # הפעלת הצפנת מערכת הקבצים
 adb shell settings put global fbe_encryption_enabled 1
@@ -156,6 +167,7 @@ adb shell settings put global fbe_encryption_enabled 1
 # בדיקת סטטוס ההצפנה
 adb shell settings get global fbe_encryption_enabled
 ```
+{% endraw %}
 
 ## דוגמאות מהעולם האמיתי
 
