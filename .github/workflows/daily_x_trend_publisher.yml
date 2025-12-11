@@ -1,4 +1,4 @@
-name: Daily X Trend Publisher
+name: Daily AI Content Publisher
 
 on:
   schedule:
@@ -23,19 +23,16 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install tweepy textblob pandas numpy requests
+        pip install requests
 
-    - name: Fetch X (Twitter) trends and perform sentiment analysis
+    - name: Generate content with AI
       env:
-        X_API_KEY: ${{ secrets.X_API_KEY }}
-        X_API_SECRET: ${{ secrets.X_API_SECRET }}
-        X_ACCESS_TOKEN: ${{ secrets.X_ACCESS_TOKEN }}
-        X_ACCESS_TOKEN_SECRET: ${{ secrets.X_ACCESS_TOKEN_SECRET }}
-        X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
-        X_TREND_LOCATION: ${{ vars.X_TREND_LOCATION || 'worldwide' }}
+        AI_API_KEY: ${{ secrets.AI_API_KEY }}
+        AI_PROVIDER: ${{ vars.AI_PROVIDER || 'xai' }}
+        GENERATE_IMAGE: ${{ vars.GENERATE_IMAGE || 'false' }}
       run: |
-        # Run the sentiment analysis which will also generate the article
-        python x_trend_sentiment_analyzer.py
+        # Run the AI content generator
+        python ai_content_generator.py
 
     - name: Commit and push if there are changes
       run: |
