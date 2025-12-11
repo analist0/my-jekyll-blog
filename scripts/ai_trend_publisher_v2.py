@@ -229,7 +229,7 @@ IMPORTANT: Return ONLY the JSON, no markdown formatting around it!
     }
 
     payload = {
-        "model": "grok-beta",
+        "model": "grok-4-1-fast-reasoning",
         "messages": [
             {
                 "role": "system",
