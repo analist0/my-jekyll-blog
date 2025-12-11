@@ -34,13 +34,8 @@ jobs:
         X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
         X_TREND_LOCATION: ${{ vars.X_TREND_LOCATION || 'worldwide' }}
       run: |
-        # Create the sentiment analyzer script
-        cat > x_trend_sentiment_analyzer.py << 'EOF'
-$(cat /data/data/com.termux/files/home/x_trend_sentiment_analyzer.py)
-EOF
-
-    # Run the sentiment analysis which will also generate the article
-    python x_trend_sentiment_analyzer.py
+        # Run the sentiment analysis which will also generate the article
+        python x_trend_sentiment_analyzer.py
 
     - name: Commit and push if there are changes
       run: |
