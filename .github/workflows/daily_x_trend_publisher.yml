@@ -27,7 +27,7 @@ jobs:
 
     - name: Generate content with AI
       env:
-        AI_API_KEY: ${{ secrets.AI_API_KEY }}
+        AI_API_KEY: ${{ secrets.XAI_API_KEY }}
         AI_PROVIDER: ${{ vars.AI_PROVIDER || 'xai' }}
         GENERATE_IMAGE: ${{ vars.GENERATE_IMAGE || 'false' }}
       run: |
