@@ -6,14 +6,20 @@ Generates comprehensive technical tutorials on trending topics
 
 import os
 import json
+import re
 import requests
 from datetime import datetime
+from pathlib import Path
 import random
 
 # XAI API Configuration
 XAI_API_KEY = os.getenv('XAI_API_KEY')
 XAI_API_URL = "https://api.x.ai/v1/chat/completions"
 XAI_IMAGE_API_URL = "https://api.x.ai/v1/images/generations"
+
+# Blog directory
+BLOG_DIR = Path(os.environ.get('GITHUB_WORKSPACE', Path.cwd()))
+POSTS_DIR = BLOG_DIR / '_posts'
 
 # Hot Topics in Tech (English)
 HOT_TOPICS = [
@@ -22,12 +28,12 @@ HOT_TOPICS = [
     "Creating Serverless APIs with Vercel and Edge Functions",
     "Real-time Data Processing with Apache Kafka",
     "Modern Authentication with OAuth 2.0 and JWT",
-    "Building Progressive Web Apps (PWAs) in 2025",
+    "Building Progressive Web Apps (PWAs) in 2026",
     "GraphQL vs REST: Complete Comparison Guide",
     "Kubernetes Deployment Strategies and Best Practices",
     "Building Microservices with Node.js and Docker",
     "Advanced Git Workflows for Team Collaboration",
-    "Creating ChatGPT Plugins and Custom GPTs",
+    "Building AI Agents with LangChain and LangGraph",
     "Building Real-time Applications with WebSockets",
     "Modern CSS: Grid, Flexbox, and Container Queries",
     "Securing APIs with Rate Limiting and API Keys",
@@ -45,50 +51,117 @@ HOT_TOPICS = [
     "Building E-commerce with Next.js and Stripe",
     "Advanced MongoDB Aggregation Pipelines",
     "Creating VS Code Extensions",
-    "Building Real-time Dashboards with WebSockets",
+    "RAG Systems: Building Retrieval Augmented Generation",
     "Advanced Nginx Configuration and Optimization",
+    "Building Multi-Agent AI Systems with CrewAI",
+    "Vector Databases: Pinecone, Weaviate and Chroma",
+    "Fine-tuning LLMs with LoRA and QLoRA",
+    "Building Real-time Dashboards with Next.js and D3",
+    "Rust for Python Developers: Performance Guide",
 ]
+
+
+def escape_liquid_syntax(content):
+    """Escape Liquid template syntax in code blocks to prevent Jekyll errors"""
+
+    def wrap_code_block(match):
+        code_block = match.group(0)
+        if '{% raw %}' in code_block or '{% endraw %}' in code_block:
+            return code_block
+        if '{{' in code_block or '{%' in code_block:
+            return '{% raw %}\n' + code_block + '\n{% endraw %}'
+        return code_block
+
+    content = re.sub(r'```[\s\S]*?```', wrap_code_block, content, flags=re.MULTILINE)
+    return content
+
 
 def generate_tutorial(topic):
     """Generate a comprehensive tutorial using XAI API"""
 
-    prompt = f"""צור מדריך טכני מקיף ומפורט על הנושא: "{topic}"
+    prompt = f"""צור מדריך טכני מקיף, מפורט וברמה הגבוהה ביותר על הנושא: "{topic}"
 
-דרישות:
-1. **אורך**: לפחות 3000 מילים (מאוד מפורט ומעמיק)
-2. **מבנה**:
-   - הקדמה (הסבר חשיבות ומקרי שימוש)
-   - דרישות מוקדמות וכלים נדרשים
-   - הטמעה צעד-אחר-צעד עם דוגמאות קוד
-   - שיטות עבודה מומלצות וטיפים
-   - מלכודות נפוצות ואיך להימנע מהן
-   - טכניקות מתקדמות
-   - דוגמאות מהעולם האמיתי
-   - סיכום וצעדים הבאים
+דרישות מחמירות:
 
-3. **סגנון התוכן**:
-   - מקצועי וטכני
-   - כלול הרבה דוגמאות קוד (Python, JavaScript, Bash, וכו')
-   - כלול טבלאות, רשימות ודיאגרמות (כטקסט)
-   - הוסף אמוג'י למראה ויזואלי
-   - השתמש בעיצוב markdown
-   - **חשוב**: כל הטקסט בעברית, אבל קוד באנגלית (כמובן)
-   - הערות בקוד באנגלית
+## 1. אורך ועומק
+- לפחות 3500 מילים
+- עומק טכני אמיתי - לא שטחי
+- כל section צריך להיות substantive
 
-4. **דוגמאות קוד**:
-   - ספק קטעי קוד שלמים ועובדים
-   - כלול הערות והסברים
-   - הצג גם דוגמאות בסיסיות וגם מתקדמות
-   - כל הקוד באנגלית, אבל ההסברים מעל ומתחת לקוד בעברית
+## 2. מבנה מקצועי (השתמש ב-## עבור כותרות ראשיות כדי ליצור תוכן עניינים אוטומטי)
 
-5. **אופטימיזציה לקידום אתרים (SEO)**:
-   - כלול מילות מפתח רלוונטיות באופן טבעי
-   - הוסף מטא-דאטה בסוף (תגיות, מילות מפתח)
+## 🎯 סקירה כללית
+- מה הטכנולוגיה ולמה היא חשובה
+- 3-5 תרחישי שימוש מהעולם האמיתי
+- השוואה קצרה לאלטרנטיבות (טבלה)
 
-כתוב את המדריך בפורמט MARKDOWN, מוכן לפרסום בבלוג Jekyll.
-עשה אותו מאוד מפורט ומקיף - שאף ל-3000+ מילים!
+## 💻 דרישות מערכת והכנה
+- טבלת דרישות מערכת (RAM, CPU, Storage, OS)
+- כלים נדרשים + גרסאות
+- פקודות הכנה
 
-**חשוב מאוד**: כתוב הכל בעברית מלבד קוד ושמות טכניים."""
+## 📦 התקנה והגדרה - צעד אחר צעד
+- התקנה ב-Linux/macOS
+- התקנה ב-Windows
+- התקנה עם Docker (אם רלוונטי)
+- כל צעד עם דוגמת קוד מלאה
+
+## 🚀 שימוש בסיסי - Hello World
+- דוגמת קוד מלאה ועובדת
+- הסבר שורה-אחר-שורה
+
+## ⚡ שימוש מתקדם
+- 3-4 דוגמאות מתקדמות עם קוד מלא
+- Design patterns וארכיטקטורה
+- אינטגרציה עם כלים אחרים
+
+## 🏗️ פרויקט מעשי מלא
+- פרויקט End-to-End שמדגים את הטכנולוגיה
+- קוד מלא ועובד
+- הסבר ארכיטקטורה
+
+## ⚙️ אופטימיזציה וביצועים
+- טיפים לביצועים
+- Benchmarks או השוואות (אם רלוונטי)
+- Best Practices
+
+## 🐛 פתרון בעיות נפוצות
+- 3-5 בעיות נפוצות עם פתרונות
+- פורמט: בעיה -> סימפטומים -> פתרון + קוד
+
+## 🔐 אבטחה ו-Best Practices
+- טיפים לאבטחה ספציפיים לטכנולוגיה
+- Do's and Don'ts
+
+## 📚 סיכום ומשאבים
+- סיכום הנקודות המרכזיות
+- צעדים הבאים ללמידה
+- קישורים למשאבים (דוקומנטציה, קורסים, קהילות)
+
+## 3. סגנון כתיבה
+- מקצועי, טכני אבל נגיש
+- כל הטקסט בעברית, קוד ושמות טכניים באנגלית
+- הערות בקוד באנגלית
+- השתמש באמוג'י בכותרות sections
+- השתמש ב-**bold** להדגשות חשובות
+- השתמש ב-> blockquotes לטיפים והערות חשובות
+
+## 4. דוגמאות קוד (קריטי!)
+- לפחות 8-10 בלוקי קוד
+- כל בלוק עם שם שפה: ```python, ```bash, ```javascript, ```yaml וכו'
+- קוד מלא ועובד - לא snippets חלקיים
+- כלול הערות באנגלית בקוד
+- דוגמאות מבסיסי למתקדם
+
+## 5. טבלאות
+- לפחות 2-3 טבלאות (השוואות, דרישות, פקודות)
+- פורמט markdown תקין: | header | header |
+
+## 6. פורמט
+- כתוב MARKDOWN בלבד
+- אל תכלול frontmatter (---) - זה יתווסף אוטומטית
+- התחל ישר עם התוכן
+- ודא שכל בלוק קוד נפתח ונסגר כראוי"""
 
     try:
         response = requests.post(
@@ -102,7 +175,7 @@ def generate_tutorial(topic):
                 "messages": [
                     {
                         "role": "system",
-                        "content": "אתה כותב טכני מומחה שיוצר מדריכים מקיפים ומפורטים למפתחים. אתה כותב מדריכים מעמיקים עם הרבה דוגמאות קוד, שיטות עבודה מומלצות, ומקרי שימוש מהעולם האמיתי. המדריכים שלך הם לפחות 3000 מילים ומאוד מפורטים. אתה כותב בעברית אבל קוד ושמות טכניים באנגלית."
+                        "content": "אתה כותב טכני בכיר ומומחה שיוצר מדריכים מקיפים ומפורטים ברמה הגבוהה ביותר. המדריכים שלך הם ברמה של אתרים כמו DigitalOcean, Real Python ו-freeCodeCamp. אתה כותב בעברית עם קוד ושמות טכניים באנגלית. המדריכים שלך כוללים קוד עובד, טבלאות, דיאגרמות טקסט, ודוגמאות מהעולם האמיתי. אתה לא כותב frontmatter של Jekyll - רק תוכן markdown טהור."
                     },
                     {
                         "role": "user",
@@ -110,31 +183,31 @@ def generate_tutorial(topic):
                     }
                 ],
                 "temperature": 0.7,
-                "max_tokens": 8000,
-                "stream": False
+                "max_tokens": 16000
             },
-            timeout=120
+            timeout=180
         )
 
         if response.status_code == 200:
             result = response.json()
             content = result['choices'][0]['message']['content']
+            # Remove any accidental frontmatter the AI might add
+            content = re.sub(r'^---\n[\s\S]*?\n---\n', '', content)
             return content
         else:
             print(f"❌ XAI API Error: {response.status_code}")
-            print(f"Response: {response.text}")
+            print(f"Response: {response.text[:500]}")
             return None
 
     except Exception as e:
         print(f"❌ Error calling XAI API: {e}")
         return None
 
+
 def generate_featured_image(topic):
     """Generate featured image using XAI Image API"""
 
-    # Create image prompt (in English for better image generation)
-    # But describe it as a Hebrew tech blog
-    image_prompt = f"Professional Hebrew tech blog featured image about: {topic}. Modern, sleek, futuristic technology theme, high quality digital art, vibrant gradient colors (purple, blue, cyan), minimalist design, clean and professional, 16:9 aspect ratio, no text overlay"
+    image_prompt = f"Professional tech blog featured image about: {topic}. Modern, sleek, futuristic technology theme, high quality digital art, vibrant gradient colors (indigo, purple, cyan), minimalist abstract design, clean and professional, no text overlay, dark background"
 
     try:
         response = requests.post(
@@ -147,8 +220,7 @@ def generate_featured_image(topic):
                 "model": "grok-2-image",
                 "prompt": image_prompt,
                 "n": 1,
-                "size": "1024x1024",
-                "quality": "standard"
+                "size": "1024x1024"
             },
             timeout=60
         )
@@ -160,60 +232,66 @@ def generate_featured_image(topic):
             return image_url
         else:
             print(f"⚠️ Image generation failed: {response.status_code}")
-            print(f"Using fallback gradient image")
             return None
 
     except Exception as e:
         print(f"⚠️ Error generating image: {e}")
-        print(f"Using fallback gradient image")
         return None
 
-def create_post_file(topic, content, image_url=None):
-    """Create Jekyll blog post file"""
 
-    # Generate filename
+def create_post_file(topic, content, image_url=None):
+    """Create Jekyll blog post file with professional frontmatter"""
+
     date = datetime.now()
+
+    # Create safe filename slug
     title_slug = topic.lower()
-    title_slug = title_slug.replace(' ', '-')
-    title_slug = ''.join(c for c in title_slug if c.isalnum() or c == '-')
+    title_slug = re.sub(r'[^\w\s-]', '', title_slug).strip()
+    title_slug = re.sub(r'[-\s]+', '-', title_slug)[:80]
 
     filename = f"{date.strftime('%Y-%m-%d')}-{title_slug}.md"
-    filepath = os.path.join('_posts', filename)
+    POSTS_DIR.mkdir(parents=True, exist_ok=True)
+    filepath = POSTS_DIR / filename
 
-    # Use generated image or None (will show gradient fallback)
-    featured_image = image_url
+    # Extract meaningful tags from topic
+    tags = re.sub(r'[^\w\s]', '', topic.lower()).split()
+    tags = [tag for tag in tags if len(tag) > 3][:8]
 
-    # Extract categories and tags from topic
-    categories = ['Tutorial', 'Development']
-    tags = topic.lower().replace(':', '').replace('-', ' ').split()
-    tags = [tag for tag in tags if len(tag) > 3][:6]
+    # Escape special YAML characters in title/description
+    safe_title = topic.replace('"', '\\"')
+    safe_desc = f"מדריך מקיף ומפורט על {topic}. כולל הסברים, דוגמאות קוד מלאות, best practices ופרויקט מעשי.".replace('"', '\\"')
 
-    # Create frontmatter (single, clean frontmatter)
+    # Image frontmatter
+    image_line = f'\nimage: "{image_url}"' if image_url else ''
+
+    # Escape Liquid syntax in content
+    content = escape_liquid_syntax(content)
+
     frontmatter = f"""---
-layout: unified-post
-title: "{topic}"
-description: "מדריך מקיף ומפורט על {topic}. כולל הסברים צעד-אחר-צעד, דוגמאות קוד, שיטות עבודה מומלצות ומקרי שימוש מהעולם האמיתי."
+layout: post-modern
+title: "{safe_title}"
+description: "{safe_desc}"
 date: {date.strftime('%Y-%m-%d %H:%M:%S')} +0200
-categories: {json.dumps(categories)}
-tags: {json.dumps(tags)}
-author: "Tech Insights"
+categories: ["Tutorial", "Development"]
+tags: {json.dumps(tags, ensure_ascii=False)}
+author: "analist0"
 lang: he
+dir: rtl{image_line}
 ---
 
 """
 
-    # Combine frontmatter and content
     full_content = frontmatter + content
 
-    # Save to file
     try:
         with open(filepath, 'w', encoding='utf-8') as f:
             f.write(full_content)
         print(f"✅ Created: {filepath}")
-        return filepath
+        return str(filepath)
     except Exception as e:
         print(f"❌ Error creating file: {e}")
         return None
+
 
 def load_trending_topics():
     """Load trending topics from discover_trending_topics.py output"""
@@ -229,6 +307,7 @@ def load_trending_topics():
     except Exception as e:
         print(f"⚠️ Error loading trending topics: {e}")
         return []
+
 
 def main():
     """Main function"""
@@ -295,6 +374,7 @@ def main():
     for filepath in created_files:
         print(f"  - {filepath}")
     print("\n🎉 Done! Ready to commit and push to GitHub.")
+
 
 if __name__ == '__main__':
     main()

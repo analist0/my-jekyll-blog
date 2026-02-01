@@ -70,18 +70,39 @@ class AIContentGenerator:
         Module 3: Generate blog article using AI
         """
         prompt = f"""
-        Write a blog post about: "{topic}"
+        Write a professional, comprehensive blog post about: "{topic}"
 
         Sentiment: {sentiment_data.get('sentiment', 'neutral')}
         Key points: {', '.join(sentiment_data.get('key_points', []))}
 
-        Write in Hebrew. Include:
-        - Catchy title
-        - Introduction
-        - Main content (3-4 paragraphs)
-        - Conclusion
+        Write in Hebrew (עברית). The article must include:
 
-        Format as Jekyll markdown with front matter.
+        1. Jekyll frontmatter at the top:
+        ---
+        layout: post-modern
+        title: "כותרת מרגשת בעברית"
+        description: "תיאור SEO בעברית"
+        date: [current date] +0200
+        categories: ["AI", "Technology"]
+        tags: ["relevant", "tags", "here"]
+        author: "analist0"
+        lang: he
+        dir: rtl
+        ---
+
+        2. Content structure (2000-3000 words):
+        - Hook opening paragraph
+        - ## section headers with emojis (for auto TOC)
+        - At least 3-5 code examples with ```language blocks
+        - At least 1 comparison table (| col1 | col2 |)
+        - > blockquotes for tips and insights
+        - Practical examples and use cases
+        - Conclusion with actionable takeaways
+
+        3. Style:
+        - Professional Hebrew, code/technical terms in English
+        - Well-formatted markdown
+        - Engaging and informative
         """
 
         return self._call_ai(prompt)
@@ -237,9 +258,22 @@ def main():
     print("✍️ Generating article...")
     article = generator.generate_article(top_trend, sentiment)
 
+    # Escape Liquid syntax in code blocks
+    import re as _re
+    def _escape_liquid(content):
+        def _wrap(match):
+            block = match.group(0)
+            if '{% raw %}' in block or '{% endraw %}' in block:
+                return block
+            if '{{' in block or '{%' in block:
+                return '{% raw %}\n' + block + '\n{% endraw %}'
+            return block
+        return _re.sub(r'```[\s\S]*?```', _wrap, content, flags=_re.MULTILINE)
+
+    article = _escape_liquid(article)
+
     # Save article
     date_str = datetime.datetime.now().strftime("%Y-%m-%d")
-    import re as _re
     safe_slug = _re.sub(r'[^\w\s-]', '', top_trend.lower()).strip()
     safe_slug = _re.sub(r'[-\s]+', '-', safe_slug)[:50]
     filename = f"_posts/{date_str}-{safe_slug}.md"

@@ -61,6 +61,19 @@ POST_SCHEDULES = [
 ]
 
 
+def escape_liquid_syntax(content):
+    """Escape Liquid template syntax in code blocks to prevent Jekyll errors"""
+    def wrap_code_block(match):
+        code_block = match.group(0)
+        if '{% raw %}' in code_block or '{% endraw %}' in code_block:
+            return code_block
+        if '{{' in code_block or '{%' in code_block:
+            return '{% raw %}\n' + code_block + '\n{% endraw %}'
+        return code_block
+    content = re.sub(r'```[\s\S]*?```', wrap_code_block, content, flags=re.MULTILINE)
+    return content
+
+
 def search_x_trending(query: str, max_results: int = 20):
     """
     Search X (Twitter) for trending topics
@@ -170,53 +183,51 @@ Topic: {topic}
 Category: {category_he}
 Style: {style}
 
-Create a COMPREHENSIVE, PROFESSIONAL blog post (1800-2500 words) with:
+Create a COMPREHENSIVE, PROFESSIONAL blog post (2500-4000 words) with:
 
-1. **Title (Hebrew)** - exciting, SEO-friendly, clickable
-2. **English Title** - for URL slug
-3. **Description (Hebrew)** - 1-2 sentences
+1. **Title (Hebrew)** - exciting, SEO-friendly, clickable, with relevant emoji
+2. **English Title** - for URL slug (lowercase, hyphenated)
+3. **Description (Hebrew)** - 2 sentences, SEO optimized
 4. **Full Content in HEBREW** including:
-   - Engaging intro (2-3 paragraphs)
-   - Clear structure with ## headers
-   - 3-5 main sections
-   - **At least 3 code examples** (real, working code)
-   - Practical examples and use cases
-   - Best practices and tips
-   - Current industry trends
-   - Conclusion with actionable takeaways
-5. **5-7 relevant tags** (Hebrew and English mix)
+   - Hook opening paragraph that grabs attention
+   - Clear structure with ## headers (with emojis)
+   - 5-7 main sections
+   - **At least 5-8 code examples** (real, working, production-quality code)
+   - At least 1-2 comparison tables (markdown tables)
+   - Practical examples and real-world use cases
+   - Best practices and expert tips (use > blockquotes for tips)
+   - Current industry trends and data
+   - Performance benchmarks or comparisons where relevant
+   - Conclusion with actionable takeaways and next steps
+5. **7-10 relevant tags** (Hebrew and English mix)
 6. **Category** (Hebrew)
 
 Requirements:
-- Write in HEBREW (עברית)
+- Write in HEBREW (עברית) - all explanations in Hebrew
+- Code and technical terms in English
 - Include REAL, WORKING code examples in:
-  * Python, JavaScript, Bash, or relevant language
+  * Python, JavaScript, Bash, TypeScript, or relevant language
   * Full code blocks with ```language notation
-  * Commented and explained
-- Make it mobile-friendly
-- Use markdown formatting:
-  * ## headers for sections
+  * Well-commented code (comments in English)
+  * Progressive complexity: basic -> intermediate -> advanced
+- Use markdown formatting extensively:
+  * ## headers with emojis for sections (generates auto TOC)
   * **bold** for emphasis
   * `code` for inline code
   * ```language for code blocks
+  * | table | format | for comparisons
+  * > blockquotes for tips and important notes
   * Lists and bullet points
-- Professional but accessible
-- SEO optimized
-
-Code blocks MUST be formatted like this:
-```python
-# Example code
-def function():
-    return "value"
-```
+- Professional, authoritative but accessible tone
+- SEO optimized with natural keyword usage
 
 Return ONLY valid JSON:
 {{
-  "title_he": "כותרת בעברית מרגשת",
+  "title_he": "כותרת בעברית מרגשת עם אמוג'י",
   "title_en": "english-slug-title",
-  "description": "תיאור קצר בעברית",
-  "content": "תוכן מלא במארקדאון עם בלוקי קוד",
-  "tags": ["תג1", "tag2", "עברית", "english"],
+  "description": "תיאור מקצועי בעברית של 2 משפטים",
+  "content": "תוכן מלא במארקדאון עם בלוקי קוד וטבלאות",
+  "tags": ["תג1", "tag2", "עברית", "english", "more-tags"],
   "category": "קטגוריה בעברית"
 }}
 
@@ -233,15 +244,15 @@ IMPORTANT: Return ONLY the JSON, no markdown formatting around it!
         "messages": [
             {
                 "role": "system",
-                "content": "You are an expert tech blogger. Return ONLY valid JSON without markdown code blocks."
+                "content": "You are an elite tech blogger who creates publication-quality articles in Hebrew for Israeli developers. Your posts are on par with DigitalOcean tutorials and Real Python articles. You write extensive, well-structured content with professional code examples, comparison tables, and actionable insights. Return ONLY valid JSON without markdown code blocks."
             },
             {
                 "role": "user",
                 "content": prompt
             }
         ],
-        "temperature": 0.85,
-        "max_tokens": 4500
+        "temperature": 0.8,
+        "max_tokens": 10000
     }
 
     try:
@@ -315,23 +326,33 @@ def create_jekyll_post(post_data: dict, slot_index: int):
     # Ensure directory exists
     POSTS_DIR.mkdir(parents=True, exist_ok=True)
 
+    # Escape special YAML characters
+    safe_title = post_data.get('title_he', 'פוסט חדש').replace('"', '\\"')
+    safe_desc = post_data.get('description', '').replace('"', '\\"')
+
     # Create frontmatter
     frontmatter = f"""---
 layout: post-modern
-title: "{post_data.get('title_he', 'פוסט חדש')}"
-description: "{post_data.get('description', '')}"
+title: "{safe_title}"
+description: "{safe_desc}"
 date: {date_str} {time} +0200
 author: analist0
 category: "{post_data.get('category', 'טכנולוגיה')}"
 tags: {json.dumps(post_data.get('tags', []), ensure_ascii=False)}
+lang: he
+dir: rtl
 generate_image: true
 time_slot: {slot_he}
 ---
 
 """
 
+    # Escape Liquid syntax in code blocks
+    content = post_data.get('content', '')
+    content = escape_liquid_syntax(content)
+
     # Full content
-    full_content = frontmatter + post_data.get('content', '')
+    full_content = frontmatter + content
 
     # Write file
     with open(filepath, 'w', encoding='utf-8') as f:

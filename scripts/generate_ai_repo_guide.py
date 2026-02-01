@@ -383,24 +383,48 @@ def create_jekyll_post(repo, guide_content, screenshot_filename):
     repo_name_slug = repo['name'].lower().replace(" ", "-").replace("_", "-")
     filename = f"{date_str}-{repo_name_slug}-guide.md"
 
+    # Escape special chars in title for YAML
+    safe_desc = (repo['description'] or repo['name'])[:100].replace('"', '\\"')
+    repo_lang = repo['language'].lower() if repo['language'] else 'general'
+    license_name = repo.get('license', {}).get('name', 'N/A') if repo.get('license') else 'לא צוין'
+
+    # Escape Liquid syntax in guide content
+    import re
+    def _wrap_block(match):
+        block = match.group(0)
+        if '{% raw %}' in block or '{% endraw %}' in block:
+            return block
+        if '{{' in block or '{%' in block:
+            return '{{% raw %}}\n' + block + '\n{{% endraw %}}'
+        return block
+    guide_content = re.sub(r'```[\s\S]*?```', _wrap_block, guide_content, flags=re.MULTILINE)
+
     # Post metadata
     post_content = f"""---
-layout: post
-title: "מדריך מקצועי: {repo['name']} - {repo['description'][:100]}"
+layout: post-modern
+title: "🚀 מדריך מקצועי: {repo['name']} - {safe_desc}"
+description: "מדריך התקנה מקיף ומקצועי ל-{repo['name']} עם {repo['stargazers_count']:,} כוכבים. כולל התקנה צעד-אחר-צעד, דוגמאות קוד ו-best practices."
 date: {datetime.now().strftime("%Y-%m-%d %H:%M:%S +0200")}
-categories: [AI, LLM, מדריכים]
-tags: [local-ai, llm, installation, {repo['language'].lower() if repo['language'] else 'general'}]
+categories: ["AI", "LLM", "מדריכים"]
+tags: ["local-ai", "llm", "installation", "{repo_lang}", "{repo['name'].lower()}"]
 image: /assets/images/repos/{screenshot_filename}
-author: יוסי
+author: analist0
 lang: he
 dir: rtl
 ---
 
 ![{repo['name']}](/assets/images/repos/{screenshot_filename})
 
-# 🚀 {repo['name']}
+## 🚀 {repo['name']}
 
-**⭐ {repo['stargazers_count']:,} כוכבים | 🔧 {repo['language']} | 📅 עדכון אחרון: {repo['updated_at'][:10]}**
+| מדד | ערך |
+|-----|-----|
+| ⭐ כוכבים | {repo['stargazers_count']:,} |
+| 🔧 שפה | {repo['language'] or 'N/A'} |
+| 🔱 Forks | {repo['forks_count']:,} |
+| 🐛 Issues | {repo['open_issues_count']:,} |
+| 📜 רישיון | {license_name} |
+| 📅 עדכון אחרון | {repo['updated_at'][:10]} |
 
 [🔗 קישור לריפו]({repo['html_url']}) | [⬇️ הורדה](https://github.com/{repo['full_name']}/archive/refs/heads/main.zip)
 
@@ -410,25 +434,16 @@ dir: rtl
 
 ---
 
-## 📊 סטטיסטיקות הפרויקט
-
-- **כוכבים**: {repo['stargazers_count']:,} ⭐
-- **Forks**: {repo['forks_count']:,} 🔱
-- **Issues**: {repo['open_issues_count']:,} 🐛
-- **שפה**: {repo['language']} 💻
-- **רישיון**: {repo.get('license', {}).get('name', 'N/A') if repo.get('license') else 'לא צוין'} 📜
-
 ## 🔗 קישורים שימושיים
 
-- [ריפו ב-GitHub]({repo['html_url']})
-- [Issues & תמיכה]({repo['html_url']}/issues)
-- [Discussions]({repo['html_url']}/discussions)
-- [Wiki]({repo['html_url']}/wiki)
+- [📖 ריפו ב-GitHub]({repo['html_url']})
+- [🐛 Issues & תמיכה]({repo['html_url']}/issues)
+- [💬 Discussions]({repo['html_url']}/discussions)
+- [📚 Wiki]({repo['html_url']}/wiki)
 
 ---
 
-**📝 נכתב על ידי**: יוסי | מומחה אבטחת מידע, בדיקות חדירה ופיתוח
-**📞 ליצירת קשר**: 058-4423342
+**📝 נכתב על ידי**: analist0 | מומחה אבטחת מידע, בדיקות חדירה ופיתוח
 **⏰ עדכון אחרון**: {datetime.now().strftime("%d/%m/%Y %H:%M")}
 """
 
