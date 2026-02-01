@@ -357,7 +357,7 @@ README (קטע):
 
     try:
         message = client.messages.create(
-            model="claude-sonnet-4-5-20250929",
+            model="claude-sonnet-4-20250514",
             max_tokens=8000,
             messages=[{
                 "role": "user",

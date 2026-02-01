@@ -234,7 +234,7 @@ Return in JSON format:
     }
 
     payload = {
-        "model": "grok-beta",
+        "model": "grok-4-1-fast-reasoning",
         "messages": [
             {
                 "role": "system",
@@ -309,7 +309,7 @@ def create_jekyll_post(post_data: dict, date: datetime, time: str):
     title_slug = re.sub(r'[-\s]+', '-', title_slug).lower()
     filename = f"{date_str}-{title_slug}.md"
 
-    posts_dir = Path.home() / 'my-jekyll-blog' / '_posts'
+    posts_dir = Path(os.environ.get('GITHUB_WORKSPACE', Path.cwd())) / '_posts'
     posts_dir.mkdir(parents=True, exist_ok=True)
 
     filepath = posts_dir / filename

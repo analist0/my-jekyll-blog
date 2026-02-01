@@ -144,7 +144,7 @@ class AIContentGenerator:
 
     def _call_gemini(self, prompt, response_format="text"):
         """Google Gemini API call"""
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={self.api_key}"
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={self.api_key}"
 
         # Add JSON instruction if needed
         if response_format == "json":
@@ -239,7 +239,10 @@ def main():
 
     # Save article
     date_str = datetime.datetime.now().strftime("%Y-%m-%d")
-    filename = f"_posts/{date_str}-{top_trend.lower().replace(' ', '-')[:50]}.md"
+    import re as _re
+    safe_slug = _re.sub(r'[^\w\s-]', '', top_trend.lower()).strip()
+    safe_slug = _re.sub(r'[-\s]+', '-', safe_slug)[:50]
+    filename = f"_posts/{date_str}-{safe_slug}.md"
 
     Path("_posts").mkdir(exist_ok=True)
     with open(filename, 'w', encoding='utf-8') as f:

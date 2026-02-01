@@ -144,7 +144,7 @@ def generate_featured_image(topic):
                 "Content-Type": "application/json"
             },
             json={
-                "model": "grok-2-vision-1212",
+                "model": "grok-2-image",
                 "prompt": image_prompt,
                 "n": 1,
                 "size": "1024x1024",
@@ -194,8 +194,8 @@ layout: unified-post
 title: "{topic}"
 description: "מדריך מקיף ומפורט על {topic}. כולל הסברים צעד-אחר-צעד, דוגמאות קוד, שיטות עבודה מומלצות ומקרי שימוש מהעולם האמיתי."
 date: {date.strftime('%Y-%m-%d %H:%M:%S')} +0200
-categories: {categories}
-tags: {tags}
+categories: {json.dumps(categories)}
+tags: {json.dumps(tags)}
 author: "Tech Insights"
 lang: he
 ---
@@ -236,7 +236,7 @@ def main():
     print("=" * 60)
 
     # Check for API key
-    if not XAI_API_KEY or XAI_API_KEY.startswith('xai-') == False:
+    if not XAI_API_KEY:
         print("❌ XAI_API_KEY not found!")
         print("Set it with: export XAI_API_KEY='your-key-here'")
         return

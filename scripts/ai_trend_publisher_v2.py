@@ -18,8 +18,8 @@ import time
 XAI_API_KEY = os.environ.get('XAI_API_KEY', '')
 X_BEARER_TOKEN = os.environ.get('X_BEARER_TOKEN', '')
 
-# Blog configuration
-BLOG_DIR = Path.home() / 'my-jekyll-blog'
+# Blog configuration - use GITHUB_WORKSPACE in CI, or current directory
+BLOG_DIR = Path(os.environ.get('GITHUB_WORKSPACE', Path.cwd()))
 POSTS_DIR = BLOG_DIR / '_posts'
 
 # Search categories (varied to avoid repetition)
