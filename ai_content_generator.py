@@ -165,7 +165,7 @@ class AIContentGenerator:
 
     def _call_gemini(self, prompt, response_format="text"):
         """Google Gemini API call"""
-        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={self.api_key}"
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={self.api_key}"
 
         # Add JSON instruction if needed
         if response_format == "json":
