@@ -18,6 +18,7 @@ import time
 GITHUB_API = "https://api.github.com"
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
+CLAUDE_MODEL = os.environ.get("CLAUDE_MODEL", "claude-sonnet-4-20250514")
 
 # Focus keywords for local AI/LLM repos
 AI_KEYWORDS = [
@@ -357,7 +358,7 @@ README (קטע):
 
     try:
         message = client.messages.create(
-            model="claude-sonnet-4-20250514",
+            model=CLAUDE_MODEL,
             max_tokens=8000,
             messages=[{
                 "role": "user",

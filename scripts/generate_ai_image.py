@@ -15,7 +15,7 @@ from pathlib import Path
 # Configuration
 XAI_API_KEY = os.environ.get('XAI_API_KEY', '')
 XAI_API_URL = "https://api.x.ai/v1/images/generations"
-XAI_IMAGE_MODEL = "grok-2-image"  # Grok image generation model
+XAI_IMAGE_MODEL = "grok-2-image-1212"  # Grok image generation model
 
 UNSPLASH_ACCESS_KEY = os.environ.get('UNSPLASH_ACCESS_KEY', 'YOUR_ACCESS_KEY_HERE')
 UNSPLASH_API_URL = "https://api.unsplash.com/search/photos"
@@ -92,15 +92,19 @@ The image should be visually stunning and immediately grab attention while being
         payload = {
             "model": XAI_IMAGE_MODEL,
             "prompt": prompt,
-            "n": 1,
-            "size": "1024x1024"
+            "n": 1
         }
 
-        print(f"🎨 Generating image with Grok Image API...")
+        print("🎨 Generating image with Grok Image API...")
         response = requests.post(XAI_API_URL, headers=headers, json=payload, timeout=60)
         response.raise_for_status()
 
         data = response.json()
+
+        # Check for API error response
+        if 'error' in data:
+            print(f"⚠️  Grok API error: {data['error']}")
+            return None
 
         # Image generation API returns data array with URLs
         if 'data' in data and len(data['data']) > 0:

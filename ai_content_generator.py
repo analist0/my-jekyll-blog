@@ -276,6 +276,8 @@ def main():
     date_str = datetime.datetime.now().strftime("%Y-%m-%d")
     safe_slug = _re.sub(r'[^\w\s-]', '', top_trend.lower()).strip()
     safe_slug = _re.sub(r'[-\s]+', '-', safe_slug)[:50]
+    if not safe_slug:
+        safe_slug = 'ai-tech-post'
     filename = f"_posts/{date_str}-{safe_slug}.md"
 
     Path("_posts").mkdir(exist_ok=True)

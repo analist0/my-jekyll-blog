@@ -217,10 +217,9 @@ def generate_featured_image(topic):
                 "Content-Type": "application/json"
             },
             json={
-                "model": "grok-2-image",
+                "model": "grok-2-image-1212",
                 "prompt": image_prompt,
-                "n": 1,
-                "size": "1024x1024"
+                "n": 1
             },
             timeout=60
         )
@@ -244,10 +243,12 @@ def create_post_file(topic, content, image_url=None):
 
     date = datetime.now()
 
-    # Create safe filename slug
+    # Create safe filename slug with empty guard
     title_slug = topic.lower()
     title_slug = re.sub(r'[^\w\s-]', '', title_slug).strip()
     title_slug = re.sub(r'[-\s]+', '-', title_slug)[:80]
+    if not title_slug:
+        title_slug = 'tutorial-post'
 
     filename = f"{date.strftime('%Y-%m-%d')}-{title_slug}.md"
     POSTS_DIR.mkdir(parents=True, exist_ok=True)
