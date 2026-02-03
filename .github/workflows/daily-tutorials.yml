@@ -44,10 +44,14 @@ jobs:
       - name: 🤖 Generate tutorials
         env:
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
           NUM_TUTORIALS: ${{ github.event.inputs.num_tutorials || '3' }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
         run: |
           cd $GITHUB_WORKSPACE
           echo "📝 Generating tutorials on trending topics..."
+          echo "🔍 Using duplicate checking and sentiment analysis..."
           python scripts/generate_tutorial.py
 
       - name: 📊 Check if new files created

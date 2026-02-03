@@ -32,10 +32,14 @@ jobs:
 
       - name: 🤖 Generate professional blog post
         run: |
+          echo "🔍 Using duplicate checking and sentiment analysis..."
           python3 scripts/ai_trend_publisher_v2.py
         env:
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
           X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
+          GITHUB_WORKSPACE: ${{ github.workspace }}
 
       - name: 🎨 Generate hero images (if possible)
         run: |

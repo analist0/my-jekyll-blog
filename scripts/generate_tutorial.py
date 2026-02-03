@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-🤖 Automatic Tutorial Generator with XAI API
+🤖 Advanced Tutorial Generator with XAI API
 Generates comprehensive technical tutorials on trending topics
+Features: Duplicate checking, sentiment analysis, SEO optimization
 """
 
 import os
@@ -11,11 +12,28 @@ import requests
 from datetime import datetime
 from pathlib import Path
 import random
+import sys
+
+# Add scripts directory to path for imports
+sys.path.insert(0, str(Path(__file__).parent))
+
+try:
+    from content_utils import (
+        get_existing_topics,
+        is_duplicate_topic,
+        get_trending_topics_gemini,
+        select_best_topic
+    )
+    HAS_UTILS = True
+except ImportError:
+    HAS_UTILS = False
+    print("⚠️  content_utils not available, running without duplicate checking")
 
 # XAI API Configuration
 XAI_API_KEY = os.getenv('XAI_API_KEY')
 XAI_API_URL = "https://api.x.ai/v1/chat/completions"
 XAI_IMAGE_API_URL = "https://api.x.ai/v1/images/generations"
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY', '')
 
 # Blog directory
 BLOG_DIR = Path(os.environ.get('GITHUB_WORKSPACE', Path.cwd()))
@@ -83,10 +101,11 @@ def generate_tutorial(topic):
 
 דרישות מחמירות:
 
-## 1. אורך ועומק
-- לפחות 3500 מילים
-- עומק טכני אמיתי - לא שטחי
-- כל section צריך להיות substantive
+## 1. אורך ועומק (חובה!)
+- לפחות 4500-5000 מילים - זה חובה!
+- עומק טכני אמיתי ומעמיק - לא שטחי בשום אופן
+- כל section צריך להיות substantive עם לפחות 300-500 מילים
+- זה מדריך ברמת תיעוד רשמי - כתוב כאילו זו הדוקומנטציה הרשמית
 
 ## 2. מבנה מקצועי (השתמש ב-## עבור כותרות ראשיות כדי ליצור תוכן עניינים אוטומטי)
 
@@ -342,9 +361,27 @@ def main():
 
     created_files = []
 
+    # Get existing topics for duplicate checking
+    existing_topics = []
+    if HAS_UTILS:
+        print("🔍 Loading existing topics for duplicate checking...")
+        existing_topics = get_existing_topics(days=60)
+        print(f"   Found {len(existing_topics)} existing posts")
+
     for i, topic in enumerate(selected_topics, 1):
         print(f"\n[{i}/{num_tutorials}] 🔥 Topic: {topic}")
         print("-" * 60)
+
+        # Check for duplicates
+        if HAS_UTILS and is_duplicate_topic(topic, existing_topics):
+            print(f"⚠️  Skipping duplicate topic: {topic}")
+            # Try to get a new topic
+            remaining = [t for t in HOT_TOPICS if t not in selected_topics and not is_duplicate_topic(t, existing_topics)]
+            if remaining:
+                topic = random.choice(remaining)
+                print(f"🔄 Switched to new topic: {topic}")
+            else:
+                continue
 
         # Generate tutorial
         print("🤖 Generating content with XAI API...")

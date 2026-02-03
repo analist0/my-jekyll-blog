@@ -1,11 +1,29 @@
 title: פורטפוליו טכנולוגי מתקדם
-description: בלוג יצירת אומנות עם עיצוב מתקדם | מדריכים נדירים | פרויקטים מרשימים
-author: analist0
+description: בלוג יצירת אומנות עם עיצוב מתקדם | מדריכים נדירים | פרויקטים מרשימים | AI, Python, Full-Stack Development
+url: "https://analist0.github.io"
+baseurl: "/my-jekyll-blog"
+author:
+  name: יוסף ישר
+  email: Jelyashar@gmail.com
+  phone: "058-4423342"
+  twitter: analist0
+  github: analist0
 lang: he
 markdown: kramdown
 highlighter: rouge
 permalink: /:year/:month/:day/:title/
 timezone: Asia/Jerusalem
+
+# SEO Enhanced Settings
+logo: /assets/images/logo.png
+twitter:
+  username: analist0
+  card: summary_large_image
+facebook:
+  publisher: https://facebook.com/analist0
+webmaster_verifications:
+  google: # Add your Google Search Console verification code
+  bing: # Add your Bing verification code
 
 # Build settings
 plugins:
