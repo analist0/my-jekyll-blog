@@ -1,7 +1,7 @@
 ---
 layout: default
-title: אודות | יוסף ישר - מפתח Full-Stack
-description: יוסף ישר - מפתח Full-Stack, מומחה AI ואוטומציה. בניית מערכות מתקדמות, פיתוח בינה מלאכותית וכלים טכנולוגיים חדשניים.
+title: אודות | יוסף אלישר - מפתח Full-Stack
+description: יוסף אלישר - מפתח Full-Stack, מומחה AI ואוטומציה. בניית מערכות מתקדמות, פיתוח בינה מלאכותית וכלים טכנולוגיים חדשניים.
 ---
 
 <section class="hero about-hero" style="min-height: 80vh; position: relative; overflow: hidden;">
@@ -17,7 +17,7 @@ description: יוסף ישר - מפתח Full-Stack, מומחה AI ואוטומצ
         <span style="font-size: 5rem;">👨‍💻</span>
       </div>
       <h1 class="hero-title gradient-text" style="font-size: clamp(2.5rem, 6vw, 4rem);">
-        יוסף ישר
+        יוסף אלישר
       </h1>
       <p class="hero-subtitle" style="max-width: 700px; margin: 0 auto 2rem;">
         מפתח Full-Stack | מומחה AI & Automation | יוצר תוכן טכנולוגי
@@ -416,8 +416,8 @@ description: יוסף ישר - מפתח Full-Stack, מומחה AI ואוטומצ
 {
   "@context": "https://schema.org",
   "@type": "Person",
-  "name": "יוסף ישר",
-  "alternateName": "Yosef Yashar",
+  "name": "יוסף אלישר",
+  "alternateName": "Yosef Elishar",
   "email": "Jelyashar@gmail.com",
   "telephone": "+972-58-442-3342",
   "url": "https://analist0.github.io/my-jekyll-blog/about",
