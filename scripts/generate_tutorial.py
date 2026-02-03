@@ -5,17 +5,43 @@ Generates comprehensive technical tutorials on trending topics
 Features: Duplicate checking, sentiment analysis, SEO optimization
 """
 
-import os
 import json
-import re
 import requests
 from datetime import datetime
-from pathlib import Path
 import random
 import sys
+from pathlib import Path
 
 # Add scripts directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent))
+
+# Import shared modules
+try:
+    from config import (
+        XAI_API_KEY, XAI_CHAT_URL, XAI_IMAGE_URL,
+        XAI_CHAT_MODEL, XAI_IMAGE_MODEL,
+        XAI_CHAT_MAX_TOKENS, XAI_CHAT_TIMEOUT,
+        BLOG_DIR, POSTS_DIR,
+        get_api_headers
+    )
+    from text_utils import (
+        sanitize_slug, escape_liquid_syntax, escape_yaml_string,
+        create_frontmatter, extract_tags_from_text, clean_markdown_frontmatter
+    )
+    HAS_CONFIG = True
+except ImportError:
+    HAS_CONFIG = False
+    print("⚠️  config/text_utils not available, using defaults")
+    import os
+    XAI_API_KEY = os.getenv('XAI_API_KEY')
+    XAI_CHAT_URL = "https://api.x.ai/v1/chat/completions"
+    XAI_IMAGE_URL = "https://api.x.ai/v1/images/generations"
+    XAI_CHAT_MODEL = "grok-4-1-fast-reasoning"
+    XAI_IMAGE_MODEL = "grok-2-image-1212"
+    XAI_CHAT_MAX_TOKENS = 16000
+    XAI_CHAT_TIMEOUT = 180
+    BLOG_DIR = Path(os.environ.get('GITHUB_WORKSPACE', Path.cwd()))
+    POSTS_DIR = BLOG_DIR / '_posts'
 
 try:
     from content_utils import (
@@ -28,16 +54,6 @@ try:
 except ImportError:
     HAS_UTILS = False
     print("⚠️  content_utils not available, running without duplicate checking")
-
-# XAI API Configuration
-XAI_API_KEY = os.getenv('XAI_API_KEY')
-XAI_API_URL = "https://api.x.ai/v1/chat/completions"
-XAI_IMAGE_API_URL = "https://api.x.ai/v1/images/generations"
-GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY', '')
-
-# Blog directory
-BLOG_DIR = Path(os.environ.get('GITHUB_WORKSPACE', Path.cwd()))
-POSTS_DIR = BLOG_DIR / '_posts'
 
 # Hot Topics in Tech (English)
 HOT_TOPICS = [
@@ -228,15 +244,17 @@ def generate_featured_image(topic):
 
     image_prompt = f"Professional tech blog featured image about: {topic}. Modern, sleek, futuristic technology theme, high quality digital art, vibrant gradient colors (indigo, purple, cyan), minimalist abstract design, clean and professional, no text overlay, dark background"
 
+    headers = get_api_headers('xai') if HAS_CONFIG else {
+        "Authorization": f"Bearer {XAI_API_KEY}",
+        "Content-Type": "application/json"
+    }
+
     try:
         response = requests.post(
-            XAI_IMAGE_API_URL,
-            headers={
-                "Authorization": f"Bearer {XAI_API_KEY}",
-                "Content-Type": "application/json"
-            },
+            XAI_IMAGE_URL,
+            headers=headers,
             json={
-                "model": "grok-2-image-1212",
+                "model": XAI_IMAGE_MODEL,
                 "prompt": image_prompt,
                 "n": 1
             },
@@ -262,39 +280,53 @@ def create_post_file(topic, content, image_url=None):
 
     date = datetime.now()
 
-    # Create safe filename slug with empty guard
-    title_slug = topic.lower()
-    title_slug = re.sub(r'[^\w\s-]', '', title_slug).strip()
-    title_slug = re.sub(r'[-\s]+', '-', title_slug)[:80]
-    if not title_slug:
-        title_slug = 'tutorial-post'
+    # Use shared utilities if available
+    if HAS_CONFIG:
+        title_slug = sanitize_slug(topic, max_length=80, fallback='tutorial-post')
+        tags = extract_tags_from_text(topic, max_tags=8)
+        safe_desc = f"מדריך מקיף ומפורט על {topic}. כולל הסברים, דוגמאות קוד מלאות, best practices ופרויקט מעשי."
+        content = escape_liquid_syntax(content)
+        content = clean_markdown_frontmatter(content)
+    else:
+        # Fallback to inline implementation
+        import re
+        title_slug = topic.lower()
+        title_slug = re.sub(r'[^\w\s-]', '', title_slug).strip()
+        title_slug = re.sub(r'[-\s]+', '-', title_slug)[:80]
+        if not title_slug:
+            title_slug = 'tutorial-post'
+        tags = re.sub(r'[^\w\s]', '', topic.lower()).split()
+        tags = [tag for tag in tags if len(tag) > 3][:8]
+        safe_desc = f"מדריך מקיף ומפורט על {topic}. כולל הסברים, דוגמאות קוד מלאות, best practices ופרויקט מעשי."
 
     filename = f"{date.strftime('%Y-%m-%d')}-{title_slug}.md"
     POSTS_DIR.mkdir(parents=True, exist_ok=True)
     filepath = POSTS_DIR / filename
 
-    # Extract meaningful tags from topic
-    tags = re.sub(r'[^\w\s]', '', topic.lower()).split()
-    tags = [tag for tag in tags if len(tag) > 3][:8]
-
-    # Escape special YAML characters in title/description
-    safe_title = topic.replace('"', '\\"')
-    safe_desc = f"מדריך מקיף ומפורט על {topic}. כולל הסברים, דוגמאות קוד מלאות, best practices ופרויקט מעשי.".replace('"', '\\"')
-
-    # Image frontmatter
-    image_line = f'\nimage: "{image_url}"' if image_url else ''
-
-    # Escape Liquid syntax in content
-    content = escape_liquid_syntax(content)
-
-    frontmatter = f"""---
+    # Create frontmatter using shared utility or inline
+    if HAS_CONFIG:
+        frontmatter = create_frontmatter(
+            title=topic,
+            description=safe_desc,
+            date=date,
+            categories=["Tutorial", "Development"],
+            tags=tags,
+            author="יוסף אלישר",
+            layout="post-modern",
+            image=image_url
+        )
+    else:
+        safe_title = topic.replace('"', '\\"')
+        safe_desc = safe_desc.replace('"', '\\"')
+        image_line = f'\nimage: "{image_url}"' if image_url else ''
+        frontmatter = f"""---
 layout: post-modern
 title: "{safe_title}"
 description: "{safe_desc}"
 date: {date.strftime('%Y-%m-%d %H:%M:%S')} +0200
 categories: ["Tutorial", "Development"]
 tags: {json.dumps(tags, ensure_ascii=False)}
-author: "analist0"
+author: "יוסף אלישר"
 lang: he
 dir: rtl{image_line}
 ---
