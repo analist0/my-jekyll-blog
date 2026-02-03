@@ -15,8 +15,10 @@ import re
 
 # Configuration
 X_API_BEARER_TOKEN = os.getenv('X_API_BEARER_TOKEN')
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')  # Fallback to OpenAI if needed
-ANTHROPIC_API_KEY = os.getenv('ANTHROPIC_API_KEY')  # Claude API
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
+PERPLEXITY_API_KEY = os.getenv('PERPLEXITY_API_KEY')
+GEMINI_MODEL = os.getenv('GEMINI_MODEL', 'gemini-2.5-flash')
+PERPLEXITY_MODEL = os.getenv('PERPLEXITY_MODEL', 'llama-3.1-sonar-large-128k-online')
 
 # X API v2 Endpoint
 X_API_URL = "https://api.twitter.com/2/tweets/search/recent"
@@ -149,44 +151,42 @@ def generate_article_content(topic):
 כתוב בעברית תקנית, מקצועית, עם סגנון כתיבה מושך ונעים לקריאה.
 """
 
-    # Try Claude API first (better for Hebrew)
-    if ANTHROPIC_API_KEY:
+    # Try Google Gemini first
+    if GOOGLE_API_KEY:
         try:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key={GOOGLE_API_KEY}"
             response = requests.post(
-                "https://api.anthropic.com/v1/messages",
-                headers={
-                    "x-api-key": ANTHROPIC_API_KEY,
-                    "anthropic-version": "2023-06-01",
-                    "content-type": "application/json"
-                },
+                url,
                 json={
-                    "model": "claude-3-5-sonnet-20241022",
-                    "max_tokens": 4000,
-                    "messages": [{"role": "user", "content": prompt}]
+                    "contents": [{"parts": [{"text": prompt}]}],
+                    "generationConfig": {
+                        "temperature": 0.7,
+                        "maxOutputTokens": 4000
+                    }
                 },
                 timeout=60
             )
             response.raise_for_status()
             data = response.json()
-            content = data["content"][0]["text"]
-            print("✅ Generated article using Claude API")
+            content = data['candidates'][0]['content']['parts'][0]['text']
+            print(f"✅ Generated article using Gemini ({GEMINI_MODEL})")
             return content
         except Exception as e:
-            print(f"⚠️  Claude API failed: {e}")
+            print(f"⚠️  Gemini API failed: {e}")
 
-    # Fallback to OpenAI
-    if OPENAI_API_KEY:
+    # Fallback to Perplexity
+    if PERPLEXITY_API_KEY:
         try:
             response = requests.post(
-                "https://api.openai.com/v1/chat/completions",
+                "https://api.perplexity.ai/chat/completions",
                 headers={
-                    "Authorization": f"Bearer {OPENAI_API_KEY}",
+                    "Authorization": f"Bearer {PERPLEXITY_API_KEY}",
                     "Content-Type": "application/json"
                 },
                 json={
-                    "model": "gpt-4-turbo-preview",
+                    "model": PERPLEXITY_MODEL,
                     "messages": [{"role": "user", "content": prompt}],
-                    "max_tokens": 3000,
+                    "max_tokens": 4000,
                     "temperature": 0.7
                 },
                 timeout=60
@@ -194,10 +194,10 @@ def generate_article_content(topic):
             response.raise_for_status()
             data = response.json()
             content = data["choices"][0]["message"]["content"]
-            print("✅ Generated article using OpenAI API")
+            print(f"✅ Generated article using Perplexity ({PERPLEXITY_MODEL})")
             return content
         except Exception as e:
-            print(f"⚠️  OpenAI API failed: {e}")
+            print(f"⚠️  Perplexity API failed: {e}")
 
     # Final fallback: template article
     print("⚠️  Using template article (no API keys available)")

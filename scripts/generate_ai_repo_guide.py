@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 AI Repository Guide Generator
-Finds trending AI/LLM repos and generates professional installation guides using Claude
+Finds trending AI/LLM repos and generates professional installation guides using Google Gemini / Perplexity
 """
 
 import os
@@ -10,14 +10,15 @@ import json
 import requests
 from datetime import datetime, timedelta
 from pathlib import Path
-import anthropic
-from playwright.sync_api import sync_playwright
 import time
 
 # Configuration
 GITHUB_API = "https://api.github.com"
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
-ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
+GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
+PERPLEXITY_API_KEY = os.environ.get("PERPLEXITY_API_KEY")
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+PERPLEXITY_MODEL = os.environ.get("PERPLEXITY_MODEL", "llama-3.1-sonar-large-128k-online")
 
 # Focus keywords for local AI/LLM repos
 AI_KEYWORDS = [
@@ -170,17 +171,9 @@ def generate_socialify_card(repo_full_name, output_path):
 
             return False
 
-def generate_guide_with_claude(repo, readme_content):
-    """Generate comprehensive installation guide using Claude"""
-    print("🤖 Generating professional guide with Claude...")
-
-    if not ANTHROPIC_API_KEY:
-        print("⚠️  No Anthropic API key found!")
-        return None
-
-    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
-
-    prompt = f"""
+def _build_guide_prompt(repo, readme_content):
+    """Build the guide generation prompt"""
+    return f"""
 אתה כותב טכני מקצועי מוביל שמתמחה במדריכי התקנה מתקדמים של כלי AI, LLM, וטכנולוגיות חדשניות.
 
 הריפו: {repo['full_name']}
@@ -355,22 +348,75 @@ README (קטע):
 פורמט: Markdown עשיר עם כותרות ברורות, קופסאות קוד, טבלאות, ורשימות.
 """
 
-    try:
-        message = client.messages.create(
-            model="claude-sonnet-4-5-20250929",
-            max_tokens=8000,
-            messages=[{
-                "role": "user",
-                "content": prompt
-            }]
-        )
 
-        guide_content = message.content[0].text
-        print(f"✅ Generated {len(guide_content)} characters of guide content")
+def generate_guide_with_gemini(repo, readme_content):
+    """Generate comprehensive installation guide using Google Gemini"""
+    print(f"🤖 Generating professional guide with Gemini ({GEMINI_MODEL})...")
+
+    if not GOOGLE_API_KEY:
+        print("⚠️  No Google API key found!")
+        return None
+
+    prompt = _build_guide_prompt(repo, readme_content)
+
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent?key={GOOGLE_API_KEY}"
+
+    data = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "temperature": 0.7,
+            "maxOutputTokens": 8000
+        }
+    }
+
+    try:
+        response = requests.post(url, json=data, timeout=120)
+        response.raise_for_status()
+
+        result = response.json()
+        guide_content = result['candidates'][0]['content']['parts'][0]['text']
+        print(f"✅ Generated {len(guide_content)} characters of guide content with Gemini")
         return guide_content
 
     except Exception as e:
-        print(f"⚠️  Error generating guide with Claude: {e}")
+        print(f"⚠️  Error generating guide with Gemini: {e}")
+        return None
+
+
+def generate_guide_with_perplexity(repo, readme_content):
+    """Generate comprehensive installation guide using Perplexity"""
+    print(f"🤖 Generating professional guide with Perplexity ({PERPLEXITY_MODEL})...")
+
+    if not PERPLEXITY_API_KEY:
+        print("⚠️  No Perplexity API key found!")
+        return None
+
+    prompt = _build_guide_prompt(repo, readme_content)
+
+    url = "https://api.perplexity.ai/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {PERPLEXITY_API_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    data = {
+        "model": PERPLEXITY_MODEL,
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.7,
+        "max_tokens": 8000
+    }
+
+    try:
+        response = requests.post(url, headers=headers, json=data, timeout=120)
+        response.raise_for_status()
+
+        result = response.json()
+        guide_content = result['choices'][0]['message']['content']
+        print(f"✅ Generated {len(guide_content)} characters of guide content with Perplexity")
+        return guide_content
+
+    except Exception as e:
+        print(f"⚠️  Error generating guide with Perplexity: {e}")
         return None
 
 def create_jekyll_post(repo, guide_content, screenshot_filename):
@@ -383,24 +429,48 @@ def create_jekyll_post(repo, guide_content, screenshot_filename):
     repo_name_slug = repo['name'].lower().replace(" ", "-").replace("_", "-")
     filename = f"{date_str}-{repo_name_slug}-guide.md"
 
+    # Escape special chars in title for YAML
+    safe_desc = (repo['description'] or repo['name'])[:100].replace('"', '\\"')
+    repo_lang = repo['language'].lower() if repo['language'] else 'general'
+    license_name = repo.get('license', {}).get('name', 'N/A') if repo.get('license') else 'לא צוין'
+
+    # Escape Liquid syntax in guide content
+    import re
+    def _wrap_block(match):
+        block = match.group(0)
+        if '{% raw %}' in block or '{% endraw %}' in block:
+            return block
+        if '{{' in block or '{%' in block:
+            return '{% raw %}\n' + block + '\n{% endraw %}'
+        return block
+    guide_content = re.sub(r'```[\s\S]*?```', _wrap_block, guide_content, flags=re.MULTILINE)
+
     # Post metadata
     post_content = f"""---
-layout: post
-title: "מדריך מקצועי: {repo['name']} - {repo['description'][:100]}"
+layout: post-modern
+title: "🚀 מדריך מקצועי: {repo['name']} - {safe_desc}"
+description: "מדריך התקנה מקיף ומקצועי ל-{repo['name']} עם {repo['stargazers_count']:,} כוכבים. כולל התקנה צעד-אחר-צעד, דוגמאות קוד ו-best practices."
 date: {datetime.now().strftime("%Y-%m-%d %H:%M:%S +0200")}
-categories: [AI, LLM, מדריכים]
-tags: [local-ai, llm, installation, {repo['language'].lower() if repo['language'] else 'general'}]
+categories: ["AI", "LLM", "מדריכים"]
+tags: ["local-ai", "llm", "installation", "{repo_lang}", "{repo['name'].lower()}"]
 image: /assets/images/repos/{screenshot_filename}
-author: יוסי
+author: analist0
 lang: he
 dir: rtl
 ---
 
 ![{repo['name']}](/assets/images/repos/{screenshot_filename})
 
-# 🚀 {repo['name']}
+## 🚀 {repo['name']}
 
-**⭐ {repo['stargazers_count']:,} כוכבים | 🔧 {repo['language']} | 📅 עדכון אחרון: {repo['updated_at'][:10]}**
+| מדד | ערך |
+|-----|-----|
+| ⭐ כוכבים | {repo['stargazers_count']:,} |
+| 🔧 שפה | {repo['language'] or 'N/A'} |
+| 🔱 Forks | {repo['forks_count']:,} |
+| 🐛 Issues | {repo['open_issues_count']:,} |
+| 📜 רישיון | {license_name} |
+| 📅 עדכון אחרון | {repo['updated_at'][:10]} |
 
 [🔗 קישור לריפו]({repo['html_url']}) | [⬇️ הורדה](https://github.com/{repo['full_name']}/archive/refs/heads/main.zip)
 
@@ -410,25 +480,16 @@ dir: rtl
 
 ---
 
-## 📊 סטטיסטיקות הפרויקט
-
-- **כוכבים**: {repo['stargazers_count']:,} ⭐
-- **Forks**: {repo['forks_count']:,} 🔱
-- **Issues**: {repo['open_issues_count']:,} 🐛
-- **שפה**: {repo['language']} 💻
-- **רישיון**: {repo.get('license', {}).get('name', 'N/A') if repo.get('license') else 'לא צוין'} 📜
-
 ## 🔗 קישורים שימושיים
 
-- [ריפו ב-GitHub]({repo['html_url']})
-- [Issues & תמיכה]({repo['html_url']}/issues)
-- [Discussions]({repo['html_url']}/discussions)
-- [Wiki]({repo['html_url']}/wiki)
+- [📖 ריפו ב-GitHub]({repo['html_url']})
+- [🐛 Issues & תמיכה]({repo['html_url']}/issues)
+- [💬 Discussions]({repo['html_url']}/discussions)
+- [📚 Wiki]({repo['html_url']}/wiki)
 
 ---
 
-**📝 נכתב על ידי**: יוסי | מומחה אבטחת מידע, בדיקות חדירה ופיתוח
-**📞 ליצירת קשר**: 058-4423342
+**📝 נכתב על ידי**: analist0 | מומחה אבטחת מידע, בדיקות חדירה ופיתוח
 **⏰ עדכון אחרון**: {datetime.now().strftime("%d/%m/%Y %H:%M")}
 """
 
@@ -471,10 +532,13 @@ def main():
 
     generate_socialify_card(repo['full_name'], str(screenshot_path))
 
-    # 4. Generate guide with Claude
-    guide = generate_guide_with_claude(repo, readme)
+    # 4. Generate guide with Gemini (fallback: Perplexity)
+    guide = generate_guide_with_gemini(repo, readme)
     if not guide:
-        print("❌ Failed to generate guide with Claude!")
+        print("⚠️  Gemini failed, trying Perplexity...")
+        guide = generate_guide_with_perplexity(repo, readme)
+    if not guide:
+        print("❌ Failed to generate guide!")
         sys.exit(1)
 
     # 5. Create Jekyll post
