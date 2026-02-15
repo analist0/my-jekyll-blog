@@ -13,8 +13,15 @@ const postsDirectory = path.join(process.cwd(), "_posts")
 
 function normalizeList(value: unknown): string[] {
   if (!value) return []
-  if (Array.isArray(value)) return value.map(String)
-  if (typeof value === "string") return value.split(",").map((s) => s.trim()).filter(Boolean)
+  if (Array.isArray(value)) return value.flatMap((v) => normalizeList(v))
+  if (typeof value === "string") {
+    // Handle both comma-separated and space-separated values
+    const items = value.includes(",")
+      ? value.split(",")
+      : value.split(/\s+/)
+    return items.map((s) => String(s).trim()).filter(Boolean)
+  }
+  if (typeof value === "number" || typeof value === "boolean") return [String(value)]
   return []
 }
 
@@ -84,10 +91,12 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 export function getUniqueCategories(): string[] {
   const posts = getAllPosts()
   const categories = new Set<string>()
-  posts.forEach((post) => {
-    const cats = Array.isArray(post.categories) ? post.categories : normalizeList(post.categories)
-    cats.forEach((cat) => categories.add(cat))
-  })
+  for (const post of posts) {
+    const cats = normalizeList(post.categories)
+    for (const cat of cats) {
+      categories.add(cat)
+    }
+  }
   return Array.from(categories)
 }
 
