@@ -11,50 +11,74 @@ export { formatDate, getReadingTime } from "./posts-utils"
 
 const postsDirectory = path.join(process.cwd(), "_posts")
 
-function normalizeList(value: unknown): string[] {
-  if (!value) return []
-  if (Array.isArray(value)) return value.flatMap((v) => normalizeList(v))
-  if (typeof value === "string") {
-    // Handle both comma-separated and space-separated values
-    const items = value.includes(",")
-      ? value.split(",")
-      : value.split(/\s+/)
-    return items.map((s) => String(s).trim()).filter(Boolean)
+function toStringArray(value: unknown): string[] {
+  if (value == null) return []
+  if (Array.isArray(value)) {
+    const result: string[] = []
+    for (let i = 0; i < value.length; i++) {
+      const nested = toStringArray(value[i])
+      for (let j = 0; j < nested.length; j++) {
+        result.push(nested[j])
+      }
+    }
+    return result
   }
-  if (typeof value === "number" || typeof value === "boolean") return [String(value)]
-  return []
+  const str = String(value).trim()
+  if (str === "") return []
+  if (str.includes(",")) {
+    return str.split(",").map((s) => s.trim()).filter(Boolean)
+  }
+  return str.split(/\s+/).filter(Boolean)
+}
+
+function parseSinglePost(fileName: string): PostMeta {
+  const slug = fileName.replace(/\.md$/, "")
+  const fullPath = path.join(postsDirectory, fileName)
+  const fileContents = fs.readFileSync(fullPath, "utf8")
+  const { data, content } = matter(fileContents)
+
+  const plainText = content
+    .replace(/[#*`\[\]()!>\-|]/g, "")
+    .replace(/\n+/g, " ")
+    .trim()
+  const excerpt =
+    plainText.substring(0, 200) + (plainText.length > 200 ? "..." : "")
+
+  const cats = toStringArray(data.categories) 
+  const fallbackCats = cats.length > 0 ? cats : toStringArray(data.category)
+  const tags = toStringArray(data.tags)
+
+  return {
+    slug,
+    title: data.title || slug.replace(/-/g, " "),
+    date: data.date
+      ? new Date(data.date).toISOString()
+      : new Date().toISOString(),
+    categories: fallbackCats,
+    tags,
+    excerpt,
+    author: data.author || "analist0",
+  }
 }
 
 export function getAllPosts(): PostMeta[] {
   if (!fs.existsSync(postsDirectory)) return []
 
   const fileNames = fs.readdirSync(postsDirectory)
-  const allPosts = fileNames
-    .filter((name) => name.endsWith(".md"))
-    .map((fileName) => {
-      const slug = fileName.replace(/\.md$/, "")
-      const fullPath = path.join(postsDirectory, fileName)
-      const fileContents = fs.readFileSync(fullPath, "utf8")
-      const { data, content } = matter(fileContents)
+  const allPosts: PostMeta[] = []
 
-      const plainText = content
-        .replace(/[#*`\[\]()!>\-|]/g, "")
-        .replace(/\n+/g, " ")
-        .trim()
-      const excerpt = plainText.substring(0, 200) + (plainText.length > 200 ? "..." : "")
+  for (const fileName of fileNames) {
+    if (!fileName.endsWith(".md")) continue
+    try {
+      allPosts.push(parseSinglePost(fileName))
+    } catch {
+      // Skip malformed posts
+    }
+  }
 
-      return {
-        slug,
-        title: data.title || slug.replace(/-/g, " "),
-        date: data.date ? new Date(data.date).toISOString() : new Date().toISOString(),
-        categories: normalizeList(data.categories || data.category),
-        tags: normalizeList(data.tags),
-        excerpt,
-        author: data.author || "analist0",
-      }
-    })
-
-  allPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  allPosts.sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  )
   return allPosts
 }
 
@@ -74,20 +98,23 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     .replace(/[#*`\[\]()!>\-|]/g, "")
     .replace(/\n+/g, " ")
     .trim()
-  const excerpt = plainText.substring(0, 200) + (plainText.length > 200 ? "..." : "")
+  const excerpt =
+    plainText.substring(0, 200) + (plainText.length > 200 ? "..." : "")
+
+  const cats = toStringArray(data.categories)
+  const fallbackCats = cats.length > 0 ? cats : toStringArray(data.category)
+  const tags = toStringArray(data.tags)
 
   return {
     slug,
     title: data.title || slug.replace(/-/g, " "),
-    date: data.date ? new Date(data.date).toISOString() : new Date().toISOString(),
-    categories: normalizeList(data.categories || data.category),
-    tags: normalizeList(data.tags),
+    date: data.date
+      ? new Date(data.date).toISOString()
+      : new Date().toISOString(),
+    categories: fallbackCats,
+    tags,
     excerpt,
     author: data.author || "analist0",
     contentHtml,
   }
 }
-
-
-
-
