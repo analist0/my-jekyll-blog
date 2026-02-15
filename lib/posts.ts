@@ -85,7 +85,8 @@ export function getUniqueCategories(): string[] {
   const posts = getAllPosts()
   const categories = new Set<string>()
   posts.forEach((post) => {
-    post.categories.forEach((cat) => categories.add(cat))
+    const cats = Array.isArray(post.categories) ? post.categories : normalizeList(post.categories)
+    cats.forEach((cat) => categories.add(cat))
   })
   return Array.from(categories)
 }
