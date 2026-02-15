@@ -88,16 +88,6 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   }
 }
 
-export function getUniqueCategories(): string[] {
-  const posts = getAllPosts()
-  const categories = new Set<string>()
-  for (const post of posts) {
-    const cats = normalizeList(post.categories)
-    for (const cat of cats) {
-      categories.add(cat)
-    }
-  }
-  return Array.from(categories)
-}
+
 
 

@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { getAllPosts, getUniqueCategories } from "@/lib/posts"
+import { getAllPosts } from "@/lib/posts"
 import { BlogList } from "@/components/blog-list"
 
 export const metadata: Metadata = {
@@ -9,7 +9,9 @@ export const metadata: Metadata = {
 
 export default function BlogPage() {
   const posts = getAllPosts()
-  const categories = getUniqueCategories()
+  const categories = Array.from(
+    new Set(posts.flatMap((post) => (Array.isArray(post.categories) ? post.categories : [])))
+  )
 
   return (
     <div className="mx-auto max-w-6xl px-4 pb-20 pt-10">
