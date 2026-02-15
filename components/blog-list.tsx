@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react"
 import Link from "next/link"
-import { formatDate, type PostMeta } from "@/lib/posts"
+import { formatDate, type PostMeta } from "@/lib/posts-utils"
 import { Search } from "lucide-react"
 import { cn } from "@/lib/utils"
 

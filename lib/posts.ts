@@ -1,24 +1,15 @@
+import "server-only"
 import fs from "fs"
 import path from "path"
 import matter from "gray-matter"
 import { remark } from "remark"
 import html from "remark-html"
+import type { PostMeta, Post } from "./posts-utils"
+
+export type { PostMeta, Post }
+export { formatDate, getReadingTime } from "./posts-utils"
 
 const postsDirectory = path.join(process.cwd(), "_posts")
-
-export interface PostMeta {
-  slug: string
-  title: string
-  date: string
-  categories: string[]
-  tags: string[]
-  excerpt: string
-  author: string
-}
-
-export interface Post extends PostMeta {
-  contentHtml: string
-}
 
 export function getAllPosts(): PostMeta[] {
   if (!fs.existsSync(postsDirectory)) return []
@@ -92,16 +83,4 @@ export function getUniqueCategories(): string[] {
   return Array.from(categories)
 }
 
-export function formatDate(dateString: string): string {
-  const date = new Date(dateString)
-  return date.toLocaleDateString("he-IL", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  })
-}
 
-export function getReadingTime(content: string): number {
-  const words = content.split(/\s+/).length
-  return Math.max(1, Math.round(words / 200))
-}
