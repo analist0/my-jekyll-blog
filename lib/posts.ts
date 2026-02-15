@@ -11,6 +11,13 @@ export { formatDate, getReadingTime } from "./posts-utils"
 
 const postsDirectory = path.join(process.cwd(), "_posts")
 
+function normalizeList(value: unknown): string[] {
+  if (!value) return []
+  if (Array.isArray(value)) return value.map(String)
+  if (typeof value === "string") return value.split(",").map((s) => s.trim()).filter(Boolean)
+  return []
+}
+
 export function getAllPosts(): PostMeta[] {
   if (!fs.existsSync(postsDirectory)) return []
 
@@ -33,8 +40,8 @@ export function getAllPosts(): PostMeta[] {
         slug,
         title: data.title || slug.replace(/-/g, " "),
         date: data.date ? new Date(data.date).toISOString() : new Date().toISOString(),
-        categories: data.categories || [],
-        tags: data.tags || [],
+        categories: normalizeList(data.categories || data.category),
+        tags: normalizeList(data.tags),
         excerpt,
         author: data.author || "analist0",
       }
@@ -66,8 +73,8 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     slug,
     title: data.title || slug.replace(/-/g, " "),
     date: data.date ? new Date(data.date).toISOString() : new Date().toISOString(),
-    categories: data.categories || [],
-    tags: data.tags || [],
+    categories: normalizeList(data.categories || data.category),
+    tags: normalizeList(data.tags),
     excerpt,
     author: data.author || "analist0",
     contentHtml,
