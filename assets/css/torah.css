@@ -1,0 +1,1469 @@
+/* ================================================
+   אור התורה - עיצוב רוחני מרשים
+   Torah Blog - Spiritual Hebrew RTL Design
+   גופן, צבעים, אנימציות, מדיה
+   ================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Heebo:wght@300;400;500;700;900&display=swap');
+
+/* ================================================
+   משתני עיצוב - Design Variables
+   ================================================ */
+:root {
+  /* צבעים - Colors */
+  --gold:         #c9a84c;
+  --gold-light:   #f0d060;
+  --gold-dark:    #8b6914;
+  --gold-shimmer: #fdf0a0;
+  --navy:         #0d1b2a;
+  --navy-mid:     #152236;
+  --navy-light:   #1e3252;
+  --parchment:    #fdf6e3;
+  --parchment-2:  #f5ead0;
+  --crimson:      #6b1a1a;
+  --purple-sacred:#2d1b69;
+  --teal:         #0d4f4f;
+
+  /* Light Mode */
+  --bg-primary:   #fdf6e3;
+  --bg-secondary: #f0e6cc;
+  --bg-card:      #fffdf5;
+  --text-primary: #1a0f0a;
+  --text-secondary:#4a3728;
+  --text-muted:   #7a6555;
+  --border:       #d4b896;
+  --shadow-gold:  rgba(201,168,76,0.25);
+  --shadow-dark:  rgba(26,15,10,0.15);
+
+  /* Accent */
+  --accent:       var(--gold);
+  --accent-hover: var(--gold-light);
+
+  /* Fonts */
+  --font-torah:   'Frank Ruhl Libre', 'David', serif;
+  --font-body:    'Heebo', 'Arial Hebrew', sans-serif;
+
+  /* Spacing */
+  --container-width: 1200px;
+  --radius:       16px;
+  --radius-lg:    24px;
+
+  /* Animations */
+  --ease:  cubic-bezier(0.4, 0, 0.2, 1);
+  --speed: 0.3s;
+}
+
+/* Dark Mode - מצב כהה */
+[data-theme="dark"] {
+  --bg-primary:    #0a0f1e;
+  --bg-secondary:  #0d1b2a;
+  --bg-card:       #111827;
+  --text-primary:  #f5ead0;
+  --text-secondary:#c9b99a;
+  --text-muted:    #8a7a6a;
+  --border:        #2a3a50;
+  --shadow-gold:   rgba(201,168,76,0.15);
+  --shadow-dark:   rgba(0,0,0,0.4);
+}
+
+/* ================================================
+   בסיס - Base
+   ================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  direction: rtl;
+  text-align: right;
+  line-height: 1.8;
+  transition: background var(--speed) var(--ease), color var(--speed) var(--ease);
+  overflow-x: hidden;
+}
+
+/* ================================================
+   אנימציות - Animations
+   ================================================ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes goldShimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
+  50%       { box-shadow: 0 0 0 12px rgba(201,168,76,0); }
+}
+
+@keyframes starDrift {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+  100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+}
+
+@keyframes scrollReveal {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ================================================
+   כותרת עליונה - Header
+   ================================================ */
+.site-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1000;
+  background: rgba(10, 15, 30, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(201,168,76,0.25);
+  transition: all var(--speed) var(--ease);
+}
+
+[data-theme="light"] .site-header {
+  background: rgba(253,246,227,0.92);
+  border-bottom: 1px solid rgba(201,168,76,0.4);
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  max-width: var(--container-width);
+  margin: 0 auto;
+}
+
+/* לוגו */
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  font-family: var(--font-torah);
+  font-weight: 700;
+}
+
+.logo-emblem {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold-dark) 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  animation: pulse-gold 3s infinite;
+  box-shadow: 0 0 20px rgba(201,168,76,0.4);
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.logo-title {
+  font-size: 1.3rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: goldShimmer 4s linear infinite;
+}
+
+.logo-sub {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-weight: 400;
+}
+
+/* ניווט */
+.main-nav ul {
+  display: flex;
+  list-style: none;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.main-nav a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all var(--speed) var(--ease);
+  position: relative;
+}
+
+.main-nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  right: 1rem;
+  left: 1rem;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform var(--speed) var(--ease);
+  border-radius: 2px;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+  color: var(--gold);
+  background: rgba(201,168,76,0.1);
+}
+
+.main-nav a:hover::after,
+.main-nav a.active::after {
+  transform: scaleX(1);
+}
+
+/* כפתור ערכת נושא */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 50px;
+  color: var(--gold);
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-family: var(--font-body);
+  transition: all var(--speed) var(--ease);
+}
+
+.theme-toggle:hover {
+  background: rgba(201,168,76,0.2);
+  box-shadow: 0 0 15px rgba(201,168,76,0.3);
+}
+
+/* Mobile Menu */
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.mobile-menu-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--gold);
+  border-radius: 2px;
+  transition: all var(--speed) var(--ease);
+}
+
+/* ================================================
+   Progress Bar - סרגל קריאה
+   ================================================ */
+#reading-progress {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light));
+  z-index: 9999;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 10px rgba(201,168,76,0.6);
+}
+
+/* ================================================
+   כפתורים - Buttons
+   ================================================ */
+.btn, .button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  border-radius: 50px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: all var(--speed) var(--ease);
+}
+
+.btn-gold, .button {
+  background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 50%, var(--gold-light) 100%);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(201,168,76,0.4);
+}
+
+.btn-gold:hover, .button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(201,168,76,0.5);
+  color: #fff;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--gold);
+  color: var(--gold);
+}
+
+.btn-outline:hover {
+  background: var(--gold);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ================================================
+   רקע כוכבים - Star Background
+   ================================================ */
+.star-field {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  background: var(--gold-shimmer);
+  border-radius: 50%;
+  animation: starDrift linear infinite;
+}
+
+/* ================================================
+   גיבור - Hero Section
+   ================================================ */
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding-top: 80px;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(45,27,105,0.15) 0%, transparent 60%),
+    linear-gradient(180deg, var(--navy) 0%, #060c18 100%);
+}
+
+[data-theme="light"] .hero-bg {
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(201,168,76,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(45,27,105,0.08) 0%, transparent 60%),
+    linear-gradient(180deg, #f5ead0 0%, #fdf6e3 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  max-width: 900px;
+  padding: 2rem;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.5rem;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.35);
+  border-radius: 50px;
+  color: var(--gold);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  animation: fadeIn 0.8s ease both;
+}
+
+.hero-title {
+  font-family: var(--font-torah);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--gold-shimmer) 0%, var(--gold) 40%, var(--gold-dark) 70%, var(--gold) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: goldShimmer 5s linear infinite, fadeUp 1s ease 0.2s both;
+  text-shadow: none;
+}
+
+.hero-verse {
+  font-family: var(--font-torah);
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+  animation: fadeUp 1s ease 0.4s both;
+  font-style: italic;
+}
+
+.hero-source {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+  animation: fadeUp 1s ease 0.5s both;
+}
+
+.hero-description {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto 3rem;
+  line-height: 1.9;
+  animation: fadeUp 1s ease 0.6s both;
+}
+
+[data-theme="dark"] .hero-description {
+  color: #a0b0c0;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeUp 1s ease 0.8s both;
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--gold);
+  font-size: 0.8rem;
+  animation: float 2s ease-in-out infinite;
+}
+
+.scroll-arrow {
+  width: 24px;
+  height: 24px;
+  border-left: 2px solid var(--gold);
+  border-bottom: 2px solid var(--gold);
+  transform: rotate(-45deg);
+}
+
+/* ================================================
+   קטגוריות - Categories
+   ================================================ */
+.categories-section {
+  padding: 5rem 0;
+  background: var(--bg-secondary);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-label {
+  display: inline-block;
+  color: var(--gold);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.section-title {
+  font-family: var(--font-torah);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.section-divider {
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 1rem auto;
+  border-radius: 2px;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1.5rem;
+}
+
+.category-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all var(--speed) var(--ease);
+  position: relative;
+  overflow: hidden;
+}
+
+.category-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(201,168,76,0.05), transparent);
+  opacity: 0;
+  transition: opacity var(--speed);
+}
+
+.category-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold);
+  box-shadow: 0 12px 40px var(--shadow-gold);
+  color: var(--text-primary);
+}
+
+.category-card:hover::before {
+  opacity: 1;
+}
+
+.category-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  animation: float 3s ease-in-out infinite;
+  display: block;
+}
+
+.category-name {
+  font-family: var(--font-torah);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.category-count {
+  font-size: 0.8rem;
+  color: var(--gold);
+}
+
+/* ================================================
+   כרטיסי פוסטים - Post Cards
+   ================================================ */
+.posts-section {
+  padding: 5rem 0;
+}
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.post-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--speed) var(--ease);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.post-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px var(--shadow-gold);
+  border-color: var(--gold);
+}
+
+/* תג מדיה */
+.media-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.media-badge.video { background: rgba(220,38,38,0.15); color: #ef4444; }
+.media-badge.audio { background: rgba(16,185,129,0.15); color: #10b981; }
+.media-badge.slides { background: rgba(59,130,246,0.15); color: #3b82f6; }
+.media-badge.text  { background: rgba(201,168,76,0.15); color: var(--gold); }
+
+.card-thumb {
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-thumb-video { background: linear-gradient(135deg, #1a0a0a 0%, #6b1a1a 100%); }
+.card-thumb-audio { background: linear-gradient(135deg, #0a1a0a 0%, #0d4f4f 100%); }
+.card-thumb-slides { background: linear-gradient(135deg, #0a0a1a 0%, #2d1b69 100%); }
+.card-thumb-torah  { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%); }
+
+.card-thumb-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.5));
+}
+
+.card-body {
+  padding: 1.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.card-date {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.card-category {
+  font-size: 0.8rem;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.card-title {
+  font-family: var(--font-torah);
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 0.75rem;
+  color: var(--text-primary);
+}
+
+.card-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--speed);
+}
+
+.card-title a:hover {
+  color: var(--gold);
+}
+
+.card-excerpt {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  flex: 1;
+  margin-bottom: 1.25rem;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.read-more {
+  font-size: 0.9rem;
+  color: var(--gold);
+  font-weight: 600;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: gap var(--speed);
+}
+
+.read-more:hover { gap: 0.6rem; color: var(--gold-light); }
+
+.duration-badge {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* ================================================
+   ציטוט תורה - Torah Quote Box
+   ================================================ */
+.torah-quote {
+  background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(45,27,105,0.06) 100%);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  margin: 3rem 0;
+  text-align: center;
+  position: relative;
+}
+
+.torah-quote::before {
+  content: '❝';
+  position: absolute;
+  top: -0.75rem;
+  right: 2rem;
+  font-size: 3rem;
+  color: var(--gold);
+  line-height: 1;
+  font-family: serif;
+}
+
+.torah-quote-text {
+  font-family: var(--font-torah);
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  font-weight: 500;
+  color: var(--gold);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.torah-quote-source {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* ================================================
+   נגן וידאו - Video Player
+   ================================================ */
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  margin: 2.5rem 0;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,168,76,0.2);
+}
+
+.video-container iframe,
+.video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: var(--radius-lg);
+}
+
+.video-wrapper {
+  margin: 2.5rem 0;
+}
+
+.video-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+/* ================================================
+   נגן שמע - Audio Player
+   ================================================ */
+.audio-player {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  margin: 2.5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="light"] .audio-player {
+  background: linear-gradient(135deg, #f5ead0 0%, #eeddc0 100%);
+  border-color: rgba(201,168,76,0.4);
+}
+
+.audio-player::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 80% 50%, rgba(201,168,76,0.08), transparent 60%);
+  pointer-events: none;
+}
+
+.audio-info {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.audio-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  box-shadow: 0 0 20px rgba(201,168,76,0.4);
+  animation: pulse-gold 3s infinite;
+}
+
+.audio-details { flex: 1; }
+
+.audio-title {
+  font-family: var(--font-torah);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 0.25rem;
+}
+
+[data-theme="light"] .audio-title {
+  color: var(--navy);
+}
+
+.audio-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.audio-element {
+  width: 100%;
+  border-radius: 50px;
+  outline: none;
+  filter: sepia(30%) hue-rotate(10deg);
+}
+
+/* Custom audio styling */
+.audio-element::-webkit-media-controls-panel {
+  background: rgba(201,168,76,0.1);
+  border-radius: 50px;
+}
+
+/* ================================================
+   מצגת - Presentation Embed
+   ================================================ */
+.presentation-container {
+  margin: 2.5rem 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(201,168,76,0.2);
+}
+
+.presentation-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.presentation-frame {
+  width: 100%;
+  border: none;
+  display: block;
+  border-radius: var(--radius-lg);
+}
+
+/* ================================================
+   מאמר - Post Layout
+   ================================================ */
+.post-article {
+  padding-top: 80px;
+  min-height: 100vh;
+}
+
+.post-hero {
+  padding: 5rem 0 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.post-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, var(--navy) 0%, var(--bg-primary) 100%);
+  z-index: -1;
+}
+
+[data-theme="light"] .post-hero-bg {
+  background: linear-gradient(180deg, #f5ead0 0%, var(--bg-primary) 100%);
+}
+
+.post-breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin-bottom: 1.5rem;
+}
+
+.post-breadcrumbs a { color: var(--text-muted); text-decoration: none; }
+.post-breadcrumbs a:hover { color: var(--gold); }
+.post-breadcrumbs span { color: var(--text-muted); }
+
+.post-category-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 1rem;
+  background: rgba(201,168,76,0.12);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 50px;
+  color: var(--gold);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.post-title {
+  font-family: var(--font-torah);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .post-title {
+  background: linear-gradient(135deg, var(--text-primary), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+}
+
+.post-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.tag {
+  padding: 0.3rem 0.85rem;
+  background: rgba(201,168,76,0.1);
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gold);
+  text-decoration: none;
+  transition: all var(--speed);
+}
+
+.tag:hover {
+  background: rgba(201,168,76,0.2);
+  color: var(--gold-light);
+}
+
+/* Post Layout with Sidebar */
+.post-layout {
+  display: grid;
+  grid-template-columns: 1fr min(780px, 100%) 260px;
+  gap: 3rem;
+  padding: 3rem 2rem;
+  max-width: var(--container-width);
+  margin: 0 auto;
+}
+
+.post-content-area {
+  min-width: 0;
+}
+
+/* Post Content Typography */
+.post-content {
+  font-size: 1.1rem;
+  line-height: 1.9;
+  color: var(--text-secondary);
+}
+
+.post-content h2 {
+  font-family: var(--font-torah);
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(201,168,76,0.3);
+  position: relative;
+}
+
+.post-content h2::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  right: 0;
+  width: 60px;
+  height: 2px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+
+.post-content h3 {
+  font-family: var(--font-torah);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.post-content p { margin-bottom: 1.5rem; }
+
+.post-content blockquote {
+  border-right: 4px solid var(--gold);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 1.25rem 1.5rem;
+  margin: 2rem 0;
+  background: rgba(201,168,76,0.06);
+  color: var(--text-secondary);
+  font-family: var(--font-torah);
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+.post-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  margin: 2rem 0;
+  box-shadow: 0 10px 40px var(--shadow-dark);
+}
+
+.post-content ul, .post-content ol {
+  padding-right: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.post-content li { margin-bottom: 0.5rem; }
+
+.post-content strong { color: var(--text-primary); }
+
+/* ================================================
+   סרגל צד - Sidebar
+   ================================================ */
+.post-sidebar {
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+.sidebar-widget {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-widget-title {
+  font-family: var(--font-torah);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* TOC */
+.toc-list {
+  list-style: none;
+  padding: 0;
+}
+
+.toc-list li {
+  margin-bottom: 0.5rem;
+}
+
+.toc-list a {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  display: block;
+  padding: 0.25rem 0;
+  border-radius: 4px;
+  transition: color var(--speed);
+}
+
+.toc-list a:hover,
+.toc-list a.active {
+  color: var(--gold);
+}
+
+.toc-list .toc-h3 {
+  padding-right: 1rem;
+}
+
+/* ================================================
+   שיתוף - Share
+   ================================================ */
+.post-share {
+  margin-top: 4rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.post-share h3 {
+  font-family: var(--font-torah);
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.share-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid var(--border);
+  color: var(--text-secondary);
+  background: transparent;
+  transition: all var(--speed);
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+.share-btn:hover { transform: translateY(-2px); }
+.share-btn.whatsapp:hover { border-color: #25D366; color: #25D366; box-shadow: 0 4px 15px rgba(37,211,102,0.2); }
+.share-btn.twitter:hover { border-color: #1DA1F2; color: #1DA1F2; }
+.share-btn.facebook:hover { border-color: #4267B2; color: #4267B2; }
+.share-btn.telegram:hover { border-color: #0088cc; color: #0088cc; }
+
+/* ================================================
+   פוטר - Footer
+   ================================================ */
+.site-footer {
+  background: var(--navy);
+  color: #8a9aaa;
+  padding: 4rem 0 2rem;
+  border-top: 1px solid rgba(201,168,76,0.15);
+}
+
+[data-theme="light"] .site-footer {
+  background: #0d1b2a;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 3rem;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 2rem;
+  margin-bottom: 3rem;
+}
+
+.footer-brand h3 {
+  font-family: var(--font-torah);
+  font-size: 1.5rem;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+}
+
+.footer-brand p {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #5a6a7a;
+  margin-bottom: 0;
+}
+
+.footer-verse {
+  font-family: var(--font-torah);
+  font-style: italic;
+  color: rgba(201,168,76,0.7);
+  font-size: 1rem;
+  margin-top: 1rem;
+}
+
+.footer-links h4 {
+  color: var(--gold);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.footer-links ul {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+  color: #5a6a7a;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color var(--speed);
+}
+
+.footer-links a:hover { color: var(--gold); }
+
+.footer-bottom {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 2rem 2rem 0;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-bottom p {
+  font-size: 0.8rem;
+  color: #3a4a5a;
+  margin-bottom: 0;
+}
+
+.footer-bottom a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+/* ================================================
+   כלי עזר - Utilities
+   ================================================ */
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.text-gold { color: var(--gold); }
+.text-center { text-align: center; }
+.font-torah { font-family: var(--font-torah); }
+
+/* ================================================
+   נייד - Responsive
+   ================================================ */
+@media (max-width: 1024px) {
+  .post-layout {
+    grid-template-columns: 1fr;
+  }
+  .post-sidebar {
+    display: none;
+  }
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-nav { display: none; }
+  .main-nav.open { display: block; }
+  .mobile-menu-toggle { display: flex; }
+  .theme-toggle span:last-child { display: none; }
+
+  .hero-title { font-size: clamp(2.5rem, 8vw, 4rem); }
+  .hero-buttons { flex-direction: column; align-items: center; }
+
+  .posts-grid { grid-template-columns: 1fr; }
+  .categories-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .footer-content { grid-template-columns: 1fr; gap: 2rem; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+
+  .nav-container { padding: 0.75rem 1rem; }
+}
+
+@media (max-width: 480px) {
+  .categories-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ================================================
+   מיוחד - Special Elements
+   ================================================ */
+
+/* Glow border for featured content */
+.glow-border {
+  box-shadow: 0 0 0 1px var(--gold), 0 0 30px rgba(201,168,76,0.2);
+}
+
+/* Hebrew large text */
+.hebrew-large {
+  font-family: var(--font-torah);
+  font-size: 2rem;
+  color: var(--gold);
+  line-height: 1.4;
+}
+
+/* Menorah decoration */
+.menorah-divider {
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--gold);
+  opacity: 0.5;
+  margin: 2rem 0;
+  letter-spacing: 0.5rem;
+}
+
+/* Newsletter section */
+.newsletter-section {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+  padding: 5rem 0;
+  text-align: center;
+  border-top: 1px solid rgba(201,168,76,0.15);
+}
+
+[data-theme="light"] .newsletter-section {
+  background: linear-gradient(135deg, #0d1b2a 0%, #152236 100%);
+}
+
+.newsletter-title {
+  font-family: var(--font-torah);
+  font-size: 2rem;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+.newsletter-desc {
+  color: #8a9aaa;
+  margin-bottom: 2rem;
+}
+
+.newsletter-form {
+  display: flex;
+  max-width: 480px;
+  margin: 0 auto;
+  gap: 0;
+}
+
+.newsletter-input {
+  flex: 1;
+  padding: 0.85rem 1.25rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-left: none;
+  border-radius: 50px 0 0 50px;
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  outline: none;
+  direction: rtl;
+}
+
+.newsletter-input::placeholder { color: #3a4a5a; }
+.newsletter-input:focus { border-color: var(--gold); }
+
+.newsletter-btn {
+  padding: 0.85rem 1.75rem;
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  border: none;
+  border-radius: 0 50px 50px 0;
+  color: #fff;
+  font-family: var(--font-body);
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all var(--speed);
+}
+
+.newsletter-btn:hover {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+}
