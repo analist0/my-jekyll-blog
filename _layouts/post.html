@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- SEO Meta Tags -->
   <title>{{ page.title }} | {{ site.title }}</title>
   <meta name="description" content="{{ page.excerpt | default: page.description | strip_html | truncate: 160 }}">
   <meta name="author" content="{{ page.author | default: site.author }}">
@@ -20,40 +19,51 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ page.title }}">
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
-
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="{{ '/assets/css/torah.css' | relative_url }}">
 
   {% seo %}
 </head>
 <body>
   <!-- Reading Progress Bar -->
-  <div id="reading-progress" style="position: fixed; top: 0; left: 0; width: 0; height: 3px; background: linear-gradient(90deg, #6366f1, #8b5cf6); z-index: 9999; transition: width 0.1s;"></div>
+  <div id="reading-progress"></div>
+
+  <!-- Star Field -->
+  <div class="star-field" id="starField" aria-hidden="true"></div>
 
   <!-- Header -->
-  <header class="site-header">
-    <div class="container">
-      <div class="nav-container">
-        <a href="{{ '/' | relative_url }}" class="site-logo">
-          <span style="font-size: 2rem;">🎨</span>
-          <span>{{ site.title }}</span>
-        </a>
+  <header class="site-header" id="siteHeader">
+    <div class="nav-container">
+      <a href="{{ '/' | relative_url }}" class="site-logo">
+        <div class="logo-emblem">✡</div>
+        <div class="logo-text">
+          <span class="logo-title">{{ site.title }}</span>
+          <span class="logo-sub">דברי אלוקים חיים</span>
+        </div>
+      </a>
 
-        <nav class="main-nav">
-          <ul>
-            <li><a href="{{ '/' | relative_url }}">בית</a></li>
-            <li><a href="{{ '/blog' | relative_url }}">בלוג</a></li>
-            <li><a href="{{ '/portfolio' | relative_url }}">פורטפוליו</a></li>
-            <li><a href="{{ '/tutorials' | relative_url }}">מדריכים</a></li>
-            <li><a href="{{ '/about' | relative_url }}">אודות</a></li>
-          </ul>
-        </nav>
+      <nav class="main-nav" id="mainNav">
+        <ul>
+          <li><a href="{{ '/' | relative_url }}">🏠 בית</a></li>
+          <li><a href="{{ '/blog' | relative_url }}">📚 שיעורים</a></li>
+          <li><a href="{{ '/parasha' | relative_url }}">📜 פרשת שבוע</a></li>
+          <li><a href="{{ '/audio' | relative_url }}">🎧 שמע</a></li>
+          <li><a href="{{ '/about' | relative_url }}">אודות</a></li>
+        </ul>
+      </nav>
 
+      <div style="display:flex; gap:0.75rem; align-items:center;">
         <button id="theme-toggle" class="theme-toggle" aria-label="החלף ערכת נושא">
           <span id="theme-icon">🌙</span>
+          <span>מצב</span>
+        </button>
+        <button id="mobile-menu-toggle" class="mobile-menu-toggle" aria-label="תפריט">
+          <span></span><span></span><span></span>
         </button>
       </div>
     </div>
@@ -61,35 +71,53 @@
 
   <!-- Article -->
   <article class="post-article">
-    <!-- Hero Section -->
+
+    <!-- Post Hero -->
     <section class="post-hero">
+      <div class="post-hero-bg"></div>
       <div class="container">
-        <div class="post-breadcrumbs">
+
+        <!-- Breadcrumbs -->
+        <nav class="post-breadcrumbs" aria-label="ניווט">
           <a href="{{ '/' | relative_url }}">בית</a>
-          <span>/</span>
-          <a href="{{ '/blog' | relative_url }}">בלוג</a>
-          <span>/</span>
-          <span>{{ page.title | truncate: 30 }}</span>
+          <span>›</span>
+          <a href="{{ '/blog' | relative_url }}">שיעורים</a>
+          {% if page.category %}
+          <span>›</span>
+          <a href="#">{{ page.category }}</a>
+          {% endif %}
+          <span>›</span>
+          <span style="color: var(--text-primary);">{{ page.title | truncate: 35 }}</span>
+        </nav>
+
+        <!-- Category + Media badges -->
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+          {% if page.category %}
+          <span class="post-category-badge">{{ page.category }}</span>
+          {% endif %}
+
+          {% if page.media_type %}
+          <span class="media-badge {{ page.media_type }}" style="font-size: 0.85rem; padding: 0.4rem 1rem;">
+            {% if page.media_type == 'video' %}🎬 וידאו
+            {% elsif page.media_type == 'audio' %}🎧 שמע
+            {% elsif page.media_type == 'slides' %}📊 מצגת
+            {% else %}📖 מאמר{% endif %}
+          </span>
+          {% endif %}
         </div>
 
-        {% if page.categories %}
-        <div class="post-category">
-          <span class="category-badge">{{ page.categories | first }}</span>
-        </div>
-        {% endif %}
-
+        <!-- Title -->
         <h1 class="post-title">{{ page.title }}</h1>
 
+        <!-- Meta -->
         <div class="post-meta">
-          <time datetime="{{ page.date | date_to_xmlschema }}">
-            📅 {{ page.date | date: "%d.%m.%Y" }}
-          </time>
-          <span>•</span>
+          <span>📅 {{ page.date | date: "%d %B %Y" }}</span>
           <span>👤 {{ page.author | default: site.author }}</span>
-          <span>•</span>
-          <span>⏱️ {{ page.content | number_of_words | divided_by: 180 | at_least: 1 }} דקות קריאה</span>
+          <span>⏱ {{ page.content | number_of_words | divided_by: 180 | at_least: 1 }} דקות קריאה</span>
+          {% if page.duration %}<span>🕐 {{ page.duration }}</span>{% endif %}
         </div>
 
+        <!-- Tags -->
         {% if page.tags %}
         <div class="post-tags">
           {% for tag in page.tags %}
@@ -97,97 +125,143 @@
           {% endfor %}
         </div>
         {% endif %}
+
       </div>
     </section>
 
-    <!-- Content with Sidebar -->
-    <div class="post-container">
-      <div class="container" style="display: grid; grid-template-columns: 1fr min(800px, 100%) 250px 1fr; gap: 3rem; padding: 3rem 2rem;">
-
-        <!-- Left Spacer -->
-        <div></div>
+    <!-- Post Body -->
+    <div style="max-width: var(--container-width); margin: 0 auto; padding: 0 2rem;">
+      <div class="post-layout">
 
         <!-- Main Content -->
-        <div class="post-content reveal">
-          {{ content }}
+        <div class="post-content-area" style="grid-column: 1 / 2;">
+
+          <!-- VIDEO EMBED -->
+          {% if page.youtube_id %}
+          <div class="video-wrapper reveal">
+            <div class="video-label">🎬 צפייה בשיעור</div>
+            <div class="video-container">
+              <iframe
+                src="https://www.youtube.com/embed/{{ page.youtube_id }}?rel=0&modestbranding=1&hl=he"
+                title="{{ page.title }}"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                loading="lazy">
+              </iframe>
+            </div>
+          </div>
+          {% endif %}
+
+          <!-- AUDIO EMBED -->
+          {% if page.audio_url %}
+          <div class="reveal">
+            <div class="audio-player">
+              <div class="audio-info">
+                <div class="audio-icon">🎧</div>
+                <div class="audio-details">
+                  <div class="audio-title">{{ page.title }}</div>
+                  <div class="audio-subtitle">{{ page.author | default: site.author }} · {{ page.date | date: "%d.%m.%Y" }}{% if page.duration %} · {{ page.duration }}{% endif %}</div>
+                </div>
+              </div>
+              <audio class="audio-element" controls preload="metadata">
+                <source src="{{ page.audio_url }}" type="audio/mpeg">
+                הדפדפן שלך אינו תומך בנגן שמע.
+              </audio>
+            </div>
+          </div>
+          {% endif %}
+
+          <!-- PRESENTATION EMBED (Google Slides / PDF) -->
+          {% if page.slides_url %}
+          <div class="reveal">
+            <div class="presentation-label">📊 מצגת השיעור</div>
+            <div class="presentation-container">
+              <iframe
+                class="presentation-frame"
+                src="{{ page.slides_url }}"
+                height="480"
+                title="מצגת: {{ page.title }}"
+                allowfullscreen
+                loading="lazy">
+              </iframe>
+            </div>
+          </div>
+          {% endif %}
+
+          <!-- POST CONTENT -->
+          <div class="post-content reveal">
+            {{ content }}
+          </div>
+
+          <!-- Divider -->
+          <div class="menorah-divider">🕎 ✦ 🕎</div>
 
           <!-- Share Section -->
-          <div class="post-share">
-            <h3>שתפו את המאמר:</h3>
+          <div class="post-share reveal">
+            <h3>שתפו דבר תורה זה</h3>
             <div class="share-buttons">
-              <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ page.url | absolute_url | url_encode }}"
-                 target="_blank"
-                 rel="noopener"
-                 class="share-btn twitter"
-                 aria-label="Share on Twitter">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
-                </svg>
-                <span>Twitter</span>
-              </a>
-
-              <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url | url_encode }}"
-                 target="_blank"
-                 rel="noopener"
-                 class="share-btn facebook"
-                 aria-label="Share on Facebook">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                </svg>
-                <span>Facebook</span>
-              </a>
-
-              <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ page.url | absolute_url | url_encode }}&title={{ page.title | url_encode }}"
-                 target="_blank"
-                 rel="noopener"
-                 class="share-btn linkedin"
-                 aria-label="Share on LinkedIn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-                <span>LinkedIn</span>
-              </a>
-
               <a href="https://api.whatsapp.com/send?text={{ page.title | url_encode }}%20{{ page.url | absolute_url | url_encode }}"
-                 target="_blank"
-                 rel="noopener"
-                 class="share-btn whatsapp"
-                 aria-label="Share on WhatsApp">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-                </svg>
-                <span>WhatsApp</span>
+                 target="_blank" rel="noopener" class="share-btn whatsapp">
+                💬 WhatsApp
+              </a>
+              <a href="https://t.me/share/url?url={{ page.url | absolute_url | url_encode }}&text={{ page.title | url_encode }}"
+                 target="_blank" rel="noopener" class="share-btn telegram">
+                ✈️ Telegram
+              </a>
+              <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ page.url | absolute_url | url_encode }}"
+                 target="_blank" rel="noopener" class="share-btn twitter">
+                🐦 Twitter/X
+              </a>
+              <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url | url_encode }}"
+                 target="_blank" rel="noopener" class="share-btn facebook">
+                👍 Facebook
               </a>
             </div>
           </div>
         </div>
 
-        <!-- Right Sidebar (Table of Contents) -->
+        <!-- Sidebar -->
         <aside class="post-sidebar">
-          <div class="toc-container" style="position: sticky; top: 100px;">
-            <h3 style="margin-bottom: 1rem; color: var(--text-primary);">תוכן עניינים</h3>
-            <div id="toc" class="toc-list"></div>
+
+          <!-- Table of Contents -->
+          <div class="sidebar-widget">
+            <h3 class="sidebar-widget-title">📋 תוכן עניינים</h3>
+            <ul class="toc-list" id="toc"></ul>
           </div>
+
+          <!-- Post info -->
+          <div class="sidebar-widget">
+            <h3 class="sidebar-widget-title">📌 פרטי השיעור</h3>
+            <div style="font-size: 0.875rem; color: var(--text-muted); display: flex; flex-direction: column; gap: 0.75rem;">
+              <div>📅 <strong>תאריך:</strong> {{ page.date | date: "%d.%m.%Y" }}</div>
+              <div>👤 <strong>מגיש:</strong> {{ page.author | default: site.author }}</div>
+              {% if page.category %}<div>🏷️ <strong>קטגוריה:</strong> {{ page.category }}</div>{% endif %}
+              {% if page.duration %}<div>⏱️ <strong>משך:</strong> {{ page.duration }}</div>{% endif %}
+              <div>📖 <strong>זמן קריאה:</strong> {{ page.content | number_of_words | divided_by: 180 | at_least: 1 }} דק׳</div>
+            </div>
+          </div>
+
+          <!-- Torah Quote -->
+          <div class="sidebar-widget" style="background: linear-gradient(135deg, rgba(201,168,76,0.08), rgba(45,27,105,0.06)); border-color: rgba(201,168,76,0.3);">
+            <p style="font-family: var(--font-torah); font-size: 1rem; color: var(--gold); line-height: 1.6; text-align: center; margin: 0;">
+              "וְתַלְמוּד תּוֹרָה כְּנֶגֶד כֻּלָּם"
+            </p>
+            <p style="font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 0.5rem;">משנה פאה</p>
+          </div>
+
         </aside>
 
-        <!-- Right Spacer -->
-        <div></div>
       </div>
     </div>
 
-    <!-- Author Section -->
-    <section class="post-author reveal" style="background: var(--bg-secondary); padding: 3rem 0;">
-      <div class="container" style="max-width: 800px;">
-        <h3 style="margin-bottom: 1.5rem;">על הכותב</h3>
-        <div style="display: flex; gap: 2rem; align-items: center; background: var(--bg-primary); padding: 2rem; border-radius: 20px; border: 1px solid var(--border);">
-          <div style="font-size: 5rem;">👤</div>
+    <!-- Author -->
+    <section style="background: var(--bg-secondary); padding: 3rem 0; margin-top: 2rem;">
+      <div class="container" style="max-width: 780px;">
+        <div class="reveal" style="display: flex; gap: 1.5rem; align-items: center; background: var(--bg-card); padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border);">
+          <div style="font-size: 4rem; flex-shrink: 0; background: linear-gradient(135deg, var(--gold-dark), var(--gold)); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">🕍</div>
           <div>
-            <h4 style="margin-bottom: 0.5rem; color: var(--text-primary);">{{ page.author | default: site.author }}</h4>
-            <p style="color: var(--text-secondary); margin-bottom: 1rem;">{{ site.description }}</p>
-            <div style="display: flex; gap: 1rem;">
-              <a href="https://twitter.com/analist0" target="_blank" style="color: var(--accent);">Twitter</a>
-              <a href="https://github.com/analist0" target="_blank" style="color: var(--accent);">GitHub</a>
-            </div>
+            <h4 style="font-family: var(--font-torah); color: var(--text-primary); margin-bottom: 0.4rem; font-size: 1.2rem;">{{ page.author | default: site.author }}</h4>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin: 0;">{{ site.description }}</p>
           </div>
         </div>
       </div>
@@ -195,26 +269,29 @@
 
     <!-- Related Posts -->
     {% if site.related_posts.size > 0 %}
-    <section class="related-posts reveal" style="padding: 4rem 0;">
-      <div class="container" style="max-width: 1200px;">
-        <h2 style="text-align: center; margin-bottom: 3rem;">מאמרים קשורים</h2>
+    <section style="padding: 4rem 0;">
+      <div class="container">
+        <div class="section-header reveal">
+          <h2 class="section-title" style="font-size: 1.8rem;">שיעורים קשורים</h2>
+          <div class="section-divider"></div>
+        </div>
         <div class="posts-grid">
           {% for post in site.related_posts limit:3 %}
-          <article class="post-card">
-            <div class="post-image" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); display: flex; align-items: center; justify-content: center; font-size: 4rem; height: 200px; border-radius: 20px 20px 0 0;">
-              📝
+          <article class="post-card reveal">
+            <div class="card-thumb card-thumb-torah">
+              <span>📖</span>
+              <div class="card-thumb-overlay"></div>
             </div>
-            <div class="post-content">
-              <div class="post-meta">
-                <span>{{ post.date | date: "%d.%m.%Y" }}</span>
+            <div class="card-body">
+              <div class="card-meta">
+                <span class="card-date">{{ post.date | date: "%d.%m.%Y" }}</span>
+                {% if post.category %}<span class="card-category">{{ post.category }}</span>{% endif %}
               </div>
-              <h3 class="post-title">
-                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-              </h3>
-              <p class="post-excerpt">
-                {{ post.excerpt | strip_html | truncate: 100 }}
-              </p>
-              <a href="{{ post.url | relative_url }}" class="read-more">קרא עוד →</a>
+              <h3 class="card-title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+              <p class="card-excerpt">{{ post.excerpt | strip_html | truncate: 100 }}</p>
+              <div class="card-footer">
+                <a href="{{ post.url | relative_url }}" class="read-more">המשך קריאה ←</a>
+              </div>
             </div>
           </article>
           {% endfor %}
@@ -223,291 +300,148 @@
     </section>
     {% endif %}
 
-    <!-- Navigation -->
-    <nav class="post-navigation" style="background: var(--bg-secondary); padding: 2rem 0;">
-      <div class="container" style="max-width: 1200px; display: flex; justify-content: space-between; gap: 2rem;">
+    <!-- Post Navigation -->
+    <nav style="background: var(--bg-secondary); padding: 2rem 0; border-top: 1px solid var(--border);">
+      <div class="container" style="display: flex; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;">
         {% if page.previous %}
-        <a href="{{ page.previous.url | relative_url }}" class="nav-link prev" style="flex: 1; padding: 1.5rem; background: var(--bg-primary); border-radius: 20px; border: 1px solid var(--border); transition: all 0.3s ease;">
-          <span style="color: var(--text-secondary); font-size: 0.875rem;">← הקודם</span>
-          <h4 style="margin-top: 0.5rem; color: var(--text-primary);">{{ page.previous.title }}</h4>
+        <a href="{{ page.previous.url | relative_url }}"
+           style="flex: 1; min-width: 200px; padding: 1.25rem 1.5rem; background: var(--bg-card); border-radius: var(--radius); border: 1px solid var(--border); text-decoration: none; transition: all 0.3s; display: block;">
+          <span style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-bottom: 0.4rem;">← הקודם</span>
+          <span style="font-family: var(--font-torah); color: var(--text-primary); font-size: 1rem;">{{ page.previous.title | truncate: 45 }}</span>
         </a>
-        {% else %}
-        <div style="flex: 1;"></div>
         {% endif %}
 
         {% if page.next %}
-        <a href="{{ page.next.url | relative_url }}" class="nav-link next" style="flex: 1; padding: 1.5rem; background: var(--bg-primary); border-radius: 20px; border: 1px solid var(--border); transition: all 0.3s ease; text-align: left;">
-          <span style="color: var(--text-secondary); font-size: 0.875rem;">הבא →</span>
-          <h4 style="margin-top: 0.5rem; color: var(--text-primary);">{{ page.next.title }}</h4>
+        <a href="{{ page.next.url | relative_url }}"
+           style="flex: 1; min-width: 200px; padding: 1.25rem 1.5rem; background: var(--bg-card); border-radius: var(--radius); border: 1px solid var(--border); text-decoration: none; transition: all 0.3s; text-align: left; display: block;">
+          <span style="color: var(--text-muted); font-size: 0.8rem; display: block; margin-bottom: 0.4rem;">הבא →</span>
+          <span style="font-family: var(--font-torah); color: var(--text-primary); font-size: 1rem;">{{ page.next.title | truncate: 45 }}</span>
         </a>
-        {% else %}
-        <div style="flex: 1;"></div>
         {% endif %}
       </div>
     </nav>
+
   </article>
 
   <!-- Footer -->
   <footer class="site-footer">
-    <div class="container">
-      <div class="footer-content">
-        <p>&copy; {{ 'now' | date: "%Y" }} {{ site.title }}. כל הזכויות שמורות.</p>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>{{ site.title }}</h3>
+        <p>{{ site.description }}</p>
+        <p class="footer-verse">"תורת ה׳ תמימה, משיבת נפש"</p>
       </div>
+      <div class="footer-links">
+        <h4>ניווט</h4>
+        <ul>
+          <li><a href="{{ '/' | relative_url }}">עמוד הבית</a></li>
+          <li><a href="{{ '/blog' | relative_url }}">כל השיעורים</a></li>
+          <li><a href="{{ '/about' | relative_url }}">אודות</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>קטגוריות</h4>
+        <ul>
+          <li><a href="#">פרשת שבוע</a></li>
+          <li><a href="#">הלכה</a></li>
+          <li><a href="#">מחשבה ורוח</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; {{ 'now' | date: "%Y" }} {{ site.title }}</p>
+      <p>נבנה בעזרת <a href="https://jekyllrb.com">Jekyll</a></p>
     </div>
   </footer>
 
   <!-- Scripts -->
-  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
-
-  <!-- Table of Contents Generator -->
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const content = document.querySelector('.post-content');
-      const toc = document.getElementById('toc');
-      const headings = content.querySelectorAll('h2, h3');
+    // Theme
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    const themeIcon = document.getElementById('theme-icon');
+    if (themeIcon) themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
 
-      if (headings.length > 0 && toc) {
-        const tocList = document.createElement('ul');
-        tocList.style.listStyle = 'none';
-        tocList.style.padding = '0';
+    document.getElementById('theme-toggle')?.addEventListener('click', () => {
+      const cur = document.documentElement.getAttribute('data-theme');
+      const next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      document.getElementById('theme-icon').textContent = next === 'dark' ? '☀️' : '🌙';
+    });
 
-        headings.forEach((heading, index) => {
-          const id = 'heading-' + index;
-          heading.id = id;
+    // Mobile nav
+    document.getElementById('mobile-menu-toggle')?.addEventListener('click', () => {
+      document.getElementById('mainNav').classList.toggle('open');
+    });
 
-          const li = document.createElement('li');
-          li.style.marginBottom = '0.75rem';
+    // Reading progress
+    window.addEventListener('scroll', () => {
+      const el = document.getElementById('reading-progress');
+      if (!el) return;
+      const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+      el.style.width = pct + '%';
+    });
 
-          if (heading.tagName === 'H3') {
-            li.style.paddingRight = '1rem';
-          }
+    // Scroll reveal
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-          const link = document.createElement('a');
-          link.href = '#' + id;
-          link.textContent = heading.textContent;
-          link.style.color = 'var(--text-secondary)';
-          link.style.textDecoration = 'none';
-          link.style.fontSize = '0.875rem';
-          link.style.transition = 'color 0.3s ease';
-
-          link.addEventListener('mouseenter', function() {
-            this.style.color = 'var(--accent)';
-          });
-
-          link.addEventListener('mouseleave', function() {
-            this.style.color = 'var(--text-secondary)';
-          });
-
-          li.appendChild(link);
-          tocList.appendChild(li);
-        });
-
-        toc.appendChild(tocList);
-      } else if (toc) {
-        toc.parentElement.style.display = 'none';
+    // Star field
+    (function() {
+      const field = document.getElementById('starField');
+      if (!field) return;
+      for (let i = 0; i < 35; i++) {
+        const s = document.createElement('div');
+        s.className = 'star';
+        const sz = Math.random() * 2 + 1;
+        s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;bottom:${Math.random()*100}%;animation-duration:${Math.random()*20+15}s;animation-delay:${Math.random()*10}s;opacity:${Math.random()*0.4+0.1}`;
+        field.appendChild(s);
       }
+    })();
+
+    // Table of Contents
+    document.addEventListener('DOMContentLoaded', () => {
+      const content = document.querySelector('.post-content');
+      const tocList = document.getElementById('toc');
+      if (!content || !tocList) return;
+
+      const headings = content.querySelectorAll('h2, h3');
+      if (headings.length === 0) {
+        tocList.closest('.sidebar-widget').style.display = 'none';
+        return;
+      }
+
+      headings.forEach((h, i) => {
+        const id = 'section-' + i;
+        h.id = id;
+        const li = document.createElement('li');
+        li.className = h.tagName === 'H3' ? 'toc-h3' : '';
+        const a = document.createElement('a');
+        a.href = '#' + id;
+        a.textContent = h.textContent;
+        li.appendChild(a);
+        tocList.appendChild(li);
+      });
+
+      // Highlight active TOC item
+      const tocLinks = tocList.querySelectorAll('a');
+      const headingEls = content.querySelectorAll('h2[id], h3[id]');
+
+      const tocObserver = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            tocLinks.forEach(l => l.classList.remove('active'));
+            const link = tocList.querySelector(`a[href="#${e.target.id}"]`);
+            if (link) link.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-80px 0px -70% 0px' });
+
+      headingEls.forEach(h => tocObserver.observe(h));
     });
   </script>
-
-  <style>
-    /* Post Styles */
-    .post-article {
-      padding-top: 80px;
-    }
-
-    .post-hero {
-      background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
-      padding: 4rem 0 3rem;
-    }
-
-    .post-breadcrumbs {
-      display: flex;
-      gap: 0.5rem;
-      color: var(--text-secondary);
-      font-size: 0.875rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .post-breadcrumbs a {
-      color: var(--text-secondary);
-    }
-
-    .post-breadcrumbs a:hover {
-      color: var(--accent);
-    }
-
-    .post-category {
-      margin-bottom: 1.5rem;
-    }
-
-    .post-title {
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 900;
-      line-height: 1.2;
-      margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, var(--text-primary), var(--accent));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .post-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .post-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
-
-    .tag {
-      padding: 0.25rem 0.75rem;
-      background: var(--bg-secondary);
-      border-radius: 20px;
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-    }
-
-    .post-content {
-      font-size: 1.125rem;
-      line-height: 1.8;
-      color: var(--text-primary);
-    }
-
-    .post-content h2 {
-      font-size: 2rem;
-      margin-top: 3rem;
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 2px solid var(--border);
-    }
-
-    .post-content h3 {
-      font-size: 1.5rem;
-      margin-top: 2rem;
-      margin-bottom: 1rem;
-    }
-
-    .post-content p {
-      margin-bottom: 1.5rem;
-    }
-
-    .post-content img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 20px;
-      margin: 2rem 0;
-    }
-
-    .post-content code {
-      background: var(--bg-secondary);
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.9em;
-    }
-
-    .post-content pre {
-      background: var(--bg-secondary);
-      padding: 1.5rem;
-      border-radius: 12px;
-      overflow-x: auto;
-      margin: 2rem 0;
-    }
-
-    .post-content blockquote {
-      border-right: 4px solid var(--accent);
-      padding-right: 1.5rem;
-      margin: 2rem 0;
-      font-style: italic;
-      color: var(--text-secondary);
-    }
-
-    .post-share {
-      margin-top: 4rem;
-      padding-top: 3rem;
-      border-top: 1px solid var(--border);
-      text-align: center;
-    }
-
-    .post-share h3 {
-      margin-bottom: 1.5rem;
-      font-size: 1.25rem;
-    }
-
-    .share-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .share-btn {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.75rem 1.5rem;
-      border-radius: 50px;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      border: 2px solid var(--border);
-      background: transparent;
-      color: var(--text-primary);
-    }
-
-    .share-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px var(--shadow);
-    }
-
-    .share-btn.twitter:hover { border-color: #1DA1F2; color: #1DA1F2; }
-    .share-btn.facebook:hover { border-color: #4267B2; color: #4267B2; }
-    .share-btn.linkedin:hover { border-color: #0077b5; color: #0077b5; }
-    .share-btn.whatsapp:hover { border-color: #25D366; color: #25D366; }
-
-    .nav-link:hover {
-      border-color: var(--accent);
-      transform: translateY(-2px);
-    }
-
-    /* Mobile Styles */
-    @media (max-width: 968px) {
-      .post-container > .container {
-        grid-template-columns: 1fr !important;
-        gap: 0 !important;
-      }
-
-      .post-sidebar {
-        display: none;
-      }
-
-      .post-title {
-        font-size: 2rem;
-      }
-
-      .post-content {
-        font-size: 1rem;
-      }
-
-      .share-buttons {
-        flex-direction: column;
-      }
-
-      .share-btn {
-        width: 100%;
-        justify-content: center;
-      }
-
-      .post-navigation > .container {
-        flex-direction: column;
-      }
-    }
-  </style>
 </body>
 </html>

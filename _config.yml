@@ -1,7 +1,9 @@
-title: פורטפוליו טכנולוגי מתקדם
-description: בלוג יצירת אומנות עם עיצוב מתקדם | מדריכים נדירים | פרויקטים מרשימים
-author: analist0
+title: אור התורה
+description: שיעורי תורה | דברי אלוקים חיים | פרשת שבוע | מחשבה ורוח | וידאו, שמע ומצגות
+author: הרב analist0
+tagline: "תורת ה' תמימה, משיבת נפש"
 lang: he
+direction: rtl
 markdown: kramdown
 highlighter: rouge
 permalink: /:year/:month/:day/:title/
@@ -26,9 +28,8 @@ exclude:
 # Social links
 social:
   name: analist0
+  youtube: https://youtube.com/@analist0
   twitter: https://twitter.com/analist0
-  github: https://github.com/analist0
-  linkedin: https://linkedin.com/in/analist0
   links:
+    - https://youtube.com/@analist0
     - https://twitter.com/analist0
-    - https://github.com/analist0
